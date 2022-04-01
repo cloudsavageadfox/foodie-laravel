@@ -1,0 +1,140 @@
+﻿@using Core.Entities;
+@{
+    ViewBag.Title = "Search Results";
+    string query = ViewBag.query;
+}
+<style>
+    .google-search form {
+        display: block;
+    }
+
+    #gsc-i-id1 {
+        background: none !important;
+        min-height: 120px !important;
+        font-size: 56px !important;
+        padding: 10px !important;
+        border: none;
+        color: dimgrey !important;
+    }
+
+    .gsc-search-button-v2 {
+        background-color: black !important;
+        min-height: 80px !important;
+        color: white !important;
+        width: 100px !important;
+       
+    }
+
+    #gsc-i-id1::-webkit-input-placeholder::before {
+        color: #666;
+        content: "Type here to search";
+    }
+
+    input:placeholder {
+        content: 'placeholder text' !important;
+    }
+
+    ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+        color: #555555;
+        content: "Type here to search" !important;
+        font-size: 26px !important;
+    }
+
+    :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color: #555555;
+        content: "Type here to search" !important;
+        font-size: 26px !important;
+    }
+
+    ::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color: #555555;
+        content: "Type here to search" !important;
+        font-size: 26px !important;
+    }
+
+    :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #555555;
+        content: "Type here to search" !important;
+        font-size: 26px !important;
+    }
+
+    ::-ms-input-placeholder { /* Microsoft Edge */
+        color: #555555;
+        content: "Type here to search" !important;
+        font-size: 26px !important;
+    }
+
+    ::placeholder { /* Most modern browsers support this now. */
+        color: #555555;
+        content: "Type here to search" !important;
+        font-size: 26px !important;
+    }
+</style>
+<section class="search-out">
+    <div class="container">
+        
+        <div class="search">
+            <div class="search-wrapper row">
+                <div class="search-form">
+                    <div class="row">
+                        
+                        <label for="search-field-out" class="offset-2 col-8">What are you looking for?</label>
+                        
+                            @*<div style="width:20%; float:left"> <a href="javascript:void(0)" class="offset-1 col-1 search-button" id="search-button"><img src="@Url.Content("~/Content/images/icons/Search_Black.png")" alt="" class="search-image"></a></div>*@
+
+
+
+
+                           
+
+                                @*<input value="@query" id="search-field-out" type="text" placeholder="Type here to search" class="col-8 search-field">*@
+                                <div class="offset-2 col-8 google-search" style="margin-left:169px!important">
+                                    <script>
+(function() {
+var cx = '001081050088576883430:qwyupf7wavk';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+window.onload = function () {
+    document.getElementById('gsc-i-id1').placeholder = 'Type and click search button or enter';
+};
+                                    </script>
+                                    <gcse:search></gcse:search>
+                                </div>
+
+                            
+                        
+                                                    <p class="offset-2 col-8 search-prompt"></p>
+
+
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Content/js/jQuery/jquery-1.8.3.min.js"></script>
+@*<script type="text/javascript" src="@Url.Content("~/Content/js/search.js")"></script>*@
+<script>
+
+
+  //  init("@query");
+
+
+
+
+
+
+
+
+    $(document).ready(function () {
+     //   $("gsc-i-id1").attr("src", "")
+        $('input.gsc-input').attr('placeholder', 'custom text here');
+    });
+
+</script>

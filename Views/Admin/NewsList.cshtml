@@ -1,0 +1,61 @@
+﻿@using Core.Entities;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.title = "News List";
+
+    List<News> news = ViewBag.news;
+    long topicId = ViewBag.topicId;
+}
+
+    <div class="card">
+        <div class="card-content">
+            <h3 class="card-title">News List</h3>
+            <a href="@Url.Action("AddNews", "Admin", new { topicId = topicId })" class="btn btn-primary">Add News</a>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="text-primary">
+                        <tr>
+                            <th>Title</th>
+                            <th>Publish Date</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (news != null)
+                        {
+                            foreach (News newsItem in news)
+                            {
+                                <tr>
+                                    <td class="name">@newsItem.Title</td>
+                                    <td>@newsItem.PublishDate.ToString("MM.dd.yyyy")</td>
+                                    <td>
+                                        <a href="@Url.Action("UpdateNews", new {id = newsItem.Id})" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-danger del" data-id="@newsItem.Id"><span class="glyphicon glyphicon-remove "></span> Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+           
+        </div>
+    </div>
+        
+        
+        
+
+        @Html.Partial("~/Views/Partials/_Pagination.cshtml")
+
+
+
+@Html.Partial("~/Views/Partials/_DeleteModal.cshtml")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        initDeleteModal("Are you sure you want to delete the news?", "<span>Deleting news: <b>", "</b>.</span>", "@Url.Action("DeleteNews","Admin")", true);
+    });
+</script>

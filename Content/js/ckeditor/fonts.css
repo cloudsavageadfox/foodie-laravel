@@ -1,0 +1,15 @@
+@font-face {
+    font-family: "Open Sans Light";
+    src: url(/fonts/OpenSans-Light.ttf); /* IE */
+    src: local("Open Sans Light"), url("/Content/js/ckeditor/fonts/OpenSans-Light.ttf") format("truetype"); /*non-IE*/
+}
+@font-face {
+    font-family: "Open Sans Regular";
+    src: url(/fonts/OpenSansRegular.ttf); /* IE */
+    src: local("Open Sans Regular"), url("/Content/js/ckeditor/fonts/OpenSansRegular.ttf") format("truetype"); /*non-IE*/
+}
+@font-face {
+    font-family: "Open Sans Semibold";
+    src: url(/fonts/OpenSansSemiBold.ttf); /* IE */
+    src: local("Open Sans Semibold"), url("/Content/js/ckeditor/fonts/OpenSansSemiBold.ttf") format("truetype"); /*non-IE*/
+}

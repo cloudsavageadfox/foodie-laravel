@@ -1,0 +1,1139 @@
+﻿@using System.Configuration;
+@using Core.Entities;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.title = "Add Brand";
+
+    //List<Branch> branches = ViewBag.branches;
+    //long branchId = ViewBag.branchId;
+}
+
+
+        <h3>Add Brand</h3>
+        <form action="@Url.Action("AddBrand", "Admin")" method="post" id="form">
+            @*<div class="form-group">
+                <label for="branch-id" class="col-2 col-form-label">Branch</label>
+                <div class="col-10">
+                    <select required class="form-control" name="BranchesIds" id="branch-id" multiple>
+                        @for (int i = 0; i < branches.Count; i++)
+                        {
+                            <option value="@branches[i].Id" @(i == 0 && branchId == 0 || branches[i].Id == branchId ? "selected" : "")>@branches[i].Address</option>
+                        }
+                    </select>
+                </div>
+            </div>*@
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Section</h4>
+                    <select  class="selectpicker" name="Section" id="section">
+                        <option value="@Core.Enums.BrandSection.OurBrands" selected>Our Brands</option>
+                        <option value="@Core.Enums.BrandSection.UnderOurCare">Our Finds</option>
+                        <option value="@Core.Enums.BrandSection.JointVenture">Co-Creations</option>
+                        <option value="@Core.Enums.BrandSection.UpcomingConcepts">Up & Coming</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Header Background</h4>
+                    <div class="form-group">
+                        <input type="file" id="header-background" />
+                        <span class="material-input"></span>
+                    </div>
+                    <input type="hidden" name="BackgroundImage" />
+                    <input type="hidden" name="BackgroundOriginalName" />
+                    <div id="header-back-img">
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Logo</h4>
+                    <div class="form-group">
+                        <input type="file" id="logo" />
+                        <span class="material-input"></span>
+                    </div>
+                    <input type="hidden" name="Logo" />
+                    <input type="hidden" name="LogoOriginalName" />
+                    <div id="logo-img">
+                    </div>
+                </div>
+            </div>
+        
+          
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Brand Name</h4>
+                    <div class="form-group">
+                        <input required type="text" class="form-control" id="paragraph-title" name="Title" />
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <h4>Paragraph</h4>
+                    <textarea  class="form-control" name="Paragraph" id="paragraph"></textarea>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Facebook Link</h4>
+                    <div class="form-group">
+                        <input  class="form-control" placeholder="http://www.example.com" name="FacebookLink" id="facebook-link"  />
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Twitter Link</h4>
+                    <div class="form-group">
+                        <input  class="form-control" placeholder="http://www.example.com" name="TwitterLink" id="twitter-link"  />
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Instagram Link</h4>
+                    <div class="form-group">
+                        <input  class="form-control" placeholder="http://www.example.com" name="InstagramLink" id="instagram-link"/>
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Website Link</h4>
+                    <div class="form-group">
+                        <input  class="form-control" placeholder="http://www.example.com" name="WebsiteLink" id="website-link"/>
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Max Width</h4>
+                    <div class="form-group">
+                        <input  type="text" class="form-control" id="max-width" name="MaxWidth" />
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+            </div>     
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Redirect Link</h4>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="http://www.example.com" id="redirect-link" name="RedirectLink" />
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+            </div>   
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Branches</h4>
+                    <div id="branches-grid" class="grid" style="overflow-y:scroll">
+                    </div>
+
+                    <div class="card-footer clearfix">
+                        <div class="btn-group pull-right">
+                            <a href="#" class="btn btn-primary" id="remove-from-slider">Remove</a>
+                            <a href="#" class="btn btn-primary" id="add-btn">Add</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix">
+                <div class="btn-group pull-right">
+                    <a href="@Url.Action("BrandsList", "Admin")" class="btn btn-default">Cancel</a>
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                </div>
+            </div>
+           
+        </form>
+
+
+<div id="add-branch-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add branch</h4>
+            </div>
+            <div class="modal-body">
+
+                <form>
+                    <div class="form-group">
+                        <label for="address" class="col-2 col-form-label">Address</label>
+                        <div class="col-10">
+                            <input required  type="text" class="form-control" id="branch-address" name="Address" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="short-address" class="col-2 col-form-label">Short Address</label>
+                        <div class="col-10">
+                            <input required  type="text" class="form-control" id="branch-short-address" name="ShortAddress" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="paragraph" class="col-form-label">Paragraph</label>
+           
+                            <textarea  class="form-control" name="Paragraph" id="branch-paragraph"></textarea>
+           
+                    </div>
+               
+                    <div class="form-group">
+                        <label for="store-info-paragraph" class="col-2 col-form-label">Store Info Paragraph</label>
+                        <div class="col-10">
+                            <textarea  class="form-control" name="StoreInfoParagraph" id="store-info-paragraph"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-hours-paragraph" class="col-2 col-form-label">Business Hours Paragraph</label>
+                        <div class="col-10">
+                            <textarea  class="form-control" name="BusinessHoursParagraph" id="business-hours-paragraph"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="international-site-link" class="col-2 col-form-label">International Site Link</label>
+                        <div class="col-10">
+                            <input  type="text" class="form-control" id="branch-international-site-link" name="InternationalSiteLink" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="facebook-link" class="col-2 col-form-label">Facebook Link</label>
+                        <div class="col-10">
+                            <input  type="text" class="form-control" placeholder="http://www.example.com" id="branch-facebook-link" name="FacebookLink" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="twitter-link" class="col-2 col-form-label">Twitter Link</label>
+                        <div class="col-10">
+                            <input  type="text" class="form-control" placeholder="http://www.example.com" id="branch-twitter-link" name="TwitterLink" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="instagram-link" class="col-2 col-form-label">Instagram Link</label>
+                        <div class="col-10">
+                            <input  type="text" class="form-control" placeholder="http://www.example.com" id="branch-instagram-link" name="InstagramLink" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-xs-6 form-group">
+                            <label for="image1" class="col-2 col-form-label">Image 1</label>
+                            <div class="col-10">
+                                <input type="file" id="image1" />
+                                <input type="file" name="files" id="files" multiple accept="image/jpeg, image/png, image/gif,">
+                                <br /><output id="Filelist"></output>
+                            </div>
+                            <input type="hidden" id="branch-img1" name="Image1" />
+                            <input type="hidden" id="branch-orig1" name="ImageOriginalName1" />
+                            <div id="image1-img">
+                                <img src='' style="display:none;" />
+                            </div>
+                        </div>
+                        <div class="col-xs-6 form-group">
+                            <label for="image2" class="col-2 col-form-label">Image 2</label>
+                            <div class="col-10">
+                                <input type="file" id="image2" />
+                            </div>
+                            <input type="hidden" id="branch-img2" name="Image2" />
+                            <input type="hidden" id="branch-orig2" name="ImageOriginalName2" />
+                            <div id="image2-img">
+                                <img src='' style="display:none;" />
+                            </div>
+                            </div>
+                        </div>
+                    <div class="form-group row">
+                        <div class="col-xs-6 form-group">
+                            <label for="image3" class="col-2 col-form-label">Image 3</label>
+                            <div class="col-10">
+                                <input type="file" id="image3" />
+                            </div>
+                            <input type="hidden" id="branch-img3" name="Image3" />
+                            <input type="hidden" id="branch-orig3" name="ImageOriginalName3" />
+                            <div id="image3-img">
+                                <img src='' style="display:none;" />
+                            </div>
+                        </div>
+                        <div class="col-xs-6 form-group">
+                            <label for="image4" class="col-2 col-form-label">Image 4</label>
+                            <div class="col-10">
+                                <input type="file" id="image4" />
+                            </div>
+                            <input type="hidden" id="branch-img4" name="Image4" />
+                            <input type="hidden" id="branch-orig4" name="ImageOriginalName4" />
+                            <div id="image4-img">
+                                <img src='' style="display:none;" />
+                            </div>
+                        </div>
+                        </div>
+                    <div class="form-group row">
+                        <div class="col-xs-6 form-group">
+                            <label for="image5" class="col-2 col-form-label">Image 5</label>
+                            <div class="col-10">
+                                <input type="file" id="image5" />
+                            </div>
+                            <input type="hidden" id="branch-img5" name="Image5" />
+                            <input type="hidden" id="branch-orig5" name="ImageOriginalName5" />
+                            <div id="image5-img">
+                                <img src='' style="display:none;" />
+                            </div>
+                            </div><div class="col-xs-6 form-group">
+    <label for="image6" class="col-2 col-form-label">Image 6</label>
+    <div class="col-10">
+        <input type="file" id="image6" />
+    </div>
+    <input type="hidden" id="branch-img6" name="Image6" />
+    <input type="hidden" id="branch-orig6" name="ImageOriginalName6" />
+    <div id="image6-img">
+        <img src='' style="display:none;" />
+    </div>
+</div>
+                        </div>
+                     <div class="form-group row">
+                        <div class="col-xs-6 form-group">
+                            <label for="image7" class="col-2 col-form-label">Image 7</label>
+                            <div class="col-10">
+                                <input type="file" id="image7" />
+                            </div>
+                            <input type="hidden" id="branch-img7" name="Image7" />
+                            <input type="hidden" id="branch-orig7" name="ImageOriginalName7" />
+                            <div id="image7-img">
+                                <img src='' style="display:none;" />
+                            </div>
+                        </div>
+                        <div class="col-xs-6 form-group">
+                            <label for="image8" class="col-2 col-form-label">Image 8</label>
+                            <div class="col-10">
+                                <input type="file" id="image8" />
+                            </div>
+                            <input type="hidden" id="branch-img8" name="Image8" />
+                            <input type="hidden" id="branch-orig8" name="ImageOriginalName8" />
+                            <div id="image8-img">
+                                <img src='' style="display:none;" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-xs-6 form-group">
+                            <label for="image9" class="col-2 col-form-label">Image 9</label>
+                            <div class="col-10">
+                                <input type="file" id="image9" />
+                            </div>
+                            <input type="hidden" id="branch-img9" name="Image9" />
+                            <input type="hidden" id="branch-orig9" name="ImageOriginalName9" />
+                            <div id="image9-img">
+                                <img src='' style="display:none;" />
+                            </div>
+                        </div>
+                        <div class="col-xs-6 form-group">
+                            <label for="image10" class="col-2 col-form-label">Image 10</label>
+                            <div class="col-10">
+                                <input type="file" id="image10" />
+                            </div>
+                            <input type="hidden" id="branch-img10" name="Image10" />
+                            <input type="hidden" id="branch-orig10" name="ImageOriginalName10" />
+                            <div id="image10-img">
+                                <img src='' style="display:none;" />
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="branch-id" value="" />
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="save-branch">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript" src="@Url.Content("~/Content/js/ckeditor/ckeditor.js")"></script>
+<script type="text/javascript">
+    var branchesIds = [];
+
+    function openModalForEdit(element) {
+        var address = element.parent().children(".address").val();
+        var shortAddress = element.parent().children(".short-address").val();
+        var paragraph = element.parent().children(".paragraph").val();
+        var storeInfoParagraph = element.parent().children(".store-info-paragraph").val();
+        var businessHoursParagraph = element.parent().children(".business-hours-paragraph").val();
+        var internationalSiteLink = element.parent().children(".international-site-link").val();
+        var facebookLink = element.parent().children(".facebook-link").val();
+        var twitterLink = element.parent().children(".twitter-link").val();
+        var instagramLink = element.parent().children(".instagram-link").val();
+
+        var img1 = element.parent().children(".img1").val();
+        var imgOrig1 = element.parent().children(".img-original1").val();
+        var img2 = element.parent().children(".img2").val();
+        var imgOrig2 = element.parent().children(".img-original2").val();
+        var img3 = element.parent().children(".img3").val();
+        var imgOrig3 = element.parent().children(".img-original3").val();
+        var img4 = element.parent().children(".img4").val();
+        var imgOrig4 = element.parent().children(".img-original4").val();
+        var img5 = element.parent().children(".img5").val();
+        var imgOrig5 = element.parent().children(".img-original5").val();
+
+        var img6 = element.parent().children(".img6").val();
+        var imgOrig6 = element.parent().children(".img-original6").val();
+        var img7 = element.parent().children(".img7").val();
+        var imgOrig7 = element.parent().children(".img-original7").val();
+        var img8 = element.parent().children(".img8").val();
+        var imgOrig8 = element.parent().children(".img-original8").val();
+        var img9 = element.parent().children(".img9").val();
+        var imgOrig9 = element.parent().children(".img-original9").val();
+        var img10 = element.parent().children(".img10").val();
+        var imgOrig10 = element.parent().children(".img-original10").val();
+
+
+
+
+
+
+        var img1src = element.parent().children(".image1-url").val();
+        var img2src = element.parent().children(".image2-url").val();
+        var img3src = element.parent().children(".image3-url").val();
+        var img4src = element.parent().children(".image4-url").val();
+        var img5src = element.parent().children(".image5-url").val();
+        var img6src = element.parent().children(".image6-url").val();
+        var img7src = element.parent().children(".image7-url").val();
+        var img8src = element.parent().children(".image8-url").val();
+        var img9src = element.parent().children(".image9-url").val();
+        var img10src = element.parent().children(".image10-url").val();
+        var branchId = element.parent().children(".branch-id").val();
+
+        $("#branch-address").val(address);
+        $("#branch-short-address").val(shortAddress);
+        $("#branch-paragraph").val(paragraph);
+        $("#store-info-paragraph").val(storeInfoParagraph);
+        $("#business-hours-paragraph").val(businessHoursParagraph);
+        $("#branch-international-site-link").val(internationalSiteLink);
+        $("#branch-facebook-link").val(facebookLink);
+        $("#branch-twitter-link").val(twitterLink);
+        $("#branch-instagram-link").val(instagramLink);
+        $("#branch-img1").val(img1);
+        $("#branch-orig1").val(imgOrig1);
+        $("#branch-img2").val(img2);
+        $("#branch-orig2").val(imgOrig2);
+        $("#branch-img3").val(img3);
+        $("#branch-orig3").val(imgOrig3);
+        $("#branch-img4").val(img4);
+        $("#branch-orig4").val(imgOrig4);
+        $("#branch-img5").val(img5);
+        $("#branch-orig5").val(imgOrig5);
+
+        $("#branch-img6").val(img6);
+        $("#branch-orig6").val(imgOrig6);
+        $("#branch-img7").val(img7);
+        $("#branch-orig7").val(imgOrig7);
+        $("#branch-img9").val(img9);
+        $("#branch-orig9").val(imgOrig9);
+        $("#branch-img8").val(img8);
+        $("#branch-orig8").val(imgOrig8);
+        $("#branch-img10").val(img10);
+        $("#branch-orig10").val(imgOrig10);
+
+
+        $("#image1-img").children("img").attr("src", img1src + "?w=100&h=100&mode=crop");
+        $("#image1-img").children("img").css("display", "block");
+        if (img2src != "") {
+            $("#image2-img").children("img").attr("src", img2src + "?w=100&h=100&mode=crop");
+            $("#image2-img").children("img").css("display", "block");
+        } else {
+            $("#image2-img").children("img").css("display", "none");
+        }
+        if (img3src != "") {
+            $("#image3-img").children("img").attr("src", img3src + "?w=100&h=100&mode=crop");
+            $("#image3-img").children("img").css("display", "block");
+        } else {
+            $("#image3-img").children("img").css("display", "none");
+        }
+        if (img4src != "") {
+            $("#image4-img").children("img").attr("src", img4src + "?w=100&h=100&mode=crop");
+            $("#image4-img").children("img").css("display", "block");
+        } else {
+            $("#image4-img").children("img").css("display", "none");
+        }
+        if (img5src != "") {
+            $("#image5-img").children("img").attr("src", img5src + "?w=100&h=100&mode=crop");
+            $("#image5-img").children("img").css("display", "block");
+        } else {
+            $("#image5-img").children("img").css("display", "none");
+        }
+
+        if (img6src != "") {
+            $("#image6-img").children("img").attr("src", img6src + "?w=100&h=100&mode=crop");
+            $("#image6-img").children("img").css("display", "block");
+        } else {
+            $("#image6-img").children("img").css("display", "none");
+        }
+
+        if (img7src != "") {
+            $("#image7-img").children("img").attr("src", img7src + "?w=100&h=100&mode=crop");
+            $("#image7-img").children("img").css("display", "block");
+        } else {
+            $("#image7-img").children("img").css("display", "none");
+        }
+        if (img8src != "") {
+            $("#image8-img").children("img").attr("src", img8src + "?w=100&h=100&mode=crop");
+            $("#image8-img").children("img").css("display", "block");
+        } else {
+            $("#image8-img").children("img").css("display", "none");
+        }
+
+        if (img9src != "") {
+            $("#image9-img").children("img").attr("src", img9src + "?w=100&h=100&mode=crop");
+            $("#image9-img").children("img").css("display", "block");
+        } else {
+            $("#image9-img").children("img").css("display", "none");
+        }
+        if (img10src != "") {
+            $("#image10-img").children("img").attr("src", img10src + "?w=100&h=100&mode=crop");
+            $("#image10-img").children("img").css("display", "block");
+        } else {
+            $("#image10-img").children("img").css("display", "none");
+        }
+
+
+
+
+
+        $("#branch-id").val(branchId);
+
+        $("#add-branch-modal").modal("show");
+    }
+
+    function openModalForAdd() {
+        $("#branch-address").val("");
+        $("#branch-short-address").val("");
+        $("#branch-paragraph").val("");
+        $("#store-info-paragraph").val("");
+        $("#business-hours-paragraph").val("");
+        $("#branch-international-site-link").val("");
+        $("#branch-facebook-link").val("");
+        $("#branch-twitter-link").val("");
+        $("#branch-instagram-link").val("");
+        $("#branch-img1").val("");
+        $("#branch-orig1").val("");
+        $("#branch-img2").val("");
+        $("#branch-orig2").val("");
+        $("#branch-img3").val("");
+        $("#branch-orig3").val("");
+        $("#branch-img4").val("");
+        $("#branch-orig4").val("");
+        $("#branch-img5").val("");
+        $("#branch-orig5").val("");
+        $("#image1-img").children("img").attr("src", "");
+        $("#image1-img").children("img").css("display", "none");
+        $("#image2-img").children("img").attr("src", "");
+        $("#image2-img").children("img").css("display", "none");
+        $("#image3-img").children("img").attr("src", "");
+        $("#image3-img").children("img").css("display", "none");
+        $("#image4-img").children("img").attr("src", "");
+        $("#image4-img").children("img").css("display", "none");
+        $("#image5-img").children("img").attr("src", "");
+        $("#image5-img").children("img").css("display", "none");
+        $("#branch-img6").val("");
+        $("#branch-orig6").val("");
+        $("#branch-img7").val("");
+        $("#branch-orig7").val("");
+        $("#branch-img8").val("");
+        $("#branch-orig8").val("");
+        $("#branch-img9").val("");
+        $("#branch-orig9").val("");
+        $("#branch-img10").val("");
+        $("#branch-orig10").val("");
+        $("#image6-img").children("img").attr("src", "");
+        $("#image6-img").children("img").css("display", "none");
+        $("#image7-img").children("img").attr("src", "");
+        $("#image7-img").children("img").css("display", "none");
+        $("#image8-img").children("img").attr("src", "");
+        $("#image8-img").children("img").css("display", "none");
+        $("#image9-img").children("img").attr("src", "");
+        $("#image9-img").children("img").css("display", "none");
+        $("#image10-img").children("img").attr("src", "");
+        $("#image10-img").children("img").css("display", "none");
+        $("#branch-id").val("");
+
+        $("#add-branch-modal").modal("show");
+    }
+
+    function deleteBranch(element) {
+        element.parent().remove();
+
+        var branchId = element.parent().children(".grid-inner").children(".branch-id").val();
+
+        for (var i = 0; i < branchesIds.length; i++) {
+            if (branchesIds[i] == branchId) {
+                branchesIds = branchesIds.splice(i, 1);
+
+                return;
+            }
+        }
+
+        $.post(
+            "@Url.Action("DeleteBranch", "Admin")",
+            {
+                id: branchId
+            },
+            function () {}
+        );
+    }
+
+    $(document).ready(function () {
+        setFileUploader("#header-background", "@Url.Action("SoloUpload", "Image")", "BackgroundImage", "BackgroundOriginalName", "#header-back-img", false);
+        setFileUploader("#logo", "@Url.Action("SoloUpload", "Image")", "Logo", "LogoOriginalName", "#logo-img", false);
+
+        CKEDITOR.replace("paragraph");
+
+        setBranchImageUploader("#image1", "@Url.Action("SoloUpload", "Image")", "Image1", "ImageOriginalName1", "#image1-img", false);
+        setBranchImageUploader("#image2", "@Url.Action("SoloUpload", "Image")", "Image2", "ImageOriginalName2", "#image2-img", false);
+        setBranchImageUploader("#image3", "@Url.Action("SoloUpload", "Image")", "Image3", "ImageOriginalName3", "#image3-img", false);
+        setBranchImageUploader("#image4", "@Url.Action("SoloUpload", "Image")", "Image4", "ImageOriginalName4", "#image4-img", false);
+        setBranchImageUploader("#image5", "@Url.Action("SoloUpload", "Image")", "Image5", "ImageOriginalName5", "#image5-img", false);
+        setBranchImageUploader("#image6", "@Url.Action("SoloUpload", "Image")", "Image6", "ImageOriginalName6", "#image6-img", false);
+        setBranchImageUploader("#image7", "@Url.Action("SoloUpload", "Image")", "Image7", "ImageOriginalName7", "#image7-img", false);
+        setBranchImageUploader("#image8", "@Url.Action("SoloUpload", "Image")", "Image8", "ImageOriginalName8", "#image8-img", false);
+        setBranchImageUploader("#image9", "@Url.Action("SoloUpload", "Image")", "Image9", "ImageOriginalName9", "#image9-img", false);
+        setBranchImageUploader("#image10", "@Url.Action("SoloUpload", "Image")", "Image10", "ImageOriginalName10", "#image10-img", false);
+
+        $("#add-btn").click(function () {
+            openModalForAdd();
+        });
+
+        $(".edit-branch").click(function () {
+            openModalForEdit($(this));
+        });
+
+        $(".remove-branch").click(function () {
+            deleteBranch($(this));
+        });
+
+        $("#save-branch").click(function () {
+            var address = $("#branch-address").val();
+            var shortAddress = $("#branch-short-address").val();
+            var paragraph = $("#branch-paragraph").val();
+            var storeInfoParagraph = $("#store-info-paragraph").val();
+            var businessHoursParagraph = $("#business-hours-paragraph").val();
+            var internationalSiteLink = $("#branch-international-site-link").val();
+            var facebookLink = $("#branch-facebook-link").val();
+            var twitterLink = $("#branch-twitter-link").val();
+            var instagramLink = $("#branch-instagram-link").val();
+
+            var img1 = $("#branch-img1").val();
+            var imgOrig1 = $("#branch-orig1").val();
+            var img2 = $("#branch-img2").val();
+            var imgOrig2 = $("#branch-orig2").val();
+            var img3 = $("#branch-img3").val();
+            var imgOrig3 = $("#branch-orig3").val();
+            var img4 = $("#branch-img4").val();
+            var imgOrig4 = $("#branch-orig4").val();
+            var img5 = $("#branch-img5").val();
+            var imgOrig5 = $("#branch-orig5").val();
+            var img6 = $("#branch-img6").val();
+            var imgOrig6 = $("#branch-orig6").val();
+            var img7 = $("#branch-img7").val();
+            var imgOrig7 = $("#branch-orig7").val();
+            var img8 = $("#branch-img8").val();
+            var imgOrig8 = $("#branch-orig8").val();
+            var img9 = $("#branch-img9").val();
+            var imgOrig9 = $("#branch-orig9").val();
+            var img10 = $("#branch-img10").val();
+            var imgOrig10 = $("#branch-orig10").val();
+            //if (address == "" || shortAddress == "" || paragraph == "" ||
+            //    storeInfoParagraph == "" || businessHoursParagraph == "" ||
+            //    internationalSiteLink == "" || facebookLink == "" ||
+            //    twitterLink == "" || instagramLink == "" ||
+            //    img1 == "") {
+            //    alert("Please check all the input fields!");
+
+            //    return;
+            //}
+            if (address == "" || shortAddress == "") {
+                alert("Please check all the input fields!");
+
+                return;
+            }
+            var branchId = $("#branch-id").val();
+
+            if (branchId == "") {
+                $.post(
+                    "@Url.Action("AddBranch", "Admin")",
+                    {
+                        address: address,
+                        shortAddress: shortAddress,
+                        paragraph: paragraph,
+                        storeInfoParagraph: storeInfoParagraph,
+                        businessHoursParagraph: businessHoursParagraph,
+                        internationalSiteLink: internationalSiteLink,
+                        facebookLink: facebookLink,
+                        twitterLink: twitterLink,
+                        instagramLink: instagramLink,
+                        img1: img1,
+                        imgOrig1: imgOrig1,
+                        img2: img2,
+                        imgOrig2: imgOrig2,
+                        img3: img3,
+                        imgOrig3: imgOrig3,
+                        img4: img4,
+                        imgOrig4: imgOrig4,
+                        img5: img5,
+                        imgOrig5: imgOrig5,
+                        img6: img6,
+                        imgOrig6: imgOrig6,
+                        img7: img7,
+                        imgOrig7: imgOrig7,
+                        img8: img8,
+                        imgOrig8: imgOrig8,
+                        img9: img9,
+                        imgOrig9: imgOrig9,
+                        img10: img10,
+                        imOrig10: imgOrig10
+                        
+                    },
+                    function (res) {
+                        if (res.result) {
+                            var imageUrl = $("#image1-img").children("img").attr("src");
+                            var image2 = $("#image2-img").children("img").attr("src");
+                            var image3 = $("#image3-img").children("img").attr("src");
+                            var image4 = $("#image4-img").children("img").attr("src");
+                            var image5 = $("#image5-img").children("img").attr("src");
+
+                            var image6 = $("#image6-img").children("img").attr("src");
+                            var image7 = $("#image7-img").children("img").attr("src");
+                            var image8 = $("#image8-img").children("img").attr("src");
+                            var image9 = $("#image9-img").children("img").attr("src");
+                            var image10 = $("#image10-img").children("img").attr("src");
+
+                            $("#branches-grid").append("<div class=\"text-center updateable grid-item\">" +
+                                "<div class=\"text-center updateable grid-inner\"><img class=\"card-display\" src=\"" + imageUrl + "?w=100&h=100&mode=crop\" /><a class=\"edit-branch\" href=\"#\">" + shortAddress + "</a>" +
+                                "<input type=\"hidden\" value=\"" + address + "\" class=\"address\" /><input type=\"hidden\" value=\"" + shortAddress + "\" class=\"short-address\" />" +
+                                "<input type=\"hidden\" value=\"" + paragraph + "\" class=\"paragraph\" /><input type=\"hidden\" value=\"" + storeInfoParagraph + "\" class=\"store-info-paragraph\" />" +
+                                "<input type=\"hidden\" value=\"" + businessHoursParagraph + "\" class=\"business-hours-paragraph\" /><input type=\"hidden\" value=\"" + internationalSiteLink + "\" class=\"international-site-link\" />" +
+                                "<input type=\"hidden\" value=\"" + facebookLink + "\" class=\"facebook-link\" /><input type=\"hidden\" value=\"" + twitterLink + "\" class=\"twitter-link\" />" +
+                                "<input type=\"hidden\" value=\"" + instagramLink + "\" class=\"instagram-link\" /><input type=\"hidden\" value=\"" + img1 + "\" class=\"img1\" />" +
+                                "<input type=\"hidden\" value=\"" + imgOrig1 + "\" class=\"img-original1\" /><input type=\"hidden\" value=\"" + img2 + "\" class=\"img2\" />" +
+                                "<input type=\"hidden\" value=\"" + imgOrig2 + "\" class=\"img-original2\" /><input type=\"hidden\" value=\"" + img3 + "\" class=\"img3\" />" +
+                                "<input type=\"hidden\" value=\"" + imgOrig3 + "\" class=\"img-original3\" /><input type=\"hidden\" value=\"" + img4 + "\" class=\"img4\" />" +
+                                "<input type=\"hidden\" value=\"" + imgOrig4 + "\" class=\"img-original4\" /><input type=\"hidden\" value=\"" + img5 + "\" class=\"img5\" />" +
+                                "<input type=\"hidden\" value=\"" + imgOrig5 + "\" class=\"img-original5\" /><input type=\"hidden\" value=\"" + imageUrl + "\" class=\"image1-url\" />" +
+                                "<input type=\"hidden\" value=\"" + image2 + "\" class=\"image2-url\" /><input type=\"hidden\" value=\"" + image3 + "\" class=\"image3-url\" />" +
+                                "<input type=\"hidden\" value=\"" + image4 + "\" class=\"image4-url\" /><input type=\"hidden\" value=\"" + image5 + "\" class=\"image5-url\" />" +
+                                "<input type=\"hidden\" value=\"" + image6 + "\" class=\"image6-url\" /><input type=\"hidden\" value=\"" + image7 + "\" class=\"image7-url\" />" +
+                                "<input type=\"hidden\" value=\"" + image8 + "\" class=\"image8-url\" /><input type=\"hidden\" value=\"" + image9 + "\" class=\"image9-url\" />" +
+                                "<input type=\"hidden\" value=\"" + image10 + "\" class=\"image10-url\" /> <input type=\"hidden\" value=\"" + img6 + "\" class=\"img6\" />" +
+                                "<input type=\"hidden\" value=\"" + imgOrig6 + "\" class=\"img-original6\" /><input type=\"hidden\" value=\"" + imgOrig7 + "\" class=\"img-original7\" />" +
+                                  "<input type=\"hidden\" value=\"" + imgOrig8 + "\" class=\"img-original8\" /><input type=\"hidden\" value=\"" + imgOrig9 + "\" class=\"img-original9\" />" +
+                                    "<input type=\"hidden\" value=\"" + imgOrig10 + "\" class=\"img-original10\" /><input type=\"hidden\" value=\"" + img7 + "\" class=\"img7\" />" +
+
+                                     "<input type=\"hidden\" value=\"" + img8 + "\" class=\"img8\" /><input type=\"hidden\" value=\"" + img10 + "\" class=\"img10\" /><input type=\"hidden\" value=\"" + img9 + "\" class=\"img9\" />" +
+
+                                "<input type=\"hidden\" value=\"" + res.id + "\" name=\"BranchesIds\" class=\"branch-id\" /></div><a href=\"#\" class=\"remove-branch\">Remove</a></div>");
+                            branchesIds.push(res.id);
+                            $(".edit-branch").off();
+                            $(".edit-branch").click(function () {
+                                openModalForEdit($(this));
+                            });
+
+                            $(".remove-branch").off();
+                            $(".remove-branch").click(function () {
+                                deleteBranch($(this));
+                            });
+
+                            $("#add-branch-modal").modal("hide");
+                        }
+                    }
+                );
+            } else {
+                $.post(
+                    "@Url.Action("UpdateBranch", "Admin")",
+                    {
+                        address: address,
+                        shortAddress: shortAddress,
+                        paragraph: paragraph,
+                        storeInfoParagraph: storeInfoParagraph,
+                        businessHoursParagraph: businessHoursParagraph,
+                        internationalSiteLink: internationalSiteLink,
+                        facebookLink: facebookLink,
+                        twitterLink: twitterLink,
+                        instagramLink: instagramLink,
+                        img1: img1,
+                        imgOrig1: imgOrig1,
+                        img2: img2,
+                        imgOrig2: imgOrig2,
+                        img3: img3,
+                        imgOrig3: imgOrig3,
+                        branchId: branchId,
+                        img4: img4,
+                        imgOrig4: imgOrig4,
+                        img5: img5,
+                        imgOrig5: imgOrig5,
+                        img6: img6,
+                        imgOrig6: imgOrig6,
+                        img7: img7,
+                        imgOrig7: imgOrig7,
+                        img8: img8,
+                        imgOrig8: imgOrig8,
+                        img9: img9,
+                        imgOrig9: imgOrig9,
+                        img10: img10,
+                        imgOrig10: imgOrig10
+                        
+                    },
+                    function (res) {
+                        if (res.result) {
+                            var imageUrl = $("#image1-img").children("img").attr("src");
+                            var image2 = $("#image2-img").children("img").attr("src");
+                            var image3 = $("#image3-img").children("img").attr("src");
+                            var image4 = $("#image4-img").children("img").attr("src");
+                            var image5 = $("#image5-img").children("img").attr("src");
+                            var image6 = $("#image6-img").children("img").attr("src");
+                            var image7 = $("#image7-img").children("img").attr("src");
+                            var image8 = $("#image8-img").children("img").attr("src");
+                            var image9 = $("#image9-img").children("img").attr("src");
+                            var image10 = $("#image10-img").children("img").attr("src");
+
+                            $(".branch-id").each(function () {
+                                if ($(this).val() == branchId) {
+                                    var div = $(this).parent();
+
+                                    div.children(".address").val(address);
+                                    div.children(".short-adress").val(shortAddress);
+                                    div.children(".paragraph").val(paragraph);
+                                    div.children(".store-info-paragraph").val(storeInfoParagraph);
+                                    div.children(".business-hours-paragraph").val(businessHoursParagraph);
+                                    div.children(".international-site-link").val(internationalSiteLink);
+                                    div.children(".facebook-link").val(facebookLink);
+                                    div.children(".twitter-link").val(twitterLink);
+                                    div.children(".instagram-link").val(instagramLink);
+                                    div.children(".img1").val(img1);
+                                    div.children(".img-original1").val(imgOrig1);
+                                    div.children(".img2").val(img2);
+                                    div.children(".img-original2").val(imgOrig2);
+                                    div.children(".img3").val(img3);
+                                    div.children(".img-original3").val(imgOrig3);
+                                    div.children(".img4").val(img4);
+                                    div.children(".img-original4").val(imgOrig4);
+                                    div.children(".img5").val(img5);
+                                    div.children(".img-original5").val(imgOrig5);
+                                    div.children(".image1-url").val(imageUrl);
+                                    div.children(".image2-url").val(image2);
+                                    div.children(".image3-url").val(image3);
+                                    div.children(".image4-url").val(image4);
+                                    div.children(".image5-url").val(image5);
+                                    div.children("img").attr("src", imageUrl);
+                                    //==
+                                    div.children(".img6").val(img6);
+                                    div.children(".img-original6").val(imgOrig6);
+                                    div.children(".img7").val(img7);
+                                    div.children(".img-original7").val(imgOrig7);
+                                    div.children(".img8").val(img8);
+                                    div.children(".img-original8").val(imgOrig8);
+                                    div.children(".img9").val(img9);
+                                    div.children(".img-original9").val(imgOrig9);
+                                    div.children(".img9").val(img9);
+                                    div.children(".img-original10").val(imgOrig10);
+                                    div.children(".image6-url").val(image6);
+                                    div.children(".image7-url").val(image7);
+                                    div.children(".image8-url").val(image8);
+                                    div.children(".image9-url").val(image9);
+                                    div.children(".image10-url").val(image10);
+                                    return false;
+                                }
+                            });
+
+                            $(".edit-branch").off();
+                            $(".edit-branch").click(function () {
+                                openModalForEdit($(this));
+                            });
+
+                            $(".remove-branch").off();
+                            $(".remove-branch").click(function () {
+                                deleteBranch($(this));
+                            });
+
+                            $("#add-branch-modal").modal("hide");
+                        }
+                    }
+                );
+            }
+        });
+
+        $("#form").submit(function (e) {
+            e.preventDefault();
+            $("#form").off();
+            var ids = "";
+            if (branchesIds.length > 0) {
+                for (var i = 0; i < branchesIds.length; i++) {
+                    ids = ids + branchesIds[i];
+                    if (i != (branchesIds.length - 1)) {
+                        ids += " ";
+                    }
+                }
+            }
+            $("#form").append($("<input />").attr("type", "hidden").attr("name", "BranchesIdsStr").val(ids));
+
+            $("#form").submit();
+        });
+    });
+</script>
+<script src="@Url.Content("~/Content/turbo/assets/vendors/jquery.select-bootstrap.js")"></script>
+
+
+<style>
+    
+        .thumb {
+            height: 80px;
+            width: 100px;
+            border: 1px solid #000;
+        }
+
+        ul.thumb-Images li {
+            width: 120px;
+            float: left;
+            display: inline-block;
+            vertical-align: top;
+            height: 120px;
+        }
+
+        .img-wrap {
+            position: relative;
+            display: inline-block;
+            font-size: 0;
+        }
+
+            .img-wrap .close {
+                position: absolute;
+                top: 2px;
+                right: 2px;
+                z-index: 100;
+                background-color: #D0E5F5;
+                padding: 5px 2px 2px;
+                color: #000;
+                font-weight: bolder;
+                cursor: pointer;
+                opacity: .5;
+                font-size: 23px;
+                line-height: 10px;
+                border-radius: 50%;
+            }
+
+            .img-wrap:hover .close {
+                opacity: 1;
+                background-color: #ff0000;
+            }
+</style>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+
+        //I added event handler for the file upload control to access the files properties.
+        document.addEventListener("DOMContentLoaded", init, false);
+
+        //To save an array of attachments
+        var AttachmentArray = [];
+
+        //counter for attachment array
+        var arrCounter = 0;
+
+        //to make sure the error message for number of files will be shown only one time.
+        var filesCounterAlertStatus = false;
+
+        //un ordered list to keep attachments thumbnails
+        var ul = document.createElement('ul');
+        ul.className = ("thumb-Images");
+        ul.id = "imgList";
+
+        function init() {
+            //add javascript handlers for the file upload event
+            document.querySelector('#files').addEventListener('change', handleFileSelect, false);
+        }
+
+        //the handler for file upload event
+        function handleFileSelect(e) {
+            //to make sure the user select file/files
+            if (!e.target.files) return;
+
+            //To obtaine a File reference
+            var files = e.target.files;
+
+            // Loop through the FileList and then to render image files as thumbnails.
+            for (var i = 0, f; f = files[i]; i++) {
+
+                //instantiate a FileReader object to read its contents into memory
+                var fileReader = new FileReader();
+
+                // Closure to capture the file information and apply validation.
+                fileReader.onload = (function (readerEvt) {
+                    return function (e) {
+
+                        //Apply the validation rules for attachments upload
+                        ApplyFileValidationRules(readerEvt)
+
+                        //Render attachments thumbnails.
+                        RenderThumbnail(e, readerEvt);
+
+                        //Fill the array of attachment
+                        FillAttachmentArray(e, readerEvt)
+                    };
+                })(f);
+
+                // Read in the image file as a data URL.
+                // readAsDataURL: The result property will contain the file/blob's data encoded as a data URL.
+                // More info about Data URI scheme https://en.wikipedia.org/wiki/Data_URI_scheme
+                fileReader.readAsDataURL(f);
+            }
+            document.getElementById('files').addEventListener('change', handleFileSelect, false);
+        }
+
+        //To remove attachment once user click on x button
+        jQuery(function ($) {
+            $('div').on('click', '.img-wrap .close', function () {
+                var id = $(this).closest('.img-wrap').find('img').data('id');
+
+                //to remove the deleted item from array
+                var elementPos = AttachmentArray.map(function (x) { return x.FileName; }).indexOf(id);
+                if (elementPos !== -1) {
+                    AttachmentArray.splice(elementPos, 1);
+                }
+
+                //to remove image tag
+                $(this).parent().find('img').not().remove();
+
+                //to remove div tag that contain the image
+                $(this).parent().find('div').not().remove();
+
+                //to remove div tag that contain caption name
+                $(this).parent().parent().find('div').not().remove();
+
+                //to remove li tag
+                var lis = document.querySelectorAll('#imgList li');
+                for (var i = 0; li = lis[i]; i++) {
+                    if (li.innerHTML == "") {
+                        li.parentNode.removeChild(li);
+                    }
+                }
+
+            });
+        }
+        )
+
+        //Apply the validation rules for attachments upload
+        function ApplyFileValidationRules(readerEvt)
+        {
+            //To check file type according to upload conditions
+            if (CheckFileType(readerEvt.type) == false) {
+                alert("The file (" + readerEvt.name + ") does not match the upload conditions, You can only upload jpg/png/gif files");
+                e.preventDefault();
+                return;
+            }
+
+            //To check file Size according to upload conditions
+            if (CheckFileSize(readerEvt.size) == false) {
+                alert("The file (" + readerEvt.name + ") does not match the upload conditions, The maximum file size for uploads should not exceed 300 KB");
+                e.preventDefault();
+                return;
+            }
+
+            //To check files count according to upload conditions
+            if (CheckFilesCount(AttachmentArray) == false) {
+                if (!filesCounterAlertStatus) {
+                    filesCounterAlertStatus = true;
+                    alert("You have added more than 10 files. According to upload conditions you can upload 10 files maximum");
+                }
+                e.preventDefault();
+                return;
+            }
+        }
+
+        //To check file type according to upload conditions
+        function CheckFileType(fileType) {
+            if (fileType == "image/jpeg") {
+                return true;
+            }
+            else if (fileType == "image/png") {
+                return true;
+            }
+            else if (fileType == "image/gif") {
+                return true;
+            }
+            else {
+                return false;
+            }
+            return true;
+        }
+
+        //To check file Size according to upload conditions
+        function CheckFileSize(fileSize) {
+            if (fileSize < 300000) {
+                return true;
+            }
+            else {
+                return false;
+            }
+            return true;
+        }
+
+        //To check files count according to upload conditions
+        function CheckFilesCount(AttachmentArray) {
+            //Since AttachmentArray.length return the next available index in the array,
+            //I have used the loop to get the real length
+            var len = 0;
+            for (var i = 0; i < AttachmentArray.length; i++) {
+                if (AttachmentArray[i] !== undefined) {
+                    len++;
+                }
+            }
+            //To check the length does not exceed 10 files maximum
+            if (len > 9) {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        //Render attachments thumbnails.
+        function RenderThumbnail(e, readerEvt)
+        {
+            var li = document.createElement('li');
+            ul.appendChild(li);
+            li.innerHTML = ['<div class="img-wrap"> <span class="close">&times;</span>' +
+                '<img class="thumb" src="', e.target.result, '" title="', escape(readerEvt.name), '" data-id="',
+                readerEvt.name, '"/>' + '</div>'].join('');
+
+            var div = document.createElement('div');
+            div.className = "FileNameCaptionStyle";
+            li.appendChild(div);
+            div.innerHTML = [readerEvt.name].join('');
+            document.getElementById('Filelist').insertBefore(ul, null);
+        }
+
+        //Fill the array of attachment
+        function FillAttachmentArray(e, readerEvt)
+        {
+            AttachmentArray[arrCounter] =
+            {
+                AttachmentType: 1,
+                ObjectType: 1,
+                FileName: readerEvt.name,
+                FileDescription: "Attachment",
+                NoteText: "",
+                MimeType: readerEvt.type,
+                Content: e.target.result.split("base64,")[1],
+                FileSizeInBytes: readerEvt.size,
+            };
+            arrCounter = arrCounter + 1;
+        }
+</script>
+
+
+
+

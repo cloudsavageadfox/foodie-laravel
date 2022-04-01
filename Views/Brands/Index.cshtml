@@ -1,0 +1,83 @@
+@using Core.Entities;
+@{
+    ViewBag.Title = "Brands";
+    Core.Entities.Page page = ViewBag.page;
+    List<Brand> brands = ViewBag.brands;
+    string elHeading = ViewBag.elHeading, elSub = ViewBag.elSub;
+}
+
+@Html.Partial("~/Views/Partials/_Hero.cshtml", new ViewDataDictionary { { "imageUrl", page.BackgroundImage1Url }, { "elImgUrl", Url.Content("~/Content/images/sectionHeader/cuisinesOfTheWorld.png") }, { "heroText", page.Paragraph1 } })
+
+<section>
+    <div class="container">
+        <div class="wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.1s">
+            <h2 class="common-heading brand-heading">Our brands</h2>
+            <div class="margin-normal">
+                <div>@Html.Raw(page.Paragraph2)</div>
+            </div>
+            <div class="row align-items-center justify-content-around text-center">
+                @foreach (Brand brand in brands)
+            {
+                if (brand.Section == Core.Enums.BrandSection.OurBrands)
+                {
+                        <div class="col-3 col-md-12 brand-item" style="min-width:@(brand.MaxWidth)px;"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="hover-grayscale"><img style="max-width: @(brand.MaxWidth)px;" src="@brand.LogoUrl" alt="@brand.Title"></a></div>
+                    }
+                }
+            </div>
+        </div>
+
+        <hr class="divider hidden-lg-up" />
+
+        <div class="wow fadeInUp" data-wow-duration="2s" data-wow-delay=".5s">
+            <h2 class="common-heading brand-heading">Our Finds</h2>
+            <div class="margin-normal">
+                <div>@Html.Raw(page.Paragraph3)</div>
+            </div>
+            <div class="row align-items-center justify-content-around text-center">
+                @foreach (Brand brand in brands)
+            {
+                if (brand.Section == Core.Enums.BrandSection.UnderOurCare)
+                {
+                        <div class="col-3 col-md-12 brand-item" style="min-width:@(brand.MaxWidth)px;"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="hover-grayscale"><img style="max-width: @(brand.MaxWidth)px;" src="@brand.LogoUrl" alt="@brand.Title"></a></div>
+                    }
+                }
+            </div>
+        </div>
+
+        <hr class="divider hidden-lg-up" />
+
+        <div class="wow fadeInUp" data-wow-duration="2s" data-wow-delay=".5s">
+            <h2 class="common-heading brand-heading">Our Co Creations</h2>
+            <div class="margin-normal">
+                <div>@Html.Raw(page.Paragraph4)</div>
+            </div>
+            <div class="row align-items-center justify-content-around text-center">
+                @foreach (Brand brand in brands)
+            {
+                if (brand.Section == Core.Enums.BrandSection.JointVenture)
+                {
+                        <div class="col-3 col-md-12 brand-item" style="min-width:@(brand.MaxWidth)px;"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="hover-grayscale"><img style="max-width: @(brand.MaxWidth)px;" src="@brand.LogoUrl" alt="@brand.Title"></a></div>
+                    }
+                }
+            </div>
+        </div>
+
+        <hr class="divider hidden-lg-up" />
+
+        <div class="wow fadeInUp" data-wow-duration="2s" data-wow-delay=".5s">
+            <h2 class="common-heading brand-heading">Our Up and Coming</h2>
+            <div class="margin-normal">
+                <div>@Html.Raw(page.Paragraph5)</div>
+            </div>
+            <div class="row align-items-center justify-content-around text-center">
+                @foreach (Brand brand in brands)
+            {
+                if (brand.Section == Core.Enums.BrandSection.UpcomingConcepts)
+                {
+                        <div class="col-3 col-md-12 brand-item" style="min-width:@(brand.MaxWidth)px;"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="hover-grayscale"><img style="max-width: @(brand.MaxWidth)px;" src="@brand.LogoUrl" alt="@brand.Title"></a></div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>

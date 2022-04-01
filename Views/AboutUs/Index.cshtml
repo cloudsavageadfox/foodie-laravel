@@ -1,0 +1,95 @@
+@using Core.Entities;
+@{
+    ViewBag.Title = "About Us";
+    Core.Entities.Page page = ViewBag.page;
+    List<AboutUsMedia> media = ViewBag.media;
+    string elHeading = ViewBag.elHeading, elSub = ViewBag.elSub;
+}
+
+@Html.Partial("~/Views/Partials/_Hero.cshtml", new ViewDataDictionary { { "imageUrl", page.BackgroundImage1Url }, { "elImgUrl", Url.Content("~/Content/images/sectionHeader/DiscoverOurStory.png")}, { "heroText", page.Paragraph1 } })
+<style>
+/* width */
+.director-description::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.director-description::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+.director-description::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.director-description::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+</style>
+<section>
+    <div class="container wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">
+        <div id="hidden-about">
+            @if (page.Paragraph2.Length <= 500)
+            {
+                <text>
+                    @Html.Raw(page.Paragraph2)
+                </text>
+            }
+            else
+            {
+                <text>
+                    @Html.Raw(page.Paragraph2.Substring(0, 500))
+                </text>
+                <span id="dots">...<br /></span>
+            }
+
+            @if (page.Paragraph2.Length > 500)
+            {
+                <text>
+                    @Html.Raw(page.Paragraph2.Substring(500))
+                </text>
+            }
+        </div>
+        @if (page.Paragraph2.Length > 500)
+        {
+            <a href="javascript:void(0)" class="common-button" id="read-more-button2" onclick="showHiddenAbout.call(this)">Read more</a>
+        }
+    </div>
+</section>
+
+<section class="sub-title" @*style="background-image: url('@page.BackgroundImage2Url')"*@ data-image-src="@page.BackgroundImage2Url" data-parallax="scroll" data-bleed="10">
+    <div class="sub-title-text wow fadeInUp" style="color:#ffffff" data-wow-duration="2s" data-wow-delay="0.1s">@Html.Raw(page.Paragraph3)</div>
+</section>
+
+<section class="directors">
+    <div class="container">
+        <h2 class="common-heading" id="directors-header">Directors</h2>
+        <div class="director-slider wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+@foreach (AboutUsMedia item in media)
+{
+            <div class="director-slide">
+                <div class="row">
+                    <div class="col-6 col-md-12 director-photo" style="background-image: url('@item.Media.Url')"></div>
+                    <div class="director-description col-md-12 col-6 align-content-center" style="overflow-y: scroll;">
+                        <h3 class="director-name margin-normal">@item.Name @item.Surname</h3>
+                        <h5 class="director-role">@item.Role</h5>
+                        <p class="director-desctext margin-normal">@item.Paragraph</p>
+                    </div>
+                </div>
+            </div>
+}
+        </div>
+        <div class="director-thumbs margin-large wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+@foreach (AboutUsMedia item in media)
+{
+            <a href="javascript:void(0)" onclick="showDirector.call(this)" class="director-thumb" style="background-image: url('@item.Media.Url')">
+                <div class="overlay"></div>
+                <h7 class="director-thumb-name">@item.Name @item.Surname</h7>
+            </a>
+}
+        </div>
+    </div>
+
+</section>

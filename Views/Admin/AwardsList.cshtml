@@ -1,0 +1,52 @@
+﻿@using Core.Entities;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.title = "Awards List";
+
+    List<Award> awards = ViewBag.awards;
+}
+
+    <div class="card">
+        <div class="card-content">
+            <h3 class="card-title">Awards List</h3>
+            <a href="@Url.Action("AddAward", "Admin")" class="btn btn-primary">Add Award</a>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="text-primary">
+                        <tr>
+                            <th>Title</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (awards != null)
+                        {
+                            foreach (Award award in awards)
+                            {
+                                <tr>
+                                    <td class="name">@award.Title</td>
+                                    <td>
+                                        <a href="@Url.Action("UpdateAward", new {id = award.Id})" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-danger del" data-id="@award.Id"><span class="glyphicon glyphicon-remove "></span> Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Views/Partials/_Pagination.cshtml")
+
+
+    @Html.Partial("~/Views/Partials/_DeleteModal.cshtml")
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        initDeleteModal("Are you sure you want to delete the award?", "<span>Deleting award: <b>", "</b>.</span>", "@Url.Action("DeleteAward","Admin")", true);
+    });
+    </script>

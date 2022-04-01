@@ -1,0 +1,1184 @@
+@using Core.Entities;
+@{
+    ViewBag.Title = "Home";
+    Core.Entities.Page page = ViewBag.page;
+    List<Brand> brands = ViewBag.brands;
+    Core.Entities.Page footer = ViewBag.footer;
+    List<Media> media = page.SliderMedia;
+    List<News> news = ViewBag.news;
+    List<Award> awards = ViewBag.awards;
+    bool youtubeExists = false;
+    foreach (Media item in media)
+    {
+        if (item.MediaType == Core.Enums.MediaType.Video && !string.IsNullOrEmpty(item.Link))
+        {
+            youtubeExists = true;
+            break;
+        }
+    }
+    Layout = null;
+
+    List<Instagram> feed = ViewBag.feed;
+}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="author" content="Projectgrey - www.projectgrey.net" />
+        <meta name="description" content="Manila’s largest multi-brand F&B group that started from homegrown concepts and has now ventured into bringing in Manila’s hottest brands">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, target-densitydpi=device-dpi" />
+
+        <title>Foodee Global Concepts</title>
+
+        <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+        <link rel="stylesheet" href="@Url.Content("~/Content/css/slick.css")">
+        <link rel="stylesheet" href="@Url.Content("~/Content/css/normalize.css")">
+        <link rel="stylesheet" href="@Url.Content("~/Content/css/animate.css")">
+        <link rel="stylesheet" href="@Url.Content("~/Content/css/aos.css")">
+        <link rel="stylesheet" href="@Url.Content("~/Content/css/main.css")">
+        
+        <style type="text/css">
+            .preloader { z-index:100; position:fixed; top:0; left:0; bottom:0; right:0; background:#000000f2 url('Content/images/FoodeeLogoWhite.png') center no-repeat; background-size:180px auto; }
+            
+            /* min-width 1025px, large screens */
+            @media only screen and (min-width: 64.063em) 
+            { 
+                .preloader { background-size:300px auto; }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="preloader">
+        </div>
+        <header class="main-page-header">
+            <div class="top-nav-wrapper row-padding hidden-sm-down align-items-center">
+                <ul class="top-nav row nowrap justify-content-around align-items-center offset-3 col-6 color-white">
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "AboutUs")" class="top-nav-link">About us</a></li>
+                    <li class="top-nav-item col-auto dropdown">
+                        <a href="@Url.Action("Index", "Brands")" class="top-nav-link">Brands</a>
+                        <div class="dropdown-content-wrapper">
+                            <ul class="dropdown-content">
+                                <li class="dropdown-item sub-arrow">
+                                    <a href="javascript:void(0)" class="dropdown-link">Our brands</a>
+                                    <span class="dropdown-arrow">&#155;</span>
+                                    <div class="dropdown-sub-wrapper">
+                                        <ul class="dropdown-sub">
+                                            @foreach (Brand brand in brands)
+                                            {
+                                                if (brand.Section == Core.Enums.BrandSection.OurBrands)
+                                                {
+                                                    <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="dropdown-item sub-arrow">
+                                    <a href="javascript:void(0)" class="dropdown-link">Our Finds</a>
+                                    <span class="dropdown-arrow">&#155;</span>
+                                    <div class="dropdown-sub-wrapper">
+                                        <ul class="dropdown-sub">
+                                            @foreach (Brand brand in brands)
+                                            {
+                                                if (brand.Section == Core.Enums.BrandSection.UnderOurCare)
+                                                {
+                                                    <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="dropdown-item sub-arrow">
+                                    <a href="javascript:void(0)" class="dropdown-link">Co-Creations</a>
+                                    <span class="dropdown-arrow">&#155;</span>
+                                    <div class="dropdown-sub-wrapper">
+                                        <ul class="dropdown-sub">
+                                            @foreach (Brand brand in brands)
+                                            {
+                                                if (brand.Section == Core.Enums.BrandSection.JointVenture)
+                                                {
+                                                    <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="dropdown-item sub-arrow">
+                                    <a href="javascript:void(0)" class="dropdown-link">Up & Coming</a>
+                                    <span class="dropdown-arrow">&#155;</span>
+                                    <div class="dropdown-sub-wrapper">
+                                        <ul class="dropdown-sub">
+                                            @foreach (Brand brand in brands)
+                                            {
+                                                if (brand.Section == Core.Enums.BrandSection.UpcomingConcepts)
+                                                {
+                                                    <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "News")" class="top-nav-link">News</a></li>
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Awards")" class="top-nav-link">Awards</a></li>
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Gallery")" class="top-nav-link">Gallery</a></li>
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Inquire")" class="top-nav-link">Inquire</a></li>
+                </ul>
+                <a href="#" class="top-nav-link col-1 offset-2" onclick="openSearch()"><img class="top-nav-icon" src="@Url.Content("~/Content/images/icons/Search_White.png")" alt="search"></a>
+            </div>
+            <div id="open-menu" class="row-padding justify-content-end hidden-md-up col-12 align-items-center">
+                <a href="javascript:void(0)" class="mob-nav-ilink col-auto" onclick="openMenu()"><img src="@Url.Content("~/Content/images/icons/Menu_White.png")" alt="menu"></a>
+            </div>  
+            <div id="search" class="search" style="display: none;">
+                <div class="top-nav-wrapper hidden-sm-down nowrap align-items-center justify-content-between row-padding">
+                    <div class="logo header-logo col-2">
+                        <a href="@Url.Action("Index", "Home")" class="logo-link">
+                            <img class="logo-img" src="@Url.Content("~/Content/images/logos/FoodeeLogoBlack.png")" alt="Foodee" />
+                        </a>
+                    </div>
+                    <ul class="top-nav row nowrap align-items-center col-6 justify-content-around">
+                        <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "AboutUs")" class="top-nav-link">About us</a></li>
+                        <li class="top-nav-item col-auto dropdown">
+                            <a href="@Url.Action("Index", "Brands")" class="top-nav-link">Brands</a>
+                            <div class="dropdown-content-wrapper">
+                                <ul class="dropdown-content">
+                                    <li class="dropdown-item sub-arrow">
+                                        <a href="javascript:void(0)" class="dropdown-link">Our brands</a>
+                                        <span class="dropdown-arrow">&#155;</span>
+                                        <div class="dropdown-sub-wrapper">
+                                            <ul class="dropdown-sub">
+                                                @foreach (Brand brand in brands)
+                                                {
+                                                    if (brand.Section == Core.Enums.BrandSection.OurBrands)
+                                                    {
+                                                        <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item sub-arrow">
+                                        <a href="javascript:void(0)" class="dropdown-link">Our Finds</a>
+                                        <span class="dropdown-arrow">&#155;</span>
+                                        <div class="dropdown-sub-wrapper">
+                                            <ul class="dropdown-sub">
+                                                @foreach (Brand brand in brands)
+                                                {
+                                                    if (brand.Section == Core.Enums.BrandSection.UnderOurCare)
+                                                    {
+                                                        <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item sub-arrow">
+                                        <a href="javascript:void(0)" class="dropdown-link">Co-Creations</a>
+                                        <span class="dropdown-arrow">&#155;</span>
+                                        <div class="dropdown-sub-wrapper">
+                                            <ul class="dropdown-sub">
+                                                @foreach (Brand brand in brands)
+                                                {
+                                                    if (brand.Section == Core.Enums.BrandSection.JointVenture)
+                                                    {
+                                                        <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown-item sub-arrow">
+                                        <a href="javascript:void(0)" class="dropdown-link">Up & Coming</a>
+                                        <span class="dropdown-arrow">&#155;</span>
+                                        <div class="dropdown-sub-wrapper">
+                                            <ul class="dropdown-sub">
+                                                @foreach (Brand brand in brands)
+                                                {
+                                                    if (brand.Section == Core.Enums.BrandSection.UpcomingConcepts)
+                                                    {
+                                                        <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "News")" class="top-nav-link">News</a></li>
+                        <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Awards")" class="top-nav-link">Awards</a></li>
+                        <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Gallery")" class="top-nav-link">Gallery</a></li>
+                        <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Inquire")" class="top-nav-link">Inquire</a></li>
+                    </ul>
+                    <a href="#" class="top-nav-link col-1" onclick="openSearch()"><img class="top-nav-icon" src="@Url.Content("~/Content/images/icons/Search_Gray.png")" alt="search"></a>
+                </div>
+                <div class="row-padding margin-large justify-content-between hidden-md-up col-12 align-items-center">
+                    <a href="javascript:void(0)" class="mob-nav-ilink col-auto" onclick="openSearch()"><img src="@Url.Content("~/Content/images/icons/leftArrow.png")" alt="back"></a>
+                    <div class="logo col-5">
+                        <a href="@Url.Action("Index", "Home")" class="logo-link">
+                            <img class="logo-img" src="@Url.Content("~/Content/images/logos/FoodeeLogoBlack.png")" alt="Foodee" />
+                        </a>
+                    </div>
+                    <a href="javascript:void(0)" class="mob-nav-ilink col-auto" onclick="openMenu()"><img src="@Url.Content("~/Content/images/icons/Menu_Black.png")" alt="menu"></a>
+                </div>
+                <div class="search-wrapper row margin-xxlarge">
+                    <form action="@Url.Action("Index", "Search")" class="search-form" method="get">
+                        <div class="row">
+                            <label for="search-field" class="offset-2 col-8">What are you looking for?</label>
+                            <div class="row col-12 margin-normal align-items-center">
+                                <button type="submit" class="offset-1 col-1 search-button"><img src="@Url.Content("~/Content/images/icons/Search.png")" alt="" class="search-image"></button>
+                                <input name="query" id="search-field" type="text" placeholder="Type here to search" class="col-8 search-field">
+                            </div>
+                            <p class="offset-2 col-8 search-prompt">Type and press enter to search</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </header>
+        <header id="hidden-header" style="height: 0">
+            <div class="top-nav-wrapper hidden-sm-down nowrap align-items-center justify-content-between row-padding">
+                <div class="logo header-logo col-2">
+                    <a href="@Url.Action("Index", "Home")" class="logo-link">
+                        <img class="logo-img" src="@Url.Content("~/Content/images/logos/FoodeeLogoBlack.png")" alt="Foodee" />
+                    </a>
+                </div>
+                <ul class="top-nav row nowrap align-items-center col-6 justify-content-around">
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "AboutUs")" class="top-nav-link">About us</a></li>
+                    <li class="top-nav-item col-auto dropdown">
+                        <a href="@Url.Action("Index", "Brands")" class="top-nav-link">Brands</a>
+                        <div class="dropdown-content-wrapper">
+                            <ul class="dropdown-content">
+                                <li class="dropdown-item sub-arrow">
+                                    <a href="javascript:void(0)" class="dropdown-link">Our brands</a>
+                                    <span class="dropdown-arrow">&#155;</span>
+                                    <div class="dropdown-sub-wrapper">
+                                        <ul class="dropdown-sub">
+                                            @foreach (Brand brand in brands)
+                                            {
+                                                if (brand.Section == Core.Enums.BrandSection.OurBrands)
+                                                {
+                                            <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="dropdown-link">@brand.Title</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="dropdown-item sub-arrow">
+                                    <a href="javascript:void(0)" class="dropdown-link">Our Finds</a>
+                                    <span class="dropdown-arrow">&#155;</span>
+                                    <div class="dropdown-sub-wrapper">
+                                        <ul class="dropdown-sub">
+                                            @foreach (Brand brand in brands)
+                                            {
+                                                if (brand.Section == Core.Enums.BrandSection.UnderOurCare)
+                                                {
+                                            <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="dropdown-link">@brand.Title</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="dropdown-item sub-arrow">
+                                    <a href="javascript:void(0)" class="dropdown-link">Co-Creations</a>
+                                    <span class="dropdown-arrow">&#155;</span>
+                                    <div class="dropdown-sub-wrapper">
+                                        <ul class="dropdown-sub">
+                                            @foreach (Brand brand in brands)
+                                            {
+                                                if (brand.Section == Core.Enums.BrandSection.JointVenture)
+                                                {
+                                            <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="dropdown-link">@brand.Title</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="dropdown-item sub-arrow">
+                                    <a href="javascript:void(0)" class="dropdown-link">Up & Coming</a>
+                                    <span class="dropdown-arrow">&#155;</span>
+                                    <div class="dropdown-sub-wrapper">
+                                        <ul class="dropdown-sub">
+                                            @foreach (Brand brand in brands)
+                                            {
+                                                if (brand.Section == Core.Enums.BrandSection.UpcomingConcepts)
+                                                {
+                                            <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="dropdown-link">@brand.Title</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "News")" class="top-nav-link">News</a></li>
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Awards")" class="top-nav-link">Awards</a></li>
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Gallery")" class="top-nav-link">Gallery</a></li>
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Inquire")" class="top-nav-link">Inquire</a></li>
+                </ul>
+                <a href="#" class="top-nav-link col-1" onclick="openSearch('90vh')"><img class="top-nav-icon" src="@Url.Content("~/Content/images/icons/Search_Gray.png")" alt="search"></a>
+            </div>
+            <div id="open-menu" class="nowrap row-padding justify-content-between hidden-md-up col-12 align-items-center">
+                <a href="#" class="mob-nav-ilink col-auto"><img src="@Url.Content("~/Content/images/icons/leftArrow.png")" alt="back"></a>
+                <div class="logo col-5">
+                    <a href="@Url.Action("Index", "Home")" class="logo-link">
+                        <img class="logo-img" src="@Url.Content("~/Content/images/logos/FoodeeLogoBlack.png")" alt="Foodee" />
+                    </a>
+                </div>
+                <a href="javascript:void(0)" class="mob-nav-ilink col-auto" onclick="openMenu()"><img src="@Url.Content("~/Content/images/icons/Menu_Black.png")" alt="menu"></a>
+            </div>
+        </header>
+        <div class="mob-nav-wrapper hidden-md-up" id="mob-nav-wrapper">
+            <div style="height:100px" class="row-padding justify-content-between align-items-center">
+                <a href="#" class="mob-nav-ilink" onclick="openSearchMob()"><img class="mob-nav-icon" src="@Url.Content("~/Content/images/icons/Search_White.png")" alt="search"></a>
+                <a href="javascript:void(0)" class="mob-nav-ilink" onclick="closeMenu()"><img src="@Url.Content("~/Content/images/icons/close.svg")" alt="menu" class="mob-nav-icon"></a>
+            </div>
+            <div class="mob-nav-links row-padding justify-content-center margin-normal">
+                <div class="logo offset-1 col-10">
+                    <a href="@Url.Action("Index", "Home")" class="logo-link">
+                        <img class="logo-img" src="@Url.Content("~/Content/images/logos/FoodeeLogoWhite.png")" alt="Foodee" />
+                    </a>
+                </div>
+                <div class="row nowrap justify-content-around social margin-normal col-10">
+                    <a href="@page.FacebookLink" class="social-link col-4"><i class="social-icon social-icon-facebook"></i></a>
+                    <a href="@page.TwitterLink" class="social-link col-4"><i class="social-icon social-icon-twitter"></i></a>
+                    <a href="@page.InstagramLink" class="social-link col-4"><i class="social-icon social-icon-instagram"></i></a>
+                </div>
+            </div>
+            <div class="mob-nav-inner align-items-center">
+                <ul class="mob-nav row mob-nav-active" id="mob-nav-main">
+                    <li class="mob-nav-item col-12">
+                        <a href="@Url.Action("Index", "AboutUs")" class="mob-nav-link">About us</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="javascript:void(0)" class="mob-nav-link" onclick="openMenu('mob-nav-brands', 'mob-nav-main')">Brands</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="@Url.Action("Index", "News")" class="mob-nav-link">News</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="@Url.Action("Index", "Awards")" class="mob-nav-link">Awards</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="@Url.Action("Index", "Galery")" class="mob-nav-link">Gallery</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="@Url.Action("Index", "Inquire")" class="mob-nav-link">Inquire</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                </ul>
+                <ul class="mob-nav row" id="mob-nav-brands">
+                    <li class="mob-nav-item col-12">
+                        <a href="@Url.Action("Index", "Brands")" class="mob-nav-link">Brands page</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="javascript:void(0)" class="mob-nav-link" onclick="openMenu('mob-nav-ourBrands', 'mob-nav-brands')">Our brands</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="javascript:void(0)" class="mob-nav-link" onclick="openMenu('mob-nav-ourCare', 'mob-nav-brands')">Our Finds</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="javascript:void(0)" class="mob-nav-link" onclick="openMenu('mob-nav-jointVenture', 'mob-nav-brands')">Co-Creations</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="javascript:void(0)" class="mob-nav-link" onclick="openMenu('mob-nav-upcoming', 'mob-nav-brands')">Up & Coming</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                </ul>
+                <ul class="mob-nav row" id="mob-nav-ourBrands">
+                    @foreach (Brand brand in brands)
+                    {
+                        if (brand.Section == Core.Enums.BrandSection.OurBrands)
+                        {
+                            <li class="mob-nav-item col-12">
+                                <a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="mob-nav-link text-clear">@brand.Title</a>
+                                <hr class="divider divider-half margin-normal" />
+                            </li>
+                        }
+                    }
+                </ul>
+                <ul class="mob-nav row" id="mob-nav-ourCare">
+                    @foreach (Brand brand in brands)
+                    {
+                        if (brand.Section == Core.Enums.BrandSection.UnderOurCare)
+                        {
+                            <li class="mob-nav-item col-12">
+                                <a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="mob-nav-link text-clear">@brand.Title</a>
+                                <hr class="divider divider-half margin-normal" />
+                            </li>
+                        }
+                    }
+                </ul>
+                <ul class="mob-nav row" id="mob-nav-jointVenture">
+                    @foreach (Brand brand in brands)
+                    {
+                        if (brand.Section == Core.Enums.BrandSection.JointVenture)
+                        {
+                            <li class="mob-nav-item col-12">
+                                <a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="mob-nav-link text-clear">@brand.Title</a>
+                                <hr class="divider divider-half margin-normal" />
+                            </li>
+                        }
+                    }
+                </ul>
+                <ul class="mob-nav row" id="mob-nav-upcoming">
+                    @foreach (Brand brand in brands)
+                    {
+                        if (brand.Section == Core.Enums.BrandSection.UpcomingConcepts)
+                        {
+                            <li class="mob-nav-item col-12">
+                                <a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="mob-nav-link text-clear">@brand.Title</a>
+                                <hr class="divider divider-half margin-normal" />
+                            </li>
+                        }
+                    }
+                </ul>
+
+            </div>
+
+        </div>
+
+        <section class="title">
+            <div class="slider">
+                @if (media != null)
+                {
+                    foreach (Media item in media)
+                    {
+                        if (item.MediaType == Core.Enums.MediaType.Image)
+                        {
+                            <div class="slider-item" style="background-image: url('@item.Url')"></div>
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(item.Link))
+                            {
+                                <div id="player@(item.Id)" class="slider-item"></div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <video class="slider-video" autoplay="autoplay">
+                                        <source src="@item.Url" type="@item.VideoType">
+                                    </video>
+                                </div>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="row justify-content-center wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.1s">
+                <div class="logo title-logo">
+                    <a href="@Url.Action("Index", "Home")" class="logo-link">
+                        <img class="logo-img" src="@Url.Content("~/Content/images/logos/FoodeeLogoWhite.png")" alt="Foodee" />
+                    </a>
+                </div>
+                <div class="row nowrap justify-content-center social margin-large col-12">
+                    <a href="@page.FacebookLink" class="social-link col-auto"><i class="social-icon social-icon-facebook"></i></a>
+                    <a href="@page.TwitterLink" class="social-link col-auto"><i class="social-icon social-icon-twitter"></i></a>
+                    <a href="@page.InstagramLink" class="social-link col-auto"><i class="social-icon social-icon-instagram"></i></a>
+                </div>
+            </div>
+        </section>
+        @if (youtubeExists)
+        {
+            <script type="text/javascript">
+
+            // 1. This code loads the IFrame Player API code asynchronously.
+            var tag = document.createElement('script');
+
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            // 2. This function creates an <iframe> (and YouTube player)
+            //    after the API code downloads.
+            var player;
+            function onYouTubeIframeAPIReady() {
+                @if (media != null)
+                {
+                    foreach (Media item in media)
+                    {
+                        if (item.MediaType == Core.Enums.MediaType.Video)
+                        {
+                            if (!string.IsNullOrEmpty(item.Link))
+                            {
+                                string videoId = item.Link.Substring(item.Link.IndexOf("v=") + 2);
+                                if (videoId.Contains("&"))
+                                {
+                                    videoId = videoId.Substring(0, videoId.IndexOf("&"));
+                                }
+                                    <text>
+                                        player@(item.Id) = new YT.Player('player@(item.Id)', {
+                                        height: '100%',
+                                        width: '100%',
+                                        playerVars: {
+                                            autoplay: true,
+                                            loop: true,
+                                            controls: 0,
+                                            showinfo: 0,
+                                            autohide: 1,
+                                            modestbranding: 1,
+                                            vq: 'default',
+                                            playlist: '@videoId'
+                                        },
+                                        videoId: '@videoId',
+                                        events: {
+                                            'onReady': onPlayerReady@(item.Id),
+                                            'onStateChange': onPlayerStateChange
+                                        }
+                                    });
+
+                                </text>
+                            }
+                        }
+                    }
+                }
+            }
+
+            @if (media != null)
+            {
+                foreach (Media item in media)
+                {
+                    if (item.MediaType == Core.Enums.MediaType.Video)
+                    {
+                        if (!string.IsNullOrEmpty(item.Link))
+                        {
+                            <text>
+                                // 3. The API will call this function when the video player is ready.
+                                function onPlayerReady@(item.Id)(event) {
+                                    event.target.playVideo();
+                                    player@(item.Id).mute();
+                                }
+                            </text>
+                        }
+                    }
+                }
+            }
+            function onPlayerStateChange(event) {
+
+            }
+
+            </script>
+        }
+        <section>
+            <div class="container">
+                <h2 class="common-heading" id="about-us-header">About us</h2>
+                <div class="row wow fadeInUp">
+                    <div class="col-6 col-md-11" data-wow-duration="2s" data-wow-delay="0.1s">
+                        <div>
+                            <img src="@Url.Content("~/Content/images/sectionHeader/DiscoverOurStory_Gold.png")" alt="">
+                        </div>
+                        <div>
+                            @Html.Raw(page.Paragraph1)
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-12 owners wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.1s">
+                        <div class="owners-photo">
+                            <img src="@Url.Content("~/Content/images/people/AllDirectors.png")" alt="Directors">
+                        </div>
+                        <div class="owners-caption">
+                            <p class="owners-names text-uppercase color-gold">Eric Thomas Dee and Rikki Dee</p>
+                            <p class="text-capitalize margin-none f13">Group COO and Group FOUNDER</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="@Url.Action("Index", "AboutUs")" class="common-button" id="learn-more-button">Learn more</a>
+            </div>
+
+        </section>
+
+        <section class="bg-grayed brands-section">
+        <div class="container">
+            <div class="wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+                <h2 class="common-heading brand-heading">Our brands</h2>
+                <div class="row align-items-center justify-content-around text-center">
+                    @foreach (Brand brand in brands)
+                {
+                    if (brand.Section == Core.Enums.BrandSection.OurBrands)
+                    {
+                            <div class="col-3 col-md-auto brand-item" style="min-width:@(brand.MaxWidth)px;"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="hover-grayscale"><img style="max-width: @(brand.MaxWidth)px;" src="@brand.LogoUrl" alt="@brand.Title"></a></div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <hr class="divider hidden-lg-up"/>
+
+            <div class="wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+                <h2 class="common-heading brand-heading">Our Finds</h2>
+                <div class="row align-items-center justify-content-around text-center">
+                    @foreach (Brand brand in brands)
+                {
+                    if (brand.Section == Core.Enums.BrandSection.UnderOurCare)
+                    {
+                            <div class="col-3 col-md-auto brand-item" style="min-width:@(brand.MaxWidth)px;"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="hover-grayscale"><img style="max-width: @(brand.MaxWidth)px;" src="@brand.LogoUrl" alt="@brand.Title"></a></div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <hr class="divider hidden-lg-up"/>
+
+            <div class="wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+                <h2 class="common-heading brand-heading">Co-Creations</h2>
+                <div class="row align-items-center justify-content-around text-center">
+                    @foreach (Brand brand in brands)
+                {
+                    if (brand.Section == Core.Enums.BrandSection.JointVenture)
+                    {
+                            <div class="col-3 col-md-auto brand-item" style="min-width:@(brand.MaxWidth)px;"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="hover-grayscale"><img style="max-width: @(brand.MaxWidth)px;" src="@brand.LogoUrl" alt="@brand.Title"></a></div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <hr class="divider hidden-lg-up"/>
+
+            <div class="wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+                <h2 class="common-heading brand-heading">Up & Coming</h2>
+                <div class="row align-items-center justify-content-around text-center">
+                    @foreach (Brand brand in brands)
+                {
+                    if (brand.Section == Core.Enums.BrandSection.UpcomingConcepts)
+                    {
+                            <div class="col-3 col-md-auto brand-item" style="min-width:@(brand.MaxWidth)px;"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@(string.IsNullOrEmpty(brand.RedirectLink) ? Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-") }) : brand.RedirectLink)" class="hover-grayscale"><img style="max-width: @(brand.MaxWidth)px;" src="@brand.LogoUrl" alt="@brand.Title"></a></div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+        <section>
+            <div class="container">
+                <h2 class="common-heading wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.1s" id="news-header">News</h2>
+                <div class="row justify-content-between">
+                    @if (news != null)
+                {
+                    if (news.Count == 1)
+                    {
+                            <a href="@Url.Action("Details", "News", new { id = news[0].Id })" class="news-item col-12">
+                                <div class="news-image wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.1s" style="background-image: url('@news[0].BackgroundImageUrl')"></div>
+                                <div data-wow-duration="2s" data-wow-delay="0.1s" class="news-item-inner wow fadeInUp">
+                                    <h2 class="news-item-header">@news[0].Title</h2>
+                                    <h4 class="news-item-date">@news[0].PublishDate.ToString("MMMM d, yyyy")</h4>
+                                    @*<p>
+                @news[0].ShortText
+            </p>*@
+                                </div>
+                            </a>
+                        }
+                        else
+                        {
+                            int i = 1;
+                            while (i < news.Count)
+                            {
+                                if (news[i - 1].IsFeatured)
+                                {
+                                    <a href="@Url.Action("Details", "News", new { id = news[i - 1].Id })" class="news-item col-12">
+                                        <div class="wow fadeInUp news-image" data-wow-duration="2s" data-wow-delay="0.1s" style="background-image: url('@news[i - 1].BackgroundImageUrl')"></div>
+                                        <div class="wow fadeInUp news-item-inner" data-wow-duration="2s" data-wow-delay="0.1s">
+                                            <h2 class="news-item-header">@news[i - 1].Title</h2>
+                                            <h4 class="news-item-date">@news[i - 1].PublishDate.ToString("MMMM d, yyyy")</h4>
+                                            @*<p>
+                                                    @news[i - 1].ShortText
+                                                </p>*@
+                                        </div>
+                                    </a>
+
+                                    if (i == (news.Count - 1))
+                                    {
+                                        <a href="@Url.Action("Details", "News", new { id = news[i].Id })" class="news-item col-12">
+                                            <div class="news-image wow fadeInUp" style="background-image: url('@news[i].BackgroundImageUrl')" data-wow-duration="2s" data-wow-delay="0.1s"></div>
+                                            <div class="news-item-inner" wow fadeInUp data-wow-duration="2s" data-wow-delay="0.1s">
+                                                <h2 class="news-item-header">@news[i].Title</h2>
+                                                <h4 class="news-item-date">@news[i].PublishDate.ToString("MMMM d, yyyy")</h4>
+                                                @*<p>
+                                                        @news[i].ShortText
+                                                    </p>*@
+                                            </div>
+                                        </a>
+                                    }
+                                    i++;
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Details", "News", new { id = news[i - 1].Id })" class="news-item @(news[i].IsFeatured ? "col-12" : "news-half")">
+                                        <div class="news-image wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.1s" style="background-image: url('@news[i - 1].BackgroundImageUrl')"></div>
+                                        <div data-wow-duration="2s" data-wow-delay="0.1s" class="news-item-inner wow fadeInUp">
+                                            <h2 class="news-item-header">@news[i - 1].Title</h2>
+                                            <h4 class="news-item-date">@news[i - 1].PublishDate.ToString("MMMM d, yyyy")</h4>
+                                            @*<p>
+                                                    @news[i - 1].ShortText
+                                                </p>*@
+                                        </div>
+                                    </a>
+                                    <a href="@Url.Action("Details", "News", new { id = news[i].Id })" class="news-item @(news[i].IsFeatured ? "col-12" : "news-half")">
+                                        <div class="news-image wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.1s" style="background-image: url('@news[i].BackgroundImageUrl')"></div>
+                                        <div data-wow-duration="2s" data-wow-delay="0.1s" class="news-item-inner wow fadeInUp">
+                                            <h2 class="news-item-header">@news[i].Title</h2>
+                                            <h4 class="news-item-date">@news[i].PublishDate.ToString("MMMM d, yyyy")</h4>
+                                            @*<p>
+                                                    @news[i].ShortText
+                                                </p>*@
+                                        </div>
+                                    </a>
+
+                                    if ((i + 2) < news.Count)
+                                    {
+                                        i += 2;
+                                    }
+                                    else
+                                    {
+                                        if ((i + 1) == (news.Count - 1))
+                                        {
+                                            <a href="@Url.Action("Details", "News", new { id = news[i + 1].Id })" class="news-item col-12">
+                                                <div data-wow-duration="2s" data-wow-delay="0.1s" class="news-image wow fadeInUp" style="background-image: url('@news[i + 1].BackgroundImageUrl')"></div>
+                                                <div data-wow-duration="2s" data-wow-delay="0.1s" class="news-item-inner wow fadeInUp">
+                                                    <h2 class="news-item-header">@news[i + 1].Title</h2>
+                                                    <h4 class="news-item-date">@news[i + 1].PublishDate.ToString("MMMM d, yyyy")</h4>
+                                                    @*<p>
+                                                            @news[i + 1].ShortText
+                                                        </p>*@
+                                                </div>
+                                            </a>
+
+                                            i += 2;
+                                        }
+                                        else
+                                        {
+                                            if ((i + 1) == news.Count)
+                                            {
+                                                i++;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                </div>
+                <a href="@Url.Action("Index", "News")" class="common-button" id="read-more-button">Read more</a>
+            </div>
+        </section>
+        <section class="bg-grayed awards-section">
+            <div class="container">
+                <h2 class="common-heading" id="awards-header">Awards</h2>
+                <div class="awards">
+                    @{ 
+                        int j = 0;
+                    }
+                    @foreach (Award award in awards)
+                    {
+                        <div class="award-wrapper">
+                            <div class="award wow fadeInUp" data-wow-duration="2s" data-wow-delay="@(j < 3 ? "0.1s" : "0.3s")">
+                                <div class="award-crown">
+                                    <img src="@award.ImageUrl" alt="" class="award-img">
+                                </div>
+                                <div class="award-desc">
+                                    <h3 class="award-title">@award.Title</h3>
+                                    <h3 class="award-company">@award.Paragraph</h3>
+                                </div>
+                            </div>
+                        </div>
+                        j++;
+                    }
+                </div>
+                <p class="text-center">... and that's not all.</p>
+                <a href="@Url.Action("Index", "Awards")" class="common-button" id="view-more-button">View more</a>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="common-heading" id="gallery-header">Gallery</h2>
+            <div id="gallery-grid" class="grid margin-normal">
+                @foreach (Instagram photo in feed)
+                {
+                    if (!photo.IsVideo)
+                    {
+                        <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                            <a class="paint-link" href="@photo.Link" target="_blank">
+                                <img src="@Url.Content(photo.Link +"media/?size=m")" alt="" class="paint-img" style="max-width: 200px !important; max-height: 200px !important;">
+                                <div class="paint-info row align-content-end">
+                                    <h4 class="middle-header col-12">@photo.Caption</h4>
+                                    <p class="paint-text col-auto">
+                                        @Html.Raw(photo.Text)
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                            <a class="paint-link" href="@photo.Link" target="_blank">
+                                <img src="@photo.ImgLink" alt="" class="paint-img">
+                                <div class="paint-video row align-content-center align-items-center justify-content-center">
+                                    <img src="@Url.Content("~/Content/images/icons/VidPlay.png")" alt="" class="col-4">
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+                @*<div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-info row align-content-end">
+                            <h4 class="middle-header col-12">Res name</h4>
+                            <p class="paint-text col-auto">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                                consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                                praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-video row align-content-center align-items-center justify-content-center">
+                            <img src="@Url.Content("~/Content/images/icons/VidPlay.png")" alt="" class="col-4">
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-info row align-content-end">
+                            <h4 class="middle-header col-12">Res name</h4>
+                            <p class="paint-text col-auto">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                                consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                                praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-info row align-content-end">
+                            <h4 class="middle-header col-12">Res name</h4>
+                            <p class="paint-text col-auto">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                                consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                                praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-info row align-content-end">
+                            <h4 class="middle-header col-12">Res name</h4>
+                            <p class="paint-text col-auto">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                                consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                                praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-info row align-content-end">
+                            <h4 class="middle-header col-12">Res name</h4>
+                            <p class="paint-text col-auto">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                                consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                                praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-video row align-content-center align-items-center justify-content-center">
+                            <img src="@Url.Content("~/Content/images/icons/VidPlay.png")" alt="" class="col-4">
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-info row align-content-end">
+                            <h4 class="middle-header col-12">Res name</h4>
+                            <p class="paint-text col-auto">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                                consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                                praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-info row align-content-end">
+                            <h4 class="middle-header col-12">Res name</h4>
+                            <p class="paint-text col-auto">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                                consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                                praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-info row align-content-end">
+                            <h4 class="middle-header col-12">Res name</h4>
+                            <p class="paint-text col-auto">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                                consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                                praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-info row align-content-end">
+                            <h4 class="middle-header col-12">Res name</h4>
+                            <p class="paint-text col-auto">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                                consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                                praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-video row align-content-center align-items-center justify-content-center">
+                            <img src="@Url.Content("~/Content/images/icons/VidPlay.png")" alt="" class="col-4">
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-info row align-content-end">
+                            <h4 class="middle-header col-12">Res name</h4>
+                            <p class="paint-text col-auto">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                                consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                                praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-info row align-content-end">
+                            <h4 class="middle-header col-12">Res name</h4>
+                            <p class="paint-text col-auto">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                                consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                                praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="grid-item grid-item-20 grid-item-md-33 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+                    <a class="paint-link" href="#">
+                        <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                        <div class="paint-info row align-content-end">
+                            <h4 class="middle-header col-12">Res name</h4>
+                            <p class="paint-text col-auto">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                                consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                                praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                            </p>
+                        </div>
+                    </a>
+                </div>*@
+            </div>
+        </section>
+        <footer>
+            <a href="javascript:void(0)" class="to-top"><img class="to-top-img" src="@Url.Content("~/Content/images/icons/TopButton.png")" alt="Go Top"></a>
+            <div class="row align-items-center" style="position: relative; overflow: hidden;">
+                <div class="col-6 col-md-12">
+                    <div class="contact">
+                        <h3 class="contact-heading">Main office address</h3>
+                        <p class="contact-text">@footer.Paragraph1</p>
+                    </div>
+                    <div class="contact">
+                        <h3 class="contact-heading">Connect with us</h3>
+                        <a href="mailto:@footer.Email1" class="contact-link">@footer.Email1</a>
+                        <p class="contact-text">(02) 633 0733 / (02) 631 0070</p>
+                    </div>
+                    <div class="row margin-normal align-items-center">
+                        <div class="row nowrap justify-content-around social-light col-auto">
+                            <a href="@footer.FacebookLink" class="social-light-link col-auto"><i class="social-light-icon social-light-icon-facebook"></i></a>
+                            <a href="@footer.TwitterLink" class="social-light-link col-auto"><i class="social-light-icon social-light-icon-twitter"></i></a>
+                            <a href="@footer.InstagramLink" class="social-light-link col-auto"><i class="social-light-icon social-light-icon-instagram"></i></a>
+                        </div>
+                       <!-- <a href="@footer.WebsiteLink" class="to-internal col-auto">Visit our international website</a> -->
+                    </div>
+                </div>
+                <hr class="divider divider-vertical footer-divider hidden-sm-down" />
+                <hr class="divider divider-half hidden-md-up margin-large" />
+                <div class="logo footer-logo col-6 offset-md-2 col-md-8">
+                    <a href="@Url.Action("Index", "Home")" class="logo-link">
+                        <img class="logo-img" src="@Url.Content("~/Content/images/logos/FoodeeLogoGray.png")" alt="Foodee" />
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-legal">
+                <div class="privacy"><a id="privacy-button">Privacy Policy</a></div>
+                <div class="copyright">&copy; 2017 All Rights Reserved.</div>
+            </div>
+        </footer>
+
+        <div id="openModal" class="modalDialog" style="opacity:0; pointer-events: none; display:none;">
+            <div>
+                <a title="Close" class="close">X</a>
+                <h2 style="text-align:center;">Privacy Policy</h2>
+                <b>Foodee Global Concepts</b> shares your concerns regarding the privacy of personal information collected on the Internet. Please read this information to learn more about <b>Foodee Global Concepts</b>' Privacy Policy. This Policy discloses the information gathering and dissemination practices of Foodee Global Concepts in connection with its website (www.foodeeglobal.ph). <b>Foodee Global Concepts</b> continuously strives to gain your trust by selling only the highest quality foods and products, and we want to keep your trust. To build on this relationship with you, <b>Foodee Global Concepts</b>  wants you to understand how our website interacts with visitors and how we may use information gathered when you visit our website.
+                By accessing this website, you consent to the terms of this Privacy Policy. If you do not agree to the terms of the Privacy Policy, you are not authorized to use this website. If you feel that <b>Foodee Global Concepts</b> is not abiding by its posted Privacy Policy, you should contact Foodee Global Conceptsusing our contact form.
+                
+                <h4>Information Collection and Use and Types of Information Gathered</h4>
+                <b>Foodee Global Concepts</b> may gather the following types of information: information given voluntarily while using a feature of this  website, for example, while joining our fan club; information gathered as a result of voluntary communication with our webmaster or customer service associates, or when completing an online application; and information gathered automatically when visitors visit our website.
+                <b>Foodee Global Concepts</b> is the owner of the information collected on this website. We will not sell, share, or rent this information to others in ways different from what is disclosed in this Policy. <b>Foodee Global Concepts</b> collects information from our users at several different points on our website. We may use your information to facilitate the services we provide you in the sale and distribution of products and services that you request. We may use information in a file we maintain about you, and other information we obtain from your current and past activities on the Website, to troubleshoot problems and enforce our Terms &amp; Conditions. At times, we may look across multiple users to identify problems. You agree that we may use personally identifiable information about you to improve our marketing and promotional efforts, to analyze Website usage, improve our content and product offerings, solve technical problems and customize our Website's content, layout, and services. These uses improve our Website and better tailor the Website to meet your needs.
+
+                <h4>Registration and User ID and Password</h4>
+                <b>Foodee Global Concepts</b> may launch electronic advertisements and similar products in the future. If you choose to receive such a publication, you will be asked for certain information so we can customize the advertisement to suit your needs and interests. Upon registering for the ad, you will be asked for your name, email address, zip code, and other information specified in the enrollment process. The more of this information you choose to share with us, the better we can compile an ad specifically for you. If you choose not to share information with us, the ad may simply be more generic. Providing us with this type of information is voluntary, and you may change supplied information or unsubscribe at any time from any portion or all of <b>Foodee Global Concepts</b> line services.
+                <b>Foodee Global Concepts</b> may launch other applications and services for which you may need a Username and Password. You are responsible for all actions taken with your Username and Password, including fees or expenses related to its misuse. Therefore, we do not recommend that you disclose your <b>Foodee Global Concepts</b> Username or Password. If you choose to share your Username and Password or other information with someone, you are responsible for all actions taken with your Username and Password. If you lose control of your Password, you may lose substantial control over your personally identifiable information and may be subject to legally binding actions taken on your behalf. Therefore, if your Password has been compromised, you should immediately change your Password and notify us using our contact form.
+
+                <h4>Cookies</h4>
+                A “cookie” is a piece of data stored on the user's hard drive containing information about the user. Usage of a cookie is in no way linked to any personally identifiable information while on our website. Once the user closes their browser, the cookie simply terminates. For instance, by setting a cookie on our website, the user would not have to log in with a password more than once, thereby saving time while on our website as well as having the ability to take advantage of all of the features of our website. You are always free to decline our cookies if your browser permits, although in that case you may not be able to use certain features on our website.<b> Mesa Philippines</b> will only use this type of data in an aggregate form which does not identify you personally.
+
+                <h4>Log Files</h4>
+                We also collect non-personally identifiable information though our Internet log files, which record data such as IP addresses, browser types, domain names, and other anonymous statistical data involving the use of the website. This information may be used to analyze trends, to administer the website, to monitor the page website's use, and to gather general demographic information. We may link this information to personally identifiable information for these and other purposes such as personalizing your experience on the Website and evaluating our Internet systems.
+                <h4>Links</h4>
+                This Website may contain links to other sites. Please be aware that <b>Foodee Global Concepts</b> is not responsible for the privacy practices of such other sites. We encourage our users to be aware when they leave our page website and to read the privacy policies of each and every site that collects personally identifiable information. This Privacy Policy applies solely to information collected by this website.
+
+                <h4>Security</h4>
+                <b>Foodee Global Concepts</b> has attempted to take every precaution to protect our users’ information. When one of our forms asks users to enter sensitive information, that information is encrypted. While we use encryption to protect most sensitive information online, we also seek to protect user information offline. All of our users’ information, not just the sensitive information mentioned above, is restricted in our offices. Except as otherwise stated in this Policy, only employees who need the information to perform a specific job (for example, a Human Resources Team Member or a Customer Service Associate) are granted access to personally identifiable information. If you have any questions about the security at our website, send us a comment using our contact form.
+
+                <h4>Correction/Updating Personal Information</h4>
+                If a user’s personally identifiable information changes (such as your address), or if a user no longer desires our service, <b>Foodee Global Concepts</b> will endeavor to provide a way to correct, update, or remove that user’s personal data provided to us. This can usually be done through our contact form.
+                Our users are given the facility to “opt-out” of having their information used for purposes not directly related to our Website at the point where we ask for the information. For example, our order form has an ’opt-out’ option so users who buy a product from us, but don’t want any marketing material, can keep their email address off of our lists.
+                <h4>Notification of Changes</h4>
+                If we decide to modify our Privacy Policy, we will post those modifications on our Website so our users are always aware of what information we collect and how we use it. Your use of this Website following any such modification constitutes your agreement to the modified Policy. For this reason, we encourage you to review this Privacy Policy whenever you use this Website. 
+                <h4>Comments and Questions</h4>
+                <b>Foodee Global Concepts</b> is always interested in what our customers have to say. If you have any questions or concerns, please contact us.
+            </div>
+        </div>
+
+
+        <!-- Client Scripts -->
+
+        <script src="@Url.Content("~/Content/js/jQuery/jquery.min.js")"></script>
+        <script src="@Url.Content("~/Content/js/jQuery.scrollSpeed.js")"></script>
+        <script src="@Url.Content("~/Content/js/slick-1.6.0/slick.min.js")"></script>
+        <script src="@Url.Content("~/Content/js/Isotope/isotope.pkgd.min.js")"></script>
+        <script src="@Url.Content("~/Content/js/parallax/parallax.min.js")"></script>
+        <script src="@Url.Content("~/Content/js/imagesloaded.pkgd.min.js")"></script>
+
+        <script src="@Url.Content("~/Content/js/wow/dist/wow.min.js")"></script>
+        <script>
+            var wow = new WOW
+            ({
+                boxClass:     'wow',      // animated element css class (default is wow)
+                animateClass: 'animated', // animation css class (default is animated)
+                offset:       0,          // distance to the element when triggering the animation (default is 0)
+                mobile:       true,       // trigger animations on mobile devices (default is true)
+                live:         true,       // act on asynchronously loaded content (default is true)
+                callback:     function(box)
+                {
+                    // the callback is fired every time an animation is started
+                    // the argument that is passed in is the DOM node being animated
+                },
+                scrollContainer: null // optional scroll container selector, otherwise use window
+            });
+            wow.init();
+        </script>
+
+        <script src="@Url.Content("~/Content/js/main.js")"></script>
+
+        <script>
+            window.addEventListener('DOMContentLoaded', function()
+            {
+                $(".preloader")
+                    .fadeOut(100)
+                    .delay(50, function()
+                    {
+                        $(this).remove();
+                    });
+           });
+
+            function showMenu()
+            {
+                $("#hidden-header").css("height", "100px");
+            }
+
+            function hideMenu()
+            {
+                $("#hidden-header").css("height", "0");
+            }
+
+            var headerShown = true;
+
+            $(window).on("scroll", function ()
+            {
+                var header = $(".main-page-header");
+                if ($(window).scrollTop() > (header.offset().top + header.height()))
+                {
+                    if (headerShown)
+                    {
+                        showMenu();
+                        headerShown = false;
+                    }
+                }
+                else
+                {
+                    if (!headerShown)
+                    {
+                        hideMenu();
+                        headerShown = true;
+                    }
+                }
+            });
+
+            function ShowDetail(obj,obj1)
+            {
+                var firstname = obj;
+                var username = obj1;
+                document.cookie = "brandId=" + obj;
+            }
+            
+            @*jQuery.scrollSpeed(100, 800);*@
+            
+        </script>
+
+        @*<script>
+            AOS.init({
+                disable: 'mobile'
+            });
+        </script>*@
+    </body>
+</html>

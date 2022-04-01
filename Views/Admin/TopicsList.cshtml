@@ -1,0 +1,55 @@
+﻿@using Core.Entities;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.title = "Topics List";
+
+    List<Topic> topics = ViewBag.topics;
+}
+
+    <div class="card">
+        <div class="card-content">
+            <h3 class="card-title">Topics List</h3>
+            <a href="@Url.Action("AddTopic", "Admin", new { })" class="btn btn-primary">Add Topic</a>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="text-primary">
+                        <tr>
+                            <th>Name</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (topics != null)
+                        {
+                            foreach (Topic topic in topics)
+                            {
+                                <tr>
+                                    <td class="name">@topic.Name</td>
+                                    <td>
+                                        <a href="@Url.Action("UpdateTopic", new {id = topic.Id})" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-danger del" data-id="@topic.Id"><span class="glyphicon glyphicon-remove "></span> Delete</a>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("NewsList", "Admin", new { topicId = topic.Id })" class="btn btn-default">News List</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+        @Html.Partial("~/Views/Partials/_DeleteModal.cshtml")
+        <script type="text/javascript">
+    $(document).ready(function () {
+        initDeleteModal("Are you sure you want to delete the topic?", "<span>Deleting topic: <b>", "</b>.</span>", "@Url.Action("DeleteTopic", "Admin")", true);
+    });
+        </script>

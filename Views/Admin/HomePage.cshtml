@@ -1,0 +1,220 @@
+﻿@using Core.Entities;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.title = "Home Page";
+
+    Core.Entities.Page page = ViewBag.page;
+    List<Media> media = ViewBag.media;
+}
+
+ 
+        <h4>Edit Home Page</h4>
+        <form action="@Url.Action("SaveHomePage", "Admin")" method="post">
+            <input type="hidden" name="Id" value="@page.Id" />
+            <div class="form-group row">
+                <label for="about-us-paragraph" class="col-2 col-form-label">About Us Paragraph</label>
+                <div class="col-10">
+                    <textarea required class="form-control" name="Paragraph1" id="about-us-paragraph">@page.Paragraph1</textarea>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Facebook Link</h4>
+                    <div class="form-group">
+                        <input required class="form-control" name="FacebookLink" id="facebook-link" placeholder="http://www.example.com" value="@page.FacebookLink" />
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Twitter Link</h4>
+                    <div class="form-group">
+                        <input required class="form-control" name="TwitterLink" id="twitter-link" placeholder="http://www.example.com" value="@page.TwitterLink" />
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Instagram Link</h4>
+                    <div class="form-group">
+                        <input required class="form-control" name="InstagramLink" id="instagram-link" placeholder="http://www.example.com" value="@page.InstagramLink" />
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Website Link</h4>
+                    <div class="form-group">
+                        <input required class="form-control" name="WebsiteLink" id="website-link" placeholder="http://www.example.com" value="@page.WebsiteLink" />
+                        <span class="material-input"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <label>Slider Media</label>
+                    <div id="slider-grid" class="grid" style="overflow-y:scroll">
+                        @foreach (Media item in page.SliderMedia)
+                        {
+                            if (item.MediaType == Core.Enums.MediaType.Image)
+                            {
+                                <div class="text-center updateable grid-item">
+                                    <img class="card-display" src="@item.Url?w=100&h=100&mode=crop" />
+                                    <input type="hidden" value="@item.Id" class="media-id-input" name="SliderMediaIds" />
+                                </div>
+                            }
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(item.Link))
+                                {
+                                    <div class="text-center updateable grid-item">
+                                        <img class="card-display" src="@item.VideoThumbnail?w=100&h=100&mode=crop" />
+                                        <img src="@Url.Content("~/Content/images/icons/YouTube-icon-full_color.png")?w=35&h=35&mode=crop" class="play-icon" />
+                                        <input type="hidden" class="media-id-input" value="@item.Id" name="SliderMediaIds" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-center updateable grid-item">
+                                        <video class="card-display" width="100%" height="100%">
+                                            <source src="@item.Url" type="@item.VideoType">
+                                            <!--<source src="images/1v.ogg" type="video/ogg">-->
+                                            Your browser does not support the video tag.
+                                        </video>
+                                        <input type="hidden" class="media-id-input" value="@item.Id" name="SliderMediaIds" />
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                    <div class="card-footer clearfix">
+                        <div class="btn-group pull-right">
+                            <a href="javascript:void(0)" class="btn btn-primary" id="remove-from-slider">Remove</a>
+                            <a href="javascript:void(0)" class="btn btn-primary" data-target="#choose-media-modal" data-toggle="modal">Add</a>
+                        </div>
+                    </div>  
+                
+                    </div>
+                </div>
+
+            <div class="clearfix">
+                <div class="btn-group pull-right">
+                    <a href="@Url.Action("Index", "Admin")" class="btn btn-default">Cancel</a>
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                </div>
+            </div>
+          
+        </form>
+
+<div id="choose-media-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Choose media</h4>
+            </div>
+            <div class="modal-body">
+ 
+                <div class="grid" style="overflow-y:scroll" id="add-slider-modal">
+                    @foreach (Media item in media)
+                    {
+                        bool found = false;
+                        foreach (Media usedItem in page.SliderMedia)
+                        {
+                            if (usedItem.Id == item.Id)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (item.MediaType == Core.Enums.MediaType.Image)
+                        {
+                            <div class="text-center updateable grid-item" data-id="@item.Id" style="display:@(found ? "none" : "block");">
+                                <img class="card-display" src="@item.Url" />
+                            </div>
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(item.Link))
+                            {
+                                <div class="text-center updateable grid-item" data-id="@item.Id" style="display:@(found ? "none" : "block");">
+                                    <img class="card-display" src="@item.VideoThumbnail?w=100&h=100&mode=crop"/>
+                                    <img src="@Url.Content("~/Content/images/icons/YouTube-icon-full_color.png")?w=35&h=35&mode=crop" class="play-icon" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="text-center updateable grid-item" data-id="@item.Id" style="display:@(found ? "none" : "block");">
+                                    <video class="card-display" width="100%">
+                                        <source src="@item.Url" type="@item.VideoType">
+                                        <!--<source src="images/1v.ogg" type="video/ogg">-->
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            }
+                        }
+                    }
+
+                </div>
+                  
+                    <div class="row" style="padding-left:10px;">
+                        <button href="#" class="btn btn-primary col-2 right" id="remove-from-server">Remove</button>
+                        <label class="btn btn-primary btn-file text-center w-100">
+                            Upload Photo <input type="file" style="display:none;" id="photo" hidden="" name="photo">
+                        </label>
+                        <label class="btn btn-primary btn-file text-center w-100">
+                            Upload Video <input type="file" style="display:none;" id="video" hidden="" name="video">
+                        </label>
+                        <button id="video-by-link" data-toggle="modal" class="btn btn-primary" data-target="#add-video-url-modal" >Add Video By Url</button>
+                        <button id="add-to-slider"  class="btn btn-primary">Add to slider</button>
+                    </div>
+      
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="add-video-url-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add video</h4>
+            </div>
+            <div class="modal-body">
+                <label for="video-url">Enter url:</label>
+                <input type="text" id="video-url" class="form-control" />
+                <button id="video-url-btn" class="btn btn-primary" style="margin-top:10px;">Add</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="@Url.Content("~/Content/js/isotope/dist/isotope.pkgd.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/imagesloaded.pkgd.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/adminHomePage.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/js/ckeditor/ckeditor.js")"></script>
+<script>
+    $(document).ready(function () {
+        init("@Url.Action("Delete", "Image")", "@Url.Action("SoloUpload", "Image", new { addToBase = true })",
+            "@Url.Action("SoloUpload", "Image", new { mediaType = Core.Enums.MediaType.Video })",
+            "@Url.Action("AddVideoByURL", "Image")", "@Url.Content("~/Content/images/icons/YouTube-icon-full_color.png")?w=35&h=35&mode=crop");
+
+        CKEDITOR.replace("about-us-paragraph");
+    });
+</script>

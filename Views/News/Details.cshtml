@@ -1,0 +1,80 @@
+﻿@using Core.Entities;
+@{
+    News news = ViewBag.news;
+    ViewBag.Title = news.Title;
+    News prevNews = ViewBag.prevNews;
+    News nextNews = ViewBag.nextNews;
+    List<Topic> topics = ViewBag.topics;
+    Core.Entities.Page footer = ViewBag.footer;
+}
+
+<section class="common-title shorter-title news-item" @*style="background-image: url('@news.BackgroundImageUrl')"*@ data-image-src="@news.BackgroundImageUrl" data-parallax="scroll" data-bleed="10">
+    <div class="color-white news-item-inner full-height wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+        <h2 onclick="OpenNews()" style="cursor:pointer" id="hddtitle" class="news-item-header">@news.Title</h2>
+        <h4 class="news-item-date">@news.PublishDate.ToString("MMMM d, yyyy")</h4>
+    </div>
+</section>
+
+<section class="margin-top-xlarge wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+    <div class="container">
+        
+        <div class="news-article row">
+            <main class="news-article-content col-8 col-md-10">
+                <div class="news-article-text margin-large wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">@Html.Raw(news.Text)</div>
+                <div class="row justify-content-between margin-large wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                    <a href="@(prevNews != null ? Url.Action("Details", "News", new { id = prevNews.Id }) : "javascript: void(0)")" class="news-article-link @(prevNews != null ? "col-auto" : "disabled  col-auto")">&lt; Previous<span class="hidden-md-down"> article</span></a>
+                    <a href="@(nextNews != null ? Url.Action("Details", "News", new { id = nextNews.Id }) : "javascript: void(0)")" class="news-article-link @(nextNews != null ? "col-auto" : "disabled  col-auto")">Next<span class="hidden-md-down"> article</span> &gt;</a>
+                </div>
+            </main>
+            <aside class="news-article-topics offset-1 col-2 offset-md-0 col-md-12">
+                <div class="margin-xlarge wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                    <h4 class="text-uppercase topic-center-md">Follow us</h4>
+                    <div class="row nowrap margin-normal branch-social topic-center-md">
+                        <a href="@footer.FacebookLink" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-facebook"></i></a>
+                        <a href="@footer.TwitterLink" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-twitter"></i></a>
+                        <a href="@footer.InstagramLink" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-instagram"></i></a>
+                        <a href="@footer.WebsiteLink" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-website"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-uppercase topic-center-md wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">Topics</h4>
+                    <ul class="margin-xlarge wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                        @foreach (Topic topic in topics)
+                        {
+                            <li class="margin-normal"><a href="@Url.Action("Index", "News", new { topicId = topic.Id })" class="topics-link">@topic.Name</a></li>
+                        }
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+    <input id="hddlink" type="hidden" value="@news.Newslink" />
+</section>
+
+<script>
+    $(document).ready(function () {
+        var lnk = $("#hddlink").val();
+
+        if (lnk != '') {
+            $(".news-article-text").find("img").each(function (index) {
+                
+               
+                $(this).width('100%');
+$(this).height('100%');
+
+                $(this).attr('onclick', 'OpenNews()');
+
+                $(this).css('cursor', 'pointer');
+            });
+        }
+    });
+    function OpenNews(){
+        var lnk = $("#hddlink").val();
+
+        if (lnk != '') {
+
+            window.open(lnk,'_blank' // <- This is what makes it open in a new window.
+);
+        }
+    }
+</script>

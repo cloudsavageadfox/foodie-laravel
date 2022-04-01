@@ -1,0 +1,64 @@
+﻿@using System.Configuration;
+@using Core.Entities;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.title = "Edit Award";
+
+    Award award = ViewBag.award;
+}
+
+    <h3>Edit  Award</h3>
+    <form action="@Url.Action("UpdateAward", "Admin")" method="post">
+        <input type="hidden" name="Id" value="@award.Id" />
+       
+        <div class="card">
+            <div class="card-content">
+                <h4 class="card-title">Title</h4>
+                <div class="form-group">
+                    <input required type="text" class="form-control" id="title" name="Title"  value="@award.Title"/>
+                    <span class="material-input"></span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <h4 class="card-title">Paragraph</h4>
+                <div class="form-group">
+                    <textarea required class="form-control" name="Paragraph" id="paragraph">@award.Paragraph</textarea>
+                    <span class="material-input"></span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <h4 class="card-title">Image</h4>
+                <div class="form-group">
+                    <input type="file" id="image" />
+                    <span class="material-input"></span>
+                </div>
+                <input type="hidden" name="Image" value="@(!string.IsNullOrEmpty(award.Image) ? award.Image : "")" />
+                <input type="hidden" name="ImageOriginalName" value="@(!string.IsNullOrEmpty(award.ImageOriginalName) ? award.ImageOriginalName : "")" />
+                <div id="image-img">
+                    @if (!string.IsNullOrEmpty(award.Image))
+                    {
+                        <img src="@(award.ImageUrl)" />
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <div class="btn-group pull-right">
+                <a href="@Url.Action("AwardsList", "Admin")" class="btn btn-default">Cancel</a>
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </div>
+        </div>
+    </form>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        setFileUploader("#image", "@Url.Action("SoloUpload", "Image")", "Image", "ImageOriginalName", "#image-img", false);
+    });
+</script>

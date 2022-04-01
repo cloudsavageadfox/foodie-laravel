@@ -1,0 +1,65 @@
+﻿@{ 
+    int currentPage = ViewBag.currentPage;
+    int finalPage = ViewBag.finalPage;
+    string url = ViewBag.paginationUrl;
+    int startLeft = currentPage - 2;
+    if (startLeft < 2)
+    {
+        startLeft = 2;
+    }
+    int lastRight = currentPage + 2;
+    if (lastRight > (finalPage - 1))
+    {
+        lastRight = finalPage - 1;
+    }
+    bool addedDummy = false;
+}
+
+<ul class="pagination">
+    <li 
+       @if (currentPage == 1)
+       {
+           <text>
+                class="active"
+           </text>
+       }
+       ><a href="@(url)&page=1">1</a></li>
+
+    @for (int i = 2; i < finalPage; i++)
+    {
+        if (i >= startLeft && i <= lastRight)
+        {
+            <li
+                @if (currentPage == i)
+                {
+                    <text>
+                        class="active"
+                    </text>
+                }
+                ><a href="@(url)&page=@(i)">@i</a></li>
+
+            addedDummy = false;
+        }
+        else
+        {
+            if (!addedDummy)
+            {
+                <li class="disabled"><a href="#">...</a></li>
+
+                addedDummy = true;
+            }
+        }
+    }
+
+    @if (finalPage > 1)
+    {
+    <li
+        @if (currentPage == finalPage)
+        {
+            <text>
+                class="active"
+            </text>
+        }
+        ><a href="@(url)&page=@(finalPage)">@finalPage</a></li>
+    }
+</ul>

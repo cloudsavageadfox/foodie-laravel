@@ -1,0 +1,105 @@
+﻿@using System.Configuration;
+@using Core.Entities;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.title = "Add News";
+
+    List<Topic> topics = ViewBag.topics;
+    long topicId = ViewBag.topicId;
+}
+
+
+    <h3>Add News</h3>
+    <form action="@Url.Action("AddNews", "Admin")" method="post">
+        <div class="card">
+            <div class="card-content">
+                <h4 class="card-title">Topic</h4>
+
+                <select required class="selectpicker" multiple name="TopicsIds" id="topic-id" multiple>
+                    @for (int i = 0; i < topics.Count; i++)
+                    {
+                        <option value="@topics[i].Id" @(i == 0 && topicId == 0 || topics[i].Id == topicId ? "selected" : "")>@topics[i].Name</option>
+                    }
+                </select>
+            </div>
+            </div>
+        <div class="card">
+            <div class="card-content">
+                <h4 class="card-title">Title</h4>
+                <div class="form-group">
+                    <input required type="text" class="form-control" name="Title" id="title" />
+                    <span class="material-input"></span>
+                </div>
+            </div>
+        </div>
+		            <div class="form-group row">
+                <label for="title" class="col-2 col-form-label">Publish Date</label>
+                <div class="col-10">
+                    <input required type="text" class="form-control" name="PublishDate" id="publish-date" />
+                </div>
+            </div>
+        <div class="card">
+            <div class="card-content">
+                <h4 class="card-title">Header Background</h4>
+                <div class="form-group">
+                    <input type="file" id="header-background" />
+                    <span class="material-input"></span>
+                </div>
+                <input type="hidden" name="BackgroundImage" />
+                <input type="hidden" name="BackgroundOriginalName" />
+                <div id="header-back-img">
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <h4 class="card-title">Short Text</h4>
+                <div class="form-group">
+                    <textarea required class="form-control" name="ShortText" id="short-text"></textarea>
+                    <span class="material-input"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <h4> News Link</h4>
+            <input type="text" class="form-control" name="NewsLink" id="NewsLink" />
+        </div>
+            <div class="form-group">
+                <h4> Text</h4>
+            
+                    <textarea required class="form-control" name="Text" id="text"></textarea>
+      
+            </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="checkbox-radios">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="IsFeatured" id="featured" value="true"> Featured
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">
+            <div class="btn-group pull-right">
+                <a href="@Url.Action("NewsList", "Admin", new { topicId = topicId })" class="btn btn-default">Cancel</a>
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </div>
+        </div>
+    </form>
+
+
+<script type="text/javascript" src="@Url.Content("~/Content/js/ckeditor/ckeditor.js")"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        setFileUploader("#header-background", "@Url.Action("SoloUpload", "Image")", "BackgroundImage", "BackgroundOriginalName", "#header-back-img", false);
+
+        CKEDITOR.replace('text', {
+            filebrowserUploadUrl: '@Url.Action("EditorUpload", "Image")'
+        });
+		
+		        $("#publish-date").datepicker({ dateFormat: 'mm.dd.yy' });
+    });
+</script>
+<script src="@Url.Content("~/Content/turbo/assets/vendors/jquery.select-bootstrap.js")"></script>

@@ -1,0 +1,30 @@
+﻿@using System.Configuration;
+@using Core.Entities;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.title = "Edit Topic";
+
+    Topic topic = ViewBag.topic;
+}
+
+
+        <h3>Edit Topic</h3>
+        <form action="@Url.Action("UpdateTopic", "Admin")" method="post" id="topic-form">
+    <input type="hidden" name="Id" value="@topic.Id" />
+    <div class="card">
+        <div class="card-content">
+            <h4 class="card-title">Name</h4>
+            <div class="form-group">
+                <input type="text" required class="form-control" id="name" name="Name" value="@topic.Name" />
+                <span class="material-input"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix">
+        <div class="btn-group pull-right">
+            <a href="@Url.Action("TopicsList", "Admin")" class="btn btn-default">Cancel</a>
+            <button type="submit" class="btn btn-success" id="submit-btn">Save Changes</button>
+        </div>
+    </div>
+</form>

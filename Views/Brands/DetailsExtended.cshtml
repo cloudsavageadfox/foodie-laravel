@@ -1,0 +1,64 @@
+﻿@using Core.Entities;
+@{
+    Branch branch = ViewBag.branch;
+    ViewBag.Title = branch.ShortAddress;
+    Brand brand = ViewBag.brand;
+}
+
+
+@Html.Partial("~/Views/Partials/_Hero.cshtml", new ViewDataDictionary { { "imageUrl", brand.BackgroundImageUrl }, { "shorter", "shorter-title" } })
+
+
+<section>
+    <div class="margin-large row">
+        <div class="offset-4 col-4 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">
+            <a href="#" class="image-link">
+                <img src="@brand.LogoUrl" alt="Tim Ho Wan">
+            </a>
+        </div>
+        <h3 class="offset-2 col-8 text-uppercase text-center wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">@branch.ShortAddress</h3>
+        <p class="offset-1 col-10 text-center margin-normal wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.6s">
+            @branch.Paragraph
+        </p>
+        <h4 class="offset-2 col-8 text-uppercase text-center wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">Store info</h4>
+        <p class="offset-1 col-10 text-center margin-normal wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+            @branch.StoreInfoParagraph
+        </p>
+        <div class="row nowrap col-12 margin-large justify-content-center wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.5s">
+            <a href="@branch.FacebookLink" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-facebook"></i></a>
+            <a href="@branch.TwitterLink" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-twitter"></i></a>
+            <a href="@branch.InstagramLink" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-instagram"></i></a>
+        </div>
+        <h4 class="offset-2 col-8 text-uppercase text-center wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.1s">Business hours</h4>
+        <p class="offset-1 col-10 text-center margin-normal wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">
+            @branch.BusinessHoursParagraph
+        </p>
+        <a href="#" class="common-button margin-large col-6 offset-3 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.1s">Reserve now</a>
+        <div class="col-12 margin-normal text-center wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.1s">
+            <a href="@branch.InternationalSiteLink" class="hover-opacity text-underline">See our international site</a>
+        </div>
+
+        <div class="row wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.1s">
+            @if (!string.IsNullOrEmpty(branch.Image1))
+            {
+                <a href="javascript:void(0)" class="col-12 margin-little"><img class="border-gray" src="@branch.Image1Url" alt=""></a>
+            }
+            @if (!string.IsNullOrEmpty(branch.Image2))
+            {
+                <a href="javascript:void(0)" class="col-12 margin-little"><img class="border-gray" src="@branch.Image2Url" alt=""></a>
+            }
+            @if (!string.IsNullOrEmpty(branch.Image3))
+            {
+                <a href="javascript:void(0)" class="col-12 margin-little"><img class="border-gray" src="@branch.Image3Url" alt=""></a>
+            }
+            @if (!string.IsNullOrEmpty(branch.Image4))
+            {
+                <a href="javascript:void(0)" class="col-12 margin-little"><img class="border-gray" src="@branch.Image4Url" alt=""></a>
+            }
+            @if (!string.IsNullOrEmpty(branch.Image5))
+            {
+                <a href="javascript:void(0)" class="col-12 margin-little"><img class="border-gray" src="@branch.Image5Url" alt=""></a>
+            }
+        </div>
+    </div>
+</section>

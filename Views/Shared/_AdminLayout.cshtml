@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.title</title>
+    <link rel="stylesheet" href="@Url.Content("~/Content/bootstrap.min.css")">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">   
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/turbo.css")">
+    <link href="@Url.Content("~/Content/turbo/assets/vendors/material-design-iconic-font/dist/css/material-design-iconic-font.min.css")" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/admin.css")">
+    <script src="@Url.Content("~/Content/turbo/assets/vendors/jquery-3.1.1.min.js")"></script>
+    <script src="@Url.Content("~/Content/turbo/assets/vendors/jquery-ui.min.js")"></script>
+    <style>
+        .cke_screen_reader_only, .cke_copyformatting_notification{
+            height: 0 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+    @{
+        string sidebarColor = ViewBag.sidebarColor;
+    }
+        <aside class="sidebar" data-background-color="@(sidebarColor != null ? sidebarColor : "")" >
+            <div class="logo text-center"><img src="@(sidebarColor != null ? Url.Content("~/Content/images/logos/FoodeeLogoGray.png") : Url.Content("~/Content/images/logos/FoodeeLogoBlack.png"))" style="width: 100%" alt="logo"></div>
+            <div class="logo logo-mini">
+                <a href="#" class="simple-text">
+                    F
+                </a>
+            </div>
+            <div class="sidebar-wrapper ps-container ps-theme-default ps-active-x ps-active-y">
+                <ul class="nav">
+                    <li>
+                        <a href="@Url.Action("Index", "Admin")">
+                            <i class="material-icons">dashboard</i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="collapse" href="#pages" class="collapsed" aria-expanded="false">
+                            <i class="material-icons">content_copy</i>
+                            <p>Pages
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+                        <div class="collapse" id="pages" aria-expanded="false" style="height: 0px;">
+                            <ul class="nav">
+                                <li><a href="@Url.Action("HomePage", "Admin")">Home Page</a></li>
+                                <li><a href="@Url.Action("AboutUsPage", "Admin")">About Us Page</a></li>
+                                <li><a href="@Url.Action("BrandsPage", "Admin")">Brands Page</a></li>
+                                <li><a href="@Url.Action("NewsPage", "Admin")">News Page</a></li>
+                                <li><a href="@Url.Action("AwardsPage", "Admin")">Awards Page</a></li>
+                                <li><a href="@Url.Action("GalleryPage", "Admin")">Gallery Page</a></li>
+                                <li><a href="@Url.Action("InquirePage", "Admin")">Inquire Page</a></li>
+                                <li><a href="@Url.Action("Footer", "Admin")">Footer</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+
+                        <a data-toggle="collapse" href="#entries" class="collapsed" aria-expanded="false" >
+                            <i class="zmdi zmdi-collection-plus" data-name="collection-plus" data-code="f14e"></i>
+                            <p>Entries
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+                        <div class="collapse" id="entries" aria-expanded="false" style="height: 0px;">
+                            <ul class="nav">
+                                <li><a href="@Url.Action("NewsList", "Admin")"><p>News Entries</p></a></li>
+                                <li><a href="@Url.Action("TopicsList", "Admin")"><p>News Topics</p></a></li>
+                                <li><a href="@Url.Action("BrandsList", "Admin")"><p>Brands Entries</p></a></li>
+                                <li><a href="@Url.Action("AwardsList", "Admin")"><p>Awards Entries</p></a></li>
+                            </ul>
+                        </div>
+                    </li>
+        
+    
+</ul>
+            </div>
+            
+        </aside>
+        @{
+        	string mainPanelClass = "main-panel";
+        	if(!ViewBag.isSafari){
+				mainPanelClass = "main-panel ps-container ps-theme-default";
+        	}
+        }
+        <main class="@mainPanelClass">
+            <nav class="navbar navbar-default navbar-absolute">
+                <div class="container-fluid">
+                    <div class="navbar-minimize">
+                        <button id="minimizeSidebar" class="btn btn-round btn-white btn-fill btn-just-icon">
+                            <i class="material-icons visible-on-sidebar-regular f-26">keyboard_arrow_left</i>
+                            <i class="material-icons visible-on-sidebar-mini f-26">keyboard_arrow_right</i>
+                        </button>
+                    </div>
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">@ViewBag.title</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                        <li onclick="location.href = '@Url.Action("SignOut", "Admin")';">
+                            <a href="@Url.Action("SignOut", "Admin")" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons">person</i>
+                                <p class="hidden-lg hidden-md">Log Out</p>
+                            </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="@Url.Content("~/Content/turbo/assets/vendors/jquery.tagsinput.js")"></script>
+    <script src="@Url.Content("~/Content/turbo/assets/vendors/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/admin.js")"></script>
+    <script src="@Url.Content("~/Content/turbo/assets/vendors/material.min.js")"></script>
+    @if(!ViewBag.isSafari){
+		<script src="@Url.Content("~/Content/turbo/assets/vendors/perfect-scrollbar.jquery.min.js")"></script>
+    }
+    <script src="@Url.Content("~/Content/turbo/assets/js/demo.js")"></script>
+    <script src="@Url.Content("~/Content/turbo/assets/js/turbo.js")"></script>
+</body>
+</html>
+

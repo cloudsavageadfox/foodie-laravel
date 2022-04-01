@@ -1,0 +1,42 @@
+﻿@using Core.Entities;
+@{
+    ViewBag.Title = "News";
+    Core.Entities.Page page = ViewBag.page;
+    List<List<News>> newsByMonth = ViewBag.news;
+    int currentYear = ViewBag.currentYear;
+    string elHeading = ViewBag.elHeading, elSub = ViewBag.elSub;
+    bool moreNewsExist = ViewBag.moreNewsExist;
+}
+
+@Html.Partial("~/Views/Partials/_Hero.cshtml", new ViewDataDictionary { { "imageUrl", page.BackgroundImage1Url }, { "elImgUrl", Url.Content("~/Content/images/sectionHeader/gastronomicUpdates.png") }, { "heroText", page.Paragraph1 } })
+
+<section style="overflow: hidden">
+    <div class="container" id="news-section">
+        @Html.Partial("~/Views/Partials/_YearNewsSection.cshtml")
+        @if (moreNewsExist)
+        {
+        <a href="javascript: void(0)" id="read-more" class="common-button margin-large">Read more</a>
+        }
+    </div>
+</section>
+
+<script>
+    var currentYear = @currentYear;
+
+    @if (moreNewsExist) {
+        <text>
+    $("#read-more").click(function() {
+            currentYear--;
+            showPreviousYearNews("@Url.Action("GetYearsNews", "News")", currentYear, "@Url.Action("PreviousNewsExist", "News")");
+    });
+    </text>
+    }
+
+    $(document).ready(function () {
+
+        $("#read-more").click();
+
+        $("#read-more").click();
+
+    });
+</script>

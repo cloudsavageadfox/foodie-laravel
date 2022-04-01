@@ -1,0 +1,122 @@
+﻿@using Core.Entities
+@{
+    List<List<News>> newsByMonth = ViewBag.news;
+}
+
+<section class="year-news">
+    @if (newsByMonth != null)
+    {
+        foreach (List<News> news in newsByMonth)
+        {
+            <section class="month-news">
+                <h2 class="common-heading margin-xlarge">@news[0].PublishDate.ToString("MMMM yyyy")</h2>
+                <div class="row justify-content-between">
+                    @if (news != null)
+                    {
+                        if (news.Count == 1)
+                        {
+                            <a href="@Url.Action("Details", "News", new { id = news[0].Id })" class="news-item col-12 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                                <div class="news-image" style="background-image: url('@news[0].BackgroundImageUrl')"></div>
+                                <div class="news-item-inner">
+                                    <h2 class="news-item-header">@news[0].Title</h2>
+                                    <h4 class="news-item-date">@news[0].PublishDate.ToString("MMMM d, yyyy")</h4>
+                                    @*<p>
+                                            @news[0].ShortText
+                                        </p>*@
+                                </div>
+                            </a>
+                        }
+                        else
+                        {
+                            int i = 1;
+                            while (i < news.Count)
+                            {
+                                if (news[i - 1].IsFeatured)
+                                {
+                                    <a href="@Url.Action("Details", "News", new { id = news[i - 1].Id })" class="news-item col-12 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                                        <div class="news-image" style="background-image: url('@news[i - 1].BackgroundImageUrl')"></div>
+                                        <div class="news-item-inner">
+                                            <h2 class="news-item-header">@news[i - 1].Title</h2>
+                                            <h4 class="news-item-date">@news[i - 1].PublishDate.ToString("MMMM d, yyyy")</h4>
+                                            @*<p>
+                                                    @news[i - 1].ShortText
+                                                </p>*@
+                                        </div>
+                                    </a>
+
+                                    if (i == (news.Count - 1))
+                                    {
+                                        <a href="@Url.Action("Details", "News", new { id = news[i].Id })" class="news-item col-12 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                                            <div class="news-image" style="background-image: url('@news[i].BackgroundImageUrl')"></div>
+                                            <div class="news-item-inner">
+                                                <h2 class="news-item-header">@news[i].Title</h2>
+                                                <h4 class="news-item-date">@news[i].PublishDate.ToString("MMMM d, yyyy")</h4>
+                                                @*<p>
+                                                        @news[i].ShortText
+                                                    </p>*@
+                                            </div>
+                                        </a>
+                                    }
+                                    i++;
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Details", "News", new { id = news[i - 1].Id })" class="news-item @(news[i].IsFeatured ? "col-12" : "news-half") wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                                        <div class="news-image" style="background-image: url('@news[i - 1].BackgroundImageUrl')"></div>
+                                        <div class="news-item-inner">
+                                            <h2 class="news-item-header">@news[i - 1].Title</h2>
+                                            <h4 class="news-item-date">@news[i - 1].PublishDate.ToString("MMMM d, yyyy")</h4>
+                                            @*<p>
+                                                    @news[i - 1].ShortText
+                                                </p>*@
+                                        </div>
+                                    </a>
+                                    <a href="@Url.Action("Details", "News", new { id = news[i].Id })" class="news-item @(news[i].IsFeatured ? "col-12" : "news-half") wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                                        <div class="news-image" style="background-image: url('@news[i].BackgroundImageUrl')"></div>
+                                        <div class="news-item-inner">
+                                            <h2 class="news-item-header">@news[i].Title</h2>
+                                            <h4 class="news-item-date">@news[i].PublishDate.ToString("MMMM d, yyyy")</h4>
+                                            @*<p>
+                                                    @news[i].ShortText
+                                                </p>*@
+                                        </div>
+                                    </a>
+
+                                    if ((i + 2) < news.Count)
+                                    {
+                                        i += 2;
+                                    }
+                                    else
+                                    {
+                                        if ((i + 1) == (news.Count - 1))
+                                        {
+                                            <a href="@Url.Action("Details", "News", new { id = news[i + 1].Id })" class="news-item col-12 wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                                                <div class="news-image" style="background-image: url('@news[i + 1].BackgroundImageUrl')"></div>
+                                                <div class="news-item-inner">
+                                                    <h2 class="news-item-header">@news[i + 1].Title</h2>
+                                                    <h4 class="news-item-date">@news[i + 1].PublishDate.ToString("MMMM d, yyyy")</h4>
+                                                    @*<p>
+                                                            @news[i + 1].ShortText
+                                                        </p>*@
+                                                </div>
+                                            </a>
+
+                                            i += 2;
+                                        }
+                                        else
+                                        {
+                                            if ((i + 1) == news.Count)
+                                            {
+                                                i++;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                </div>
+            </section>
+        }
+    }
+</section>

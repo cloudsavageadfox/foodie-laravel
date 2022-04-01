@@ -1,0 +1,63 @@
+﻿@using Core.Entities;
+@{ 
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.title = "Brands List";
+
+    List<Brand> brands = ViewBag.brands;
+}
+<style>
+        .table tbody tr {
+            height: 100px;
+        }
+        .table tbody td {
+            vertical-align: middle !important;
+        }
+
+</style>
+    <div class="card">
+        <div class="card-content">
+            <h3 class="card-title">Brands List</h3>
+    
+            <a href="@Url.Action("AddBrand", "Admin")" class="btn btn-primary">Add Brand</a>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="text-primary">
+                        <tr>
+                            <th>Logo</th>
+                            <th>Section</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (brands != null)
+                        {
+                            foreach (Brand brand in brands)
+                            {
+                                <tr>
+                                    <td><img style="max-width:100px; max-height:100px;" src="@brand.LogoUrl" /></td>
+                                    <td>@(brand.Section == Core.Enums.BrandSection.OurBrands ? "Our Brands" : (brand.Section == Core.Enums.BrandSection.JointVenture ? "Co-Creations" : (brand.Section == Core.Enums.BrandSection.UnderOurCare ? "Our Finds" : "Up & Coming")))</td>
+                                    <td>
+                                        <a href="@Url.Action("UpdateBrand", new { id = brand.Id })" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-danger del" data-id="@brand.Id"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+            @Html.Partial("~/Views/Partials/_Pagination.cshtml")
+
+
+        @Html.Partial("~/Views/Partials/_DeleteModal.cshtml")
+
+        <script type="text/javascript">
+    $(document).ready(function () {
+        initDeleteModal("Are you sure you want to delete the brand?", "<span>Deleting brand.</span>", "", "@Url.Action("DeleteBrand","Admin")", false);
+    });
+        </script>

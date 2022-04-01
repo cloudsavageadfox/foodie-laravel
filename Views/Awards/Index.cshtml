@@ -1,0 +1,37 @@
+﻿@using Core.Entities;
+@{
+    ViewBag.Title = "Awards";
+    Core.Entities.Page page = ViewBag.page;
+    List<Award> awards = ViewBag.awards;
+    string elHeading = ViewBag.elHeading, elSub = ViewBag.elSub;
+}
+
+@Html.Partial("~/Views/Partials/_Hero.cshtml", new ViewDataDictionary { { "imageUrl", page.BackgroundImage1Url }, { "elImgUrl", Url.Content("~/Content/images/sectionHeader/culinaryExcellence.png") }, { "heroText", page.Paragraph1 } })
+
+<section>
+    <div class="container">
+        <h2 class="common-heading" id="awards-header">Awards</h2>
+        <div class="awards">
+            @{ 
+                int i = 0;
+            }
+            @foreach (Award award in awards)
+            {
+            	<div class="award-wrapper">
+	                <div class="award wow fadeInUp" data-wow-duration="2s" data-wow-delay="@(i < awards.Count / 2 ? "0.1s" : "0.3s")"> 
+	                    <div class="award-crown">
+	                        <img src="@award.ImageUrl" alt="" class="award-img">
+	                    </div>
+	                    <div class="award-desc">
+	                        <h3 class="award-title">@award.Title</h3>
+	                        <h3 class="award-company">@award.Paragraph</h3>
+	                    </div>
+	                </div>
+                </div>
+                i++;
+            }
+        </div>
+    </div>
+</section>
+
+

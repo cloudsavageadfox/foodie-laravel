@@ -1,0 +1,229 @@
+﻿@using Core.Entities;
+@{
+    Brand brand = ViewBag.brand;
+    ViewBag.Title = brand.Title;
+    List<Branch> branches = ViewBag.branches;
+}
+
+<section class="common-title parallax shorter-title" style="background-image: url('@brand.BackgroundImageUrl')"></section>
+
+<section class="brand-section">
+    <div class="container">
+        <div class="text-center">
+            <a href="#" class="brand-logo-link wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">
+                <img src="@brand.LogoUrl" alt="Tim Ho Wan">
+            </a>
+        </div>
+        <h2 class="common-heading wow fadeInUp" id="brand-header" data-wow-duration="2s" data-wow-delay="0.4s">About @brand.Title</h2>
+        <div class="brand-description wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">
+            <div>@Html.Raw(brand.Paragraph)</div>
+        </div>
+        <div class="text-center wow fadeInUp" id="get-social" data-wow-duration="2s" data-wow-delay="0.4s">Let's get social.</div>
+        <div class="row nowrap brand-social justify-content-center margin-normal wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">
+            @if (!string.IsNullOrEmpty(brand.FacebookLink))
+            {
+                <a href="@brand.FacebookLink" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-facebook"></i></a>
+            }
+           @if (!string.IsNullOrEmpty(brand.TwitterLink))
+           {
+            <a href="@brand.TwitterLink" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-twitter"></i></a>
+           }
+@if (!string.IsNullOrEmpty(brand.InstagramLink))
+{
+            <a href="@brand.InstagramLink" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-instagram"></i></a>
+}@if (!string.IsNullOrEmpty(brand.WebsiteLink))
+{
+            <a href="@brand.WebsiteLink" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-website"></i></a>
+}
+        </div>
+    </div>
+    
+</section>
+
+<section class="bg-grayed branches-section">
+    <div class="container">
+        <h2 class="common-heading" id="branches-header wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">Branches</h2>
+        <div class="text-center margin-large wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">Select a branch to learn more.</div>
+        <div class="Grid-productpage-container">
+
+            <div>
+                
+                <ul class="grid-gallery">
+
+                    @foreach (Branch branch in branches)
+            {
+                        @*<div class="">
+                    <a href="javascript:void(0)" class="branches-slide-link" onclick="GetBranchDetails(@branch.Id)">
+                        <div class="branches-slide-img-wrapper">
+                            <div class="branches-slide-img" style="background-image: url('@branch.Image1Url')"></div>
+                        </div>
+                        <h5 class="branches-slide-address">@branch.Address</h5>
+                    </a>
+                </div>*@
+
+                    if (!string.IsNullOrEmpty(branch.Image1))
+                    {
+                        <li class="gallery-img">
+                            
+                            <img style="height:92% !important;cursor:pointer" onclick="GetBranchDetails(@branch.Id)" src='@branch.Image1Url'
+                                 alt="img01">
+                            <div class="txtclass"><h7>@branch.ShortAddress</h7></div>
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li class="gallery-img">
+
+                            <img style="height:92% !important;"  src='~/Content/images/noimage.jpg' />
+                            <div class="txtclass"><h7>@branch.ShortAddress</h7></div>
+                        </li>
+                        }
+
+
+
+                    }
+                </ul>
+
+    </div>
+        </div>
+        </div>
+
+</section>
+@*for show branch popup add by jaswant*@
+<div>
+    <link href="~/Content/css/SimpleSlider.css" rel="stylesheet" />
+
+    <div id="productContainer" class="product-productpage-container" style="display:none">
+
+        <div id="productContent">
+
+
+            <div id="div_imagegallery" class="product-gallery">
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div style="clear:both"></div>
+<script src="~/Scripts/Am2_SimpleSlider.js"></script>
+<script>
+    var count = 1;
+    function GetBranchDetails(Id) {
+       
+       
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "/Home/getBranchDetails",
+            data: { branchId: Id },
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                debugger;
+                
+                var imghtml = "";
+                // html for right side content
+                var nehtml = '<div id="divother" class="offset-1"><h3 style="font-size:15px !important" class="branch-header">' + result.FoodList.Address + '</h3><p class="branch-text">' + result.FoodList.Paragraph + '</p><h4 style="font-size:16px !important" class="branch-header">Store info</h4><p class="branch-text">' + result.FoodList.StoreInfoParagraph + '</p><div class="row nowrap branch-social margin-normal">';
+
+                if (result.FoodList.FacebookLink != '') {
+                    nehtml = nehtml + '<a href="' + result.FoodList.FacebookLink + '" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-facebook"></i></a>';
+                }
+                if (result.FoodList.TwitterLink != '') {
+                    nehtml = nehtml + '<a href="' + result.FoodList.TwitterLink + '" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-twitter"></i></a>';
+                }
+                if (result.FoodList.InstagramLink != '') {
+                    nehtml = nehtml + '<a href="' + result.FoodList.InstagramLink + '" class="social-gray-link col-auto"><i class="social-gray-icon social-gray-icon-instagram"></i></a>';
+                }
+                nehtml = nehtml + '</div><h4 style="font-size:16px !important" class="branch-header">Business hours</h4>';
+                nehtml = nehtml + '<p class="branch-text">' + result.FoodList.BusinessHoursParagraph + '</p>';
+                nehtml = nehtml + '<a style="display:none;" href="#" class="common-button margin-xlarge">Reserve now</a><a href="' + result.FoodList.InternationalSiteLink + '" id="our-inter">See our international site</a></div>';
+                // html for left side content
+                if (result.FoodList.Image2Url != '' ) {
+                    imghtml = '<div class="gallery-img"><a><img id="img1" src="' + result.FoodList.Image1Url + '" alt="img01"></a> ' + nehtml + ' </div>';
+                }
+                if (result.FoodList.Image2Url != '') {
+                    imghtml = imghtml + '<div class="gallery-img"><a><img src="' + result.FoodList.Image2Url + '" alt="img02"></a>' + nehtml + '</div>';
+                } 
+                if (result.FoodList.Image3Url != '') {
+                    imghtml = imghtml + '<div class="gallery-img"><a><img src="' + result.FoodList.Image3Url + '" alt="img03"></a>' + nehtml + '</div>';
+                } 
+                if (result.FoodList.Image4Url != '' ) {
+                    imghtml = imghtml + '<div class="gallery-img"><a><img src="' + result.FoodList.Image4Url + '" alt="img04"></a>' + nehtml + '</div>';
+                }
+                if (result.FoodList.Image5Url != '' ) {
+                    imghtml = imghtml + '<div class="gallery-img"><a><img src="' + result.FoodList.Image5Url + '" alt="img05"></a>' + nehtml + '</div>';
+                } 
+                if (result.FoodList.Image6Url != '' && result.FoodList.Image6Url.length > 41) {
+                    imghtml = imghtml + '<div class="gallery-img"><a><img src="' + result.FoodList.Image6Url + '" alt="img06"></a>' + nehtml + '</div>';
+                } 
+                if (result.FoodList.Image7Url != '' && result.FoodList.Image7Url.length > 41) {
+                    imghtml = imghtml + '<div class="gallery-img"><a><img src="' + result.FoodList.Image7Url + '" alt="img07"></a>' + nehtml + '</div>';
+                }
+                if (result.FoodList.Image8Url != '' && result.FoodList.Image8Url.length > 41) {
+                    imghtml = imghtml + '<div class="gallery-img"><a><img src="' + result.FoodList.Image8Url + '" alt="img08"></a>' + nehtml + '</div>';
+                }
+                if (result.FoodList.Image9Url != '' && result.FoodList.Image9Url.length > 41) {
+                    imghtml = imghtml + '<div class="gallery-img"><a><img src="' + result.FoodList.Image9Url + '" alt="img09"></a>' + nehtml + '</div>';
+                }
+                if (result.FoodList.Image10Url != '' && result.FoodList.Image10Url.length > 41) {
+                    imghtml = imghtml + '<div class="gallery-img"><a><img src="' + result.FoodList.Image10Url + '" alt="img10"></a>' + nehtml + '</div>';
+                } 
+
+                $("#div_imagegallery").html(imghtml)                
+                $('.gallery-img').Am2_SimpleSlider();   
+                $("#img1").click();
+               
+            },
+            error: function (response) {
+                debugger;
+                alert('eror');
+            }
+        });
+
+    }
+    
+    
+</script>
+
+<style>
+    .txtclass{
+        text-align: center;
+
+font: 14px "Open Sans Semibold", sans-serif;
+
+text-transform: uppercase;
+    }
+.Grid-productpage-container
+{
+     width: 100%;
+     position: relative;
+     
+}
+.grid-gallery {
+    
+}
+.grid-gallery li,
+.grid-gallery > div {
+    display: inline-block;
+    margin: 10px 5px 0 5px;
+    vertical-align: top;
+    height: 275px;
+    width: 270px;
+    overflow: hidden;
+        padding-bottom: 27px;
+    font-size: 12px;
+
+}
+.grid-gallery  li{
+    margin:0.5em auto;
+}
+
+.contact a{
+    color:white !important
+}
+.to-internal {
+     color:white !important
+}
+</style>

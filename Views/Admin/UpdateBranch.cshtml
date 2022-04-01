@@ -1,0 +1,121 @@
+﻿@using Core.Entities
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.title = "Edit Branch";
+
+    Branch branch = ViewBag.branch;
+}
+
+    <div class="row">
+        <h4>Edit Branch</h4>
+        <form action="@Url.Action("UpdateBranch", "Admin")" method="post">
+            <input type="hidden" name="Id" value="@branch.Id" />
+            <div class="form-group row">
+                <label for="address" class="col-2 col-form-label">Address</label>
+                <div class="col-10">
+                    <input required type="text" class="form-control" id="address" name="Address" value="@branch.Address" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="short-address" class="col-2 col-form-label">Short Address</label>
+                <div class="col-10">
+                    <input required type="text" class="form-control" id="short-address" name="ShortAddress" value="@branch.ShortAddress" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="paragraph" class="col-2 col-form-label">Paragraph</label>
+                <div class="col-10">
+                    <textarea required class="form-control" name="Paragraph" id="paragraph">@branch.Paragraph</textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="store-info-paragraph" class="col-2 col-form-label">Store Info Paragraph</label>
+                <div class="col-10">
+                    <textarea required class="form-control" name="StoreInfoParagraph" id="store-info-paragraph">@branch.StoreInfoParagraph</textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="business-hours-paragraph" class="col-2 col-form-label">Business Hours Paragraph</label>
+                <div class="col-10">
+                    <textarea required class="form-control" name="BusinessHoursParagraph" id="business-hours-paragraph">@branch.BusinessHoursParagraph</textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="international-site-link" class="col-2 col-form-label">International Site Link</label>
+                <div class="col-10">
+                    <input required type="text" class="form-control" id="international-site-link" name="InternationalSiteLink" value="@branch.InternationalSiteLink" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="facebook-link" class="col-2 col-form-label">Facebook Link</label>
+                <div class="col-10">
+                    <input required type="text" class="form-control" id="facebook-link" name="FacebookLink" value="@branch.FacebookLink" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="twitter-link" class="col-2 col-form-label">Twitter Link</label>
+                <div class="col-10">
+                    <input required type="text" class="form-control" id="twitter-link" name="TwitterLink" value="@branch.TwitterLink" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="instagram-link" class="col-2 col-form-label">Instagram Link</label>
+                <div class="col-10">
+                    <input required type="text" class="form-control" id="instagram-link" name="InstagramLink" value="@branch.InstagramLink" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="image1" class="col-2 col-form-label">Image 1</label>
+                <div class="col-10">
+                    <input type="file" id="image1" />
+                </div>
+                <input type="hidden" name="Image1" value="@(!string.IsNullOrEmpty(branch.Image1) ? branch.Image1 : "")" />
+                <input type="hidden" name="ImageOriginalName1" value="@(!string.IsNullOrEmpty(branch.ImageOriginalName1) ? branch.ImageOriginalName1 : "")" />
+                <div id="image1-img">
+                    @if (!string.IsNullOrEmpty(branch.Image1))
+                    {
+                        <img src="@(branch.Image1Url)?w=150&h=150&mode=crop" />
+                    }
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="image2" class="col-2 col-form-label">Image 2</label>
+                <div class="col-10">
+                    <input type="file" id="image2" />
+                </div>
+                <input type="hidden" name="Image2" value="@(!string.IsNullOrEmpty(branch.Image2) ? branch.Image2 : "")" />
+                <input type="hidden" name="ImageOriginalName2" value="@(!string.IsNullOrEmpty(branch.ImageOriginalName2) ? branch.ImageOriginalName2 : "")" />
+                <div id="image2-img">
+                    @if (!string.IsNullOrEmpty(branch.Image2))
+                    {
+                        <img src="@(branch.Image2Url)?w=150&h=150&mode=crop" />
+                    }
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="image3" class="col-2 col-form-label">Image 3</label>
+                <div class="col-10">
+                    <input type="file" id="image3" />
+                </div>
+                <input type="hidden" name="Image3" value="@(!string.IsNullOrEmpty(branch.Image2) ? branch.Image2 : "")" />
+                <input type="hidden" name="ImageOriginalName3" value="@(!string.IsNullOrEmpty(branch.ImageOriginalName2) ? branch.ImageOriginalName2 : "")" />
+                <div id="image3-img">
+                    @if (!string.IsNullOrEmpty(branch.Image3))
+                    {
+                        <img src="@(branch.Image3Url)?w=150&h=150&mode=crop" />
+                    }
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            <a href="@Url.Action("BranchesList", "Admin")" class="btn btn-default">Cancel</a>
+        </form>
+    </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        setFileUploader("#image1", "@Url.Action("SoloUpload", "Image")", "Image1", "ImageOriginalName1", "#image1-img", false);
+        setFileUploader("#image2", "@Url.Action("SoloUpload", "Image")", "Image2", "ImageOriginalName2", "#image2-img", false);
+        setFileUploader("#image3", "@Url.Action("SoloUpload", "Image")", "Image3", "ImageOriginalName3", "#image3-img", false);
+    });
+</script>

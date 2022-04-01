@@ -1,0 +1,53 @@
+﻿@using Core.Entities;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.title = "Branches List";
+
+    List<Branch> branches = ViewBag.branches;
+}
+
+    <div class="row">
+        <h3 class="text-center">Branches List</h3>
+        <a href="@Url.Action("AddBranch", "Admin")" class="btn btn-default">Add Branch</a>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Address</th>
+                    <th>Short Address</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (branches != null)
+                {
+                    foreach (Branch branch in branches)
+                    {
+                        <tr>
+                            <td class="name">@branch.Address</td>
+                            <td>@branch.ShortAddress</td>
+                            <td>
+                                <a href="@Url.Action("UpdateBranch", new {id = branch.Id})" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span>Edit</a>
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-danger del" data-id="@branch.Id"><span class="glyphicon glyphicon-remove "></span>Delete</a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("BrandsList", "Admin", new { branchId = branch.Id })" class="btn btn-default">Brands List</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+@Html.Partial("~/Views/Partials/_DeleteModal.cshtml")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        initDeleteModal("Are you sure you want to delete the branch?", "<span>Deleting branch: <b>", "</b>.</span>", "@Url.Action("DeleteBranch","Admin")", true);
+    });
+</script>

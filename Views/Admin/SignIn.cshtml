@@ -1,0 +1,81 @@
+﻿
+@{
+    Layout = null;
+
+    string errorMessage = ViewBag.errorMessage;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content='width=device-width, initial-scale=1.0'>
+    <title>Sign In</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href='@Url.Content("~/Content/bootstrap.min.css")'>
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/admin.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/turbo.css")">
+</head>
+<body>
+    <div class="wrapper wrapper-full-page">
+        <div class="full-page login-page">
+            <div class="content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+                            <form method="POST" action="@Url.Action("SignIn", "Admin")">
+                                <div class="card card-login">
+                                    <div class="card-header text-center">
+                                        <div class="card-title">FOODEE CMS LOGIN</div>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">face</i></span>
+                                            <div class="form-group label-floating is-empty">
+                                                <label class="control-label">User Name</label>
+                                                <input type="text" class="form-control" name="login" required="">
+                                                <span class="material-input"></span>
+                                            </div>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">lock_outline</i></span>
+                                            <div class="form-group label-floating is-empty">
+                                                <label class="control-label">Password</label>
+                                                <input type="password" class="form-control" id="sign-in-password" name="password" required="">
+                                                <span class="material-input"></span>
+                                            </div>
+                                        </div>
+                                      
+                                    </div>
+                                    <div class="card-footer clearfix">
+                                        <button type="submit" class="btn btn-primary pull-right">Sign in</button>
+                                    </div>
+                                </div>
+                              
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="@Url.Content("~/Content/turbo/assets/vendors/jquery-3.1.1.min.js")"></script>
+    <script src="@Url.Content("~/Content/turbo/assets/vendors/jquery-ui.min.js")"></script>
+    <script src="@Url.Content("~/Content/turbo/assets/vendors/jquery.tagsinput.js")"></script>
+    <script src="@Url.Content("~/Content/turbo/assets/vendors/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/admin.js")"></script>
+    <script src="@Url.Content("~/Content/turbo/assets/vendors/material.min.js")"></script>
+    <script src="@Url.Content("~/Content/turbo/assets/vendors/perfect-scrollbar.jquery.min.js")"></script>
+    <script src="@Url.Content("~/Content/turbo/assets/js/turbo.js")"></script>
+    
+</body>
+</html>
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+<script>
+    $(document).ready(function () {
+        alert("@errorMessage");
+    });
+</script>
+}

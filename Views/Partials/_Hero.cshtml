@@ -1,0 +1,17 @@
+
+<section class="common-title @ViewData["shorter"]" @*style="background-image: url('@ViewData["imageUrl"]')"*@ data-image-src="@ViewData["imageUrl"]" data-parallax="scroll" data-bleed="10">
+
+@if (ViewData.ContainsKey("elImgUrl"))
+{
+    <div class="row">
+        <div class="col-5 offset-1 col-md-10">
+            <div class="common-title-header wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
+                <img src="@ViewData["elImgUrl"]" alt="">
+            </div>
+            <div class="common-title-text wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">
+                @Html.Raw(ViewData["heroText"])
+            </div>
+        </div>
+    </div>
+}
+</section>

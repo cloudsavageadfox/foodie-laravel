@@ -1,0 +1,159 @@
+﻿@using Core.Entities;
+@{
+    ViewBag.Title = "Gallery";
+    Core.Entities.Page page = ViewBag.page;
+    string elHeading = ViewBag.elHeading, elSub = ViewBag.elSub;
+
+    List<Instagram> feed = ViewBag.feed;
+}
+
+@Html.Partial("~/Views/Partials/_Hero.cshtml", new ViewDataDictionary { { "imageUrl", page.BackgroundImage1Url }, { "elImgUrl", Url.Content("~/Content/images/sectionHeader/enticeYourSenses.png") }, { "heroText", page.Paragraph1 } })
+
+<section>
+    <h2 class="common-heading">Gallery</h2>
+    <div id="gallery-grid" class="grid margin-normal">
+        @foreach (Instagram photo in feed)
+        {
+            if (!photo.IsVideo)
+            {
+                <div class="grid-item grid-item-20 grid-item-md-33">
+                    <a class="paint-link" href="@photo.Link" target="_blank">
+                        <img src="@Url.Content(photo.Link +"media/?size=m")" alt="" class="paint-img" style="max-width: 200px !important; max-height: 200px !important;">
+                        <div class="paint-info row align-content-end">
+                            <h4 class="middle-header col-12">@photo.Caption</h4>
+                            <p class="paint-text col-auto">
+                                @photo.Text
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="grid-item grid-item-20 grid-item-md-33">
+                    <a class="paint-link" href="@photo.Link" target="_blank">
+                        <img src="@photo.ImgLink" alt="" class="paint-img">
+                        <div class="paint-video row align-content-center align-items-center justify-content-center">
+                            <img src="@Url.Content("~/Content/images/icons/VidPlay.png")" alt="" class="col-4">
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+        @*<div class="grid-item grid-item-20 grid-item-md-33">
+            <a class="paint-link" href="#">
+                <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                <div class="paint-info row align-content-end">
+                    <h4 class="middle-header col-12">Res name</h4>
+                    <p class="paint-text col-auto">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                        consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                        praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item grid-item-20 grid-item-md-33">
+            <a class="paint-link" href="#">
+                <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                <div class="paint-video row align-content-center align-items-center justify-content-center">
+                    <img src="@Url.Content("~/Content/images/icons/VidPlay.png")" alt="" class="col-4">
+                </div>
+            </a>
+        </div>
+        <div class="grid-item grid-item-20 grid-item-md-33">
+            <a class="paint-link" href="#">
+                <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                <div class="paint-info row align-content-end">
+                    <h4 class="middle-header col-12">Res name</h4>
+                    <p class="paint-text col-auto">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                        consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                        praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item grid-item-20 grid-item-md-33">
+            <a class="paint-link" href="#">
+                <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                <div class="paint-info row align-content-end">
+                    <h4 class="middle-header col-12">Res name</h4>
+                    <p class="paint-text col-auto">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                        consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                        praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item grid-item-20 grid-item-md-33">
+            <a class="paint-link" href="#">
+                <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                <div class="paint-video row align-content-center align-items-center justify-content-center">
+                    <img src="@Url.Content("~/Content/images/icons/VidPlay.png")" alt="" class="col-4">
+                </div>
+            </a>
+        </div>
+        <div class="grid-item grid-item-20 grid-item-md-33">
+            <a class="paint-link" href="#">
+                <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                <div class="paint-info row align-content-end">
+                    <h4 class="middle-header col-12">Res name</h4>
+                    <p class="paint-text col-auto">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                        consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                        praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item grid-item-20 grid-item-md-33">
+            <a class="paint-link" href="#">
+                <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                <div class="paint-info row align-content-end">
+                    <h4 class="middle-header col-12">Res name</h4>
+                    <p class="paint-text col-auto">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                        consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                        praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item grid-item-20 grid-item-md-33">
+            <a class="paint-link" href="#">
+                <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                <div class="paint-video row align-content-center align-items-center justify-content-center">
+                    <img src="@Url.Content("~/Content/images/icons/VidPlay.png")" alt="" class="col-4">
+                </div>
+            </a>
+        </div>
+        <div class="grid-item grid-item-20 grid-item-md-33">
+            <a class="paint-link" href="#">
+                <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                <div class="paint-info row align-content-end">
+                    <h4 class="middle-header col-12">Res name</h4>
+                    <p class="paint-text col-auto">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                        consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                        praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="grid-item grid-item-20 grid-item-md-33">
+            <a class="paint-link" href="#">
+                <img src="@Url.Content("~/Content/images/restaurantProfile/DO.png")" alt="" class="paint-img">
+                <div class="paint-info row align-content-end">
+                    <h4 class="middle-header col-12">Res name</h4>
+                    <p class="paint-text col-auto">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam
+                        consequuntur corporis culpa dolorem doloribus eaque error fugiat iusto, laboriosam non
+                        praesentium quis repudiandae similique soluta tempore voluptate voluptatibus voluptatum.
+                    </p>
+                </div>
+            </a>
+        </div>*@
+    </div>
+</section>

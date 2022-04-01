@@ -1,0 +1,280 @@
+﻿@using Core.Entities;
+@{
+    ViewBag.Title = "Inquire";
+    Core.Entities.Page page = ViewBag.page;
+    string googleMapsAPIKey = ViewBag.googleMapsAPIKey;
+    string elHeading = ViewBag.elHeading, elSub = ViewBag.elSub;
+}
+
+@Html.Partial("~/Views/Partials/_Hero.cshtml", new ViewDataDictionary { { "imageUrl", page.BackgroundImage1Url }, { "elImgUrl", Url.Content("~/Content/images/sectionHeader/askUsQuestions.png") }, { "heroText", page.Paragraph1 } })
+<section>
+    <div style="padding-top:50px" class="container">
+        <div class="row nowrap wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.4s">
+            <a href="javascript:void(0)" onclick="inquireActive(this)" data-slick-index="1" class="control-link" style="background-image: url('@Url.Content("~/Content/images/inquire/Careers_Colored.jpg")')"><h4 class="control-header">Careers</h4></a>
+            <a href="javascript:void(0)" onclick="inquireActive(this)" data-slick-index="2" class="control-link" style="background-image: url('@Url.Content("~/Content/images/inquire/Franchise_Colored.jpg")')"><h4 class="control-header">Franchise</h4></a>
+            <a href="javascript:void(0)" onclick="inquireActive(this)" data-slick-index="3" class="control-link" style="background-image: url('@Url.Content("~/Content/images/inquire/CustomerCare_Colored.png")')"><h4 class="control-header">Customer Care</h4></a>
+        </div>
+        <div class="inquire-slider">
+            <div class="inquire-slide">
+                <div class="text-center">@Html.Raw(page.Paragraph2)</div>
+            </div>
+            <div class="inquire-slide">
+                <div class="inquire-container">
+                    <h2 class="common-heading">Careers</h2>
+                    <div class="text-center">
+                        @Html.Raw(page.Paragraph3)
+                    </div>
+                    <form action="@Url.Action("SendCareers", "Inquire")" id="careers-form" method="post" class="form" onsubmit="return sendCareersMessage();">
+                        <div class="row margin-normal justify-content-between">
+                            <div class="row col-bithalf"><input name="Name" id="careers-name" placeholder="FIRST NAME" required /></div>
+                            <div class="row col-bithalf"><input name="LastName" id="careers-last-name" placeholder="LAST NAME" required /></div>
+                        </div>
+                        <div class="margin-normal">
+                            <input type="email" placeholder="EMAIL ADDRESS" id="careers-email" name="Email" required />
+                        </div>
+                        <div class="margin-normal">
+                            <input type="tel" placeholder="MOBILE NUMBER" id="careers-phone" name="" required />
+                            @* added phone number input *@
+
+                        </div>
+                        <div class="list-view row margin-large" id="brands-list-viewCareers">
+                            <a href="javascript:void(0)" class="list-view-open-link row align-items-center justify-content-between margin-none col-12" onclick="toggleListView('#brands-list-viewCareers')">
+                                <h5 id="h5brand" class="list-view-heading col-10 margin-none">Brands Dropdown</h5>
+                                <div class="list-view-arrow col-auto">
+                                    <img src="@Url.Content("~/Content/images/icons/rightArrow.png")" alt="">
+                                </div>
+                            </a>
+                            <select name="HelpTopic" required id="brandsCareers">
+                                <option data-option-index="1" value="Mesa">Mesa</option>
+                                <option data-option-index="2" value="Others">Others</option>
+                            </select>
+                            <ul class="list-view-content row col-6 col-md-12 offset-md-0 offset-6">
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="1" class="list-view-link" onclick="selectOption(this, '#brandsCareers', '#brands-list-viewCareers')">Mesa</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="2" class="list-view-link" onclick="selectOption(this, '#brandsCareers', '#brands-list-viewCareers')">Others</a></li>
+                            </ul>
+                        </div>
+                        <div class="margin-large">
+                            <input name="Subject" id="careers-position" required placeholder="POSITION" />
+                            @* changed careers with postion *@
+                        </div>
+                        <div class="margin-large">
+                            <textarea name="Message" id="careers-message" required placeholder="MESSAGE"></textarea>
+                        </div>
+                        <div class="margin-large">
+                            <div class="row margin-little justify-content-between align-items-center input-parent">
+                                <input id="file-01-name" readonly type="text" class="col-8 margin-none col-md-12" placeholder="RESUM&Eacute;">
+                                <label class="file">
+                                    <a href="javascript:void(0)" onclick="clickFile('file-01')" class="file-btn common-button">Choose file</a>
+                                    <input type="file" id="file-01" class="file-input" required name="Resume" acceppt=".docx,.pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf">
+                                </label>
+                            </div>
+                            <p class="color-gray f14">
+                                Files should be in .pdf or .docx format, and not exceed over 25 MB
+                            </p>
+                        </div>
+                        @* <div class="margin-large">
+                                <div class="row margin-little justify-content-between align-items-center input-parent">
+                                    <input readonly type="text" id="file-02-name" class="col-8 margin-none col-md-12" placeholder="LETTER OF INTENT">
+                                    <label class="file">
+                                        <a href="javascript:void(0)" onclick="clickFile('file-02')" class="file-btn common-button">Choose file</a>
+                                        <input type="file" id="file-02" class="file-input" required name="Letter" acceppt=".docx,.pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf">
+                                    </label>
+                                </div>
+                                <p class="color-gray f14">
+                                    Files should be in .pdf or .docx format, and not exceed over 25 MB
+                                </p>
+                            </div> *@
+                        <button type="submit" id="submit-careers" class="common-button">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div class="inquire-slide">
+                <div class="inquire-container">
+                    <h2 class="common-heading">Franchise</h2>
+                    <div class="text-center">
+                        @Html.Raw(page.Paragraph4)
+                    </div>
+                    <form action="@Url.Action("SendFranchise", "Inquire")" id="franchise-form" method="post" class="form" onsubmit="return sendFranchiseMessage();">
+                        <div class="row margin-normal justify-content-between">
+                            <div class="row col-bithalf"><input id="franchise-name" name="Name" required placeholder="FIRST NAME"></div>
+                            <div class="row col-bithalf"><input id="franchise-last-name" name="LastName" required placeholder="LAST NAME"></div>
+                        </div>
+                        <div class="margin-normal">
+                            <input type="email" id="franchise-email" name="Email" required placeholder="EMAIL ADDRESS">
+                        </div>
+                        <div class="margin-normal">
+                            <input type="tel" placeholder="MOBILE NUMBER" id="franchise-phone" name="" required>
+                            @* added phone number input *@
+                        </div>
+                        @*
+                            <div class="margin-large">
+                                <input name="Subject" id="franchise-subject" required placeholder="SUBJECT">
+                            </div>
+                        *@
+                        <div class="list-view row margin-large" id="brands-list-view">
+                            <a href="javascript:void(0)" class="list-view-open-link row align-items-center justify-content-between margin-none col-12" onclick="toggleListView('#brands-list-view')">
+                                <h5 id="brandFranchise" class="list-view-heading col-10 margin-none">Brands Dropdown</h5>
+                                <div class="list-view-arrow col-auto">
+                                    <img src="@Url.Content("~/Content/images/icons/rightArrow.png")" alt="">
+                                </div>
+                            </a>
+                            <select name="HelpTopic" required id="brands">
+                                <option data-option-index="1" value="Mesa">Mesa</option>
+                                <option data-option-index="2" value="Kai">Kai</option>
+                                <option data-option-index="3" value="Sunnies Caf&eacute;">Sunnies Caf&eacute;</option>
+                                <option data-option-index="4" value="Cerveseria">Cerveseria</option>
+                                <option data-option-index="5" value="Tim Ho Wan">Tim Ho Wan</option>
+                                <option data-option-index="6" value="Foo'd by David Oldani">Foo'd by David Oldani</option>
+                                <option data-option-index="7" value="Puond by Todd English">Puond by Todd English</option>
+                                <option data-option-index="8" value="Hook by Todd English">Hook by Todd English</option>
+                                <option data-option-index="9" value="Llaollao">Llaollao</option>
+                                <option data-option-index="10" value="Mangan">Mangan</option>
+                                <option data-option-index="11" value="Maisen">Maisen</option>
+                                <option data-option-index="12" value="Food Link">Food Link</option>
+                                <option data-option-index="13" value="Tsuta">Tsuta</option>
+                                <option data-option-index="14" value="Hawker Chan">Hawker Chan</option>
+                            </select>
+                            <ul class="list-view-content row col-6 col-md-12 offset-md-0 offset-6">
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="1" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Mesa</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="2" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Kai</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="3" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Sunnies Caf&eacute;</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="4" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Cerveseria</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="5" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Tim Ho Wan</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="6" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Foo'd by David Oldani</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="7" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Puond by Todd English</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="8" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Hook by Todd English</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="9" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Llaollao</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="10" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Mangan</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="11" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Maisen</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="12" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Food Link</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="13" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Tsuta</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="14" class="list-view-link" onclick="selectOption(this, '#brands', '#brands-list-view')">Hawker Chan</a></li>
+                            </ul>
+                        </div>
+                        <div class="margin-large">
+                            <textarea name="Message" id="franchise-message" required placeholder="MESSAGE"></textarea>
+                        </div>
+                        <div class="margin-large">
+                            <div class="row justify-content-center">
+                                <p class="col-10 text-center margin-normal">
+                                    Please follow the instructions in the form provided below, and
+                                    fill out all the necessary fields before submitting your application.
+                                </p>
+                                <a href="@page.FileUrl" target="_blank" class="white-btn col-8 margin-normal">Download application form</a>
+                            </div>
+                            <div class="row margin-little justify-content-between align-items-center input-parent">
+                                <input readonly id="file-11-name" class="col-8 margin-none col-md-12" placeholder="APPLICATION FORM">
+                                <label for="file-11" class="file">
+                                    <a href="javascript:void(0)" onclick="clickFile('file-11')" class="file-btn common-button">Choose file</a>
+                                    <input type="file" name="Application" required id="file-11" class="file-input" accept=".docx,.pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf">
+                                </label>
+                            </div>
+                            <p class="color-gray f14">
+                                Files should be in .pdf or .docx format, and not exceed over 25 MB
+                            </p>
+                        </div>
+                        <div class="margin-large">
+                            <div class="row margin-little justify-content-between align-items-center input-parent">
+                                <input readonly id="file-12-name" type="text" class="col-8 margin-none col-md-12" placeholder="LETTER OF INTENT">
+                                <label for="file-12" class="file">
+                                    <a href="javascript:void(0)" onclick="clickFile('file-12')" class="file-btn common-button">Choose file</a>
+                                    <input type="file" id="file-12" class="file-input" name="Letter" required accept=".docx,.pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf">
+                                </label>
+                            </div>
+                            <p class="color-gray f14">
+                                Files should be in .pdf or .docx format, and not exceed over 25 MB
+                            </p>
+                        </div>
+                        <button type="submit" id="submit-franchise" class="common-button">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div class="inquire-slide">
+                <div class="inquire-container">
+                    <h2 class="common-heading">Customer care</h2>
+                    <div class="text-center">
+                        @Html.Raw(page.Paragraph5)
+                    </div>
+                    <div id="map">
+                        <!--google maps-->
+                    </div>
+                    <form action="@Url.Action("SendCustomerCare", "Inquire")" method="post" class="form" id="customer-cafe-form" onsubmit="return sendCustomerCareMessage();">
+                        <div class="list-view row margin-large" id="cities-list-view">
+                            <a href="javascript:void(0)" class="list-view-open-link row align-items-center justify-content-between margin-none col-12" onclick="toggleListView('#cities-list-view')">
+                                <h5 id="h5Cust" data-option-index="0" class="list-view-heading col-10 margin-none">Select a help topic</h5>
+                                <div class="list-view-arrow col-auto">
+                                    <img src="@Url.Content("~/Content/images/icons/rightArrow.png")" alt="">
+                                </div>
+                            </a>
+                            <select name="HelpTopic" required id="cities">
+                                <option data-option-index="1" value="Reservation inquiry">Reservation inquiry</option>
+                                <option data-option-index="2" value="Complaints">Complaints</option>
+                                <option data-option-index="3" value="Premier loyalty card">Premier loyalty card</option>
+                                <option data-option-index="4" value="Promotion and rates">Promotion and rates</option>
+                                <option data-option-index="5" value="Human resources">Human resources</option>
+                                <option data-option-index="6" value="Marketing - others">Marketing, Events and Advertising</option>
+                            </select>
+                            <ul class="list-view-content row col-6 col-md-12 offset-md-0 offset-6">
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="1" class="list-view-link" onclick="selectOption(this, '#cities', '#cities-list-view'); isComplaints(false)">Reservation inquiry</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="2" class="list-view-link" onclick="selectOption(this, '#cities', '#cities-list-view'); isComplaints(true)">Complaints</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="3" class="list-view-link" onclick="selectOption(this, '#cities', '#cities-list-view'); isComplaints(false)">Premier loyalty card</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="4" class="list-view-link" onclick="selectOption(this, '#cities', '#cities-list-view'); isComplaints(false)">Promotion and rates</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="5" class="list-view-link" onclick="selectOption(this, '#cities', '#cities-list-view'); isComplaints(false)">Human resources</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="6" class="list-view-link" onclick="selectOption(this, '#cities', '#cities-list-view'); isComplaints(false)">Marketing, Events and Advertising</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="row margin-large justify-content-between">
+                            <div class="row col-bithalf"><input id="customer-care-name" name="Name" required placeholder="FIRST NAME"></div>
+                            <div class="row col-bithalf"><input id="customer-care-last-name" name="LastName" placeholder="LAST NAME"></div>
+                        </div>
+                        <div class="margin-large">
+                            <input type="email" placeholder="EMAIL ADDRESS" id="customer-care-email" name="Email" required>
+                        </div>
+                        <div class="margin-normal">
+                            <input type="tel" placeholder="MOBILE NUMBER" id="customer-care-phone" name="" required>
+                            @* added phone number input *@
+                        </div>
+                        <div class="margin-large non-compls" id="div_subject">
+                            <input placeholder="SUBJECT" name="Subject" id="customer-care-subject">
+                        </div>
+                        <div class="list-view row margin-large compls" id="compls-list-view" style="display: none;">
+                            <a href="javascript:void(0)" class="list-view-open-link row align-items-center justify-content-between margin-none col-12" onclick="toggleListView('#compls-list-view')">
+                                <h5 class="list-view-heading col-10 margin-none">Type of Complaints</h5>
+                                <div class="list-view-arrow col-auto">
+                                    <img src="@Url.Content("~/Content/images/icons/rightArrow.png")" alt="">
+                                </div>
+                            </a>
+                            <select name="HelpTopic" required id="complaints">
+                                <option data-option-index="1" value="Customer Service">Customer Service</option>
+                                <option data-option-index="2" value="Cut Off and Last Call">Cut Off and Last Call</option>
+                                <option data-option-index="3" value="Queue">Queue</option>
+                                <option data-option-index="4" value="Food Management">Food Management</option>
+                                <option data-option-index="5" value="Others">Others</option>
+
+                            </select>
+                            <ul class="list-view-content row col-6 col-md-12 offset-md-0 offset-6">
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="1" class="list-view-link" onclick="selectOption(this, '#complaints', '#compls-list-view')">Customer Service</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="2" class="list-view-link" onclick="selectOption(this, '#complaints', '#compls-list-view')">Cut Off and Last Call</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="3" class="list-view-link" onclick="selectOption(this, '#complaints', '#compls-list-view')">Queue</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="4" class="list-view-link" onclick="selectOption(this, '#complaints', '#compls-list-view')">Food Management</a></li>
+                                <li class="list-view-item col-12"><a href="javascript: void(0)" data-option-index="5" class="list-view-link" onclick="selectOption(this, '#complaints', '#compls-list-view')">Others</a></li>
+                            </ul>
+                        </div>
+                        <div class="margin-large">
+                            <textarea placeholder="MESSAGE" id="customer-care-message" name="Message" required></textarea>
+                        </div>
+                        <button type="submit" id="submit-customer-care" class="common-button">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript" src="@Url.Content("~/Content/js/inquire.js")"></script>
+<script>
+                    init('@Url.Action("SendCareers", "Inquire")', '@Url.Action("SendFranchise", "Inquire")', "@Url.Action("SendCustomerCare", "Inquire")");
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=@(googleMapsAPIKey)&callback=initMap"></script>

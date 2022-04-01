@@ -1,0 +1,50 @@
+﻿@using System.Configuration;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.title = "Awards Page";
+
+    Core.Entities.Page page = ViewBag.page;
+}
+
+        <h3>Edit Awards Page</h3>
+        <form action="@Url.Action("SaveAwardsPage", "Admin")" method="post">
+            <input type="hidden" name="Id" value="@page.Id" />
+            <div class="form-group">
+                <h4>Header Paragraph</h4>
+    
+                    <textarea required class="form-control" name="Paragraph1" id="paragraph1">@page.Paragraph1</textarea>
+
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h4 class="card-title">Header Background</h4>
+                    <div class="form-group">
+                        <input type="file" id="background1" />
+                        <span class="material-input"></span>
+                    </div>
+                    <input type="hidden" name="BackgroundImage1" value="@(!string.IsNullOrEmpty(page.BackgroundImage1) ? page.BackgroundImage1 : "")" />
+                    <input type="hidden" name="BackgroundOriginalName1" value="@(!string.IsNullOrEmpty(page.BackgroundOriginalName1) ? page.BackgroundOriginalName1 : "")" />
+                    <div id="background1-img">
+                        @if (!string.IsNullOrEmpty(page.BackgroundImage1))
+                        {
+                            <img src="@(page.BackgroundImage1Url)" />
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix">
+                <div class="btn-group pull-right">
+                    <a href="@Url.Action("Index", "Admin")" class="btn btn-default">Cancel</a>
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                </div>
+            </div>
+        </form>
+
+<script type="text/javascript" src="@Url.Content("~/Content/js/ckeditor/ckeditor.js")"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        setFileUploader("#background1", "@Url.Action("SoloUpload", "Image")", "BackgroundImage1", "BackgroundOriginalName1", "#background1-img", false);
+
+        CKEDITOR.replace("paragraph1");
+    });
+</script>

@@ -1,0 +1,547 @@
+@using Core.Entities;
+@{
+    string title = ViewBag.title;
+    List<Brand> brands = ViewBag.brands;
+    Core.Entities.Page page = ViewBag.page;
+    Core.Entities.Page footer = ViewBag.footer;
+    string backUrl = ViewBag.backUrl;
+} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-96628311-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-96628311-1');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <script src="@Url.Content("~/Content/js/jQuery/jquery.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/parallax/parallax.min.js")"></script>
+    @*<script src="@Url.Content("~/Content/js/jQuery.scrollSpeed.js")"></script>*@
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/slick.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/slick-theme.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/normalize.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/animate.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/aos.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/main.css")">
+   
+    <script src="@Url.Content("~/Content/js/wow/dist/wow.min.js")"></script>
+    <title>@title</title>
+    <style>
+        .active {
+         content: '';
+    border-bottom: 2px #000 solid;
+    height: 37px;
+    text-align: center;
+    top: 9px;
+    position: relative;
+    }
+      /*  #loadingDiv{
+  position:fixed;
+  top:0px;
+  right:0px;
+  width:100%;
+  height:100%;
+  background-color:#666;  
+  background-repeat:no-repeat;
+  background-position:center;
+  z-index:99;
+  opacity: 0.9;
+  filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+        .clshide{
+            display:none;
+        }
+          .clsshow{
+            display:block;
+        } */
+.dropdown-sub-wrappe{
+		overflow-y: scroll;
+		max-height: 500px !important;
+		}
+		
+		    
+    </style>
+</head>
+<body>
+
+
+
+    <header>
+        
+        <div class="top-nav-wrapper hidden-sm-down nowrap align-items-center justify-content-between row-padding">
+            <div class="logo header-logo col-2">
+                <a href="@Url.Action("Index", "Home")" class="logo-link">
+                    <img class="logo-img" src="@Url.Content("~/Content/images/logos/FoodeeLogoBlack.png")" alt="Foodee" />
+                </a>
+            </div>
+            <ul class="top-nav row nowrap align-items-center col-6 justify-content-around">
+                <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "AboutUs")" class="top-nav-link">About us</a></li>
+                <li class="top-nav-item col-auto dropdown">
+                    <a href="@Url.Action("Index", "Brands")" class="top-nav-link">Brands</a>
+                    <div class="dropdown-content-wrapper">
+                        <ul class="dropdown-content">
+                            <li class="dropdown-item sub-arrow">
+                                <a href="javascript:void(0)" class="dropdown-link">Our brands</a>
+                                <span class="dropdown-arrow">&#155;</span>
+                                <div class="dropdown-sub-wrapper">
+                                    <ul class="dropdown-sub">
+                                        @foreach (Brand brand in brands.OrderBy(x=>x.Title))
+                                        {
+                                            if (brand.Section == Core.Enums.BrandSection.OurBrands)
+                                            {
+                                        <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new {name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="dropdown-item sub-arrow">
+                                <a href="javascript:void(0)" class="dropdown-link">Our Finds</a>
+                                <span class="dropdown-arrow">&#155;</span>
+                                <div class="dropdown-sub-wrapper">
+                                    <ul class="dropdown-sub">
+                                        @foreach (Brand brand in brands.OrderBy(x => x.Title))
+                                        {
+                                            if (brand.Section == Core.Enums.BrandSection.UnderOurCare)
+                                            {
+                                        <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="dropdown-item sub-arrow">
+                                <a href="javascript:void(0)" class="dropdown-link">Our Co Creations</a>
+                                <span class="dropdown-arrow">&#155;</span>
+                                <div class="dropdown-sub-wrapper">
+                                    <ul class="dropdown-sub">
+                                        @foreach (Brand brand in brands.OrderBy(x => x.Title))
+                                        {
+                                            if (brand.Section == Core.Enums.BrandSection.JointVenture)
+                                            {
+                                        <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="dropdown-item sub-arrow">
+                                <a href="javascript:void(0)" class="dropdown-link">Our Up and Coming</a>
+                                <span class="dropdown-arrow">&#155;</span>
+                                <div class="dropdown-sub-wrapper">
+                                    <ul class="dropdown-sub">
+                                        @foreach (Brand brand in brands.OrderBy(x => x.Title))
+                                        {
+                                            if (brand.Section == Core.Enums.BrandSection.UpcomingConcepts)
+                                            {
+                                        <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "News")" class="top-nav-link">News</a></li>
+                <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Awards")" class="top-nav-link">Awards</a></li>
+                <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Gallery")" class="top-nav-link">Gallery</a></li>
+                <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Inquire")" class="top-nav-link">Inquire</a></li>
+            </ul>
+            <a href="#" class="top-nav-link col-1" onclick="openSearch('90vh')"><img class="top-nav-icon" src="@Url.Content("~/Content/images/icons/Search_Gray.png")" alt="search"></a>
+        </div>
+        <div id="open-menu" class="nowrap row-padding justify-content-between hidden-md-up col-12 align-items-center">
+            <a href="#" class="mob-nav-ilink col-auto"><img src="@Url.Content("~/Content/images/icons/leftArrow.png")" alt="back"></a>
+            <div class="logo col-5">
+                <a href="@Url.Action("Index", "Home")" class="logo-link">
+                    <img class="logo-img" src="@Url.Content("~/Content/images/logos/FoodeeLogoBlack.png")" alt="Foodee" />
+                </a>
+            </div>
+            <a href="javascript:void(0)" class="mob-nav-ilink col-auto" onclick="openMenu()"><img src="@Url.Content("~/Content/images/icons/Menu_Black.png")" alt="menu"></a>
+        </div>
+        <div class="mob-nav-wrapper hidden-md-up" id="mob-nav-wrapper">
+            <div style="height:100px" class="row-padding justify-content-between align-items-center">
+                <a href="#" class="mob-nav-ilink" onclick="openSearchMob()"><img class="mob-nav-icon" src="@Url.Content("~/Content/images/icons/Search_White.png")" alt="search"></a>
+                <a href="javascript:void(0)" class="mob-nav-ilink" onclick="closeMenu()"><img src="@Url.Content("~/Content/images/icons/close.svg")" alt="menu" class="mob-nav-icon"></a>
+            </div>
+            <div class="mob-nav-links row-padding justify-content-center margin-normal">
+                <div class="logo offset-1 col-10">
+                    <a href="@Url.Action("Index", "Home")" class="logo-link">
+                        <img class="logo-img" src="@Url.Content("~/Content/images/logos/FoodeeLogoWhite.png")" alt="Foodee" />
+                    </a>
+                </div>
+                <div class="row nowrap justify-content-around social margin-normal col-10">
+                    <a href="@page.FacebookLink" class="social-link col-4"><i class="social-icon social-icon-facebook"></i></a>
+                    <a href="@page.TwitterLink" class="social-link col-4"><i class="social-icon social-icon-twitter"></i></a>
+                    <a href="@page.InstagramLink" class="social-link col-4"><i class="social-icon social-icon-instagram"></i></a>
+                </div>
+            </div>
+            <div class="mob-nav-inner align-items-center">
+                <ul class="mob-nav row mob-nav-active" id="mob-nav-main">
+                    <li class="mob-nav-item col-12">
+                        <a href="@Url.Action("Index", "AboutUs")" class="mob-nav-link">About us</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="javascript:void(0)" class="mob-nav-link" onclick="openMenu('mob-nav-brands', 'mob-nav-main')">Brands</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="@Url.Action("Index", "News")" class="mob-nav-link">News</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="@Url.Action("Index", "Awards")" class="mob-nav-link">Awards</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="@Url.Action("Index", "Gallery")" class="mob-nav-link">Gallery</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="@Url.Action("Index", "Inquire")" class="mob-nav-link">Inquire</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                </ul>
+                <ul class="mob-nav row" id="mob-nav-brands">
+                    <li class="mob-nav-item col-12">
+                        <a href="@Url.Action("Index", "Brands")" class="mob-nav-link" onclick="openMenu('mob-nav-ourBrands', 'mob-nav-brands')">Brands page</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="javascript:void(0)" class="mob-nav-link" onclick="openMenu('mob-nav-ourBrands', 'mob-nav-brands')">Our brands</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="javascript:void(0)" class="mob-nav-link" onclick="openMenu('mob-nav-ourCare', 'mob-nav-brands')">Our Finds</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="javascript:void(0)" class="mob-nav-link" onclick="openMenu('mob-nav-jointVenture', 'mob-nav-brands')">Our Co Creations</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                    <li class="mob-nav-item col-12">
+                        <a href="javascript:void(0)" class="mob-nav-link" onclick="openMenu('mob-nav-upcoming', 'mob-nav-brands')">Our Up and Coming</a>
+                        <hr class="divider divider-half margin-normal" />
+                    </li>
+                </ul>
+                <ul class="mob-nav row" id="mob-nav-ourBrands">
+                    @foreach (Brand brand in brands)
+                    {
+                        if (brand.Section == Core.Enums.BrandSection.OurBrands)
+                        {
+                            <li class="mob-nav-item col-12">
+                                <a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="mob-nav-link text-clear">@brand.Title</a>
+                                <hr class="divider divider-half margin-normal" />
+                            </li>
+                        }
+                    }
+                </ul>
+                <ul class="mob-nav row" id="mob-nav-ourCare">
+                    @foreach (Brand brand in brands)
+                    {
+                        if (brand.Section == Core.Enums.BrandSection.UnderOurCare)
+                        {
+                            <li class="mob-nav-item col-12">
+                                <a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new {name = brand.Title.Replace(" ", "-")}))" class="mob-nav-link text-clear">@brand.Title</a>
+                                <hr class="divider divider-half margin-normal" />
+                            </li>
+                        }
+                    }
+                </ul>
+                <ul class="mob-nav row" id="mob-nav-jointVenture">
+                    @foreach (Brand brand in brands)
+                    {
+                        if (brand.Section == Core.Enums.BrandSection.JointVenture)
+                        {
+                            <li class="mob-nav-item col-12">
+                                <a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="mob-nav-link text-clear">@brand.Title</a>
+                                <hr class="divider divider-half margin-normal" />
+                            </li>
+                        }
+                    }
+                </ul>
+                <ul class="mob-nav row" id="mob-nav-upcoming">
+                    @foreach (Brand brand in brands)
+                    {
+                        if (brand.Section == Core.Enums.BrandSection.UpcomingConcepts)
+                        {
+                            <li class="mob-nav-item col-12">
+                                <a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new {name = brand.Title.Replace(" ", "-")}))" class="mob-nav-link text-clear">@brand.Title</a>
+                                <hr class="divider divider-half margin-normal" />
+                            </li>
+                        }
+                    }
+                </ul>
+
+            </div>
+
+        </div>
+        <div id="search" class="search" style="display: none;">
+            <div class="top-nav-wrapper hidden-sm-down nowrap align-items-center justify-content-between row-padding">
+                <div class="logo header-logo col-2">
+                    <a href="@Url.Action("Index", "Home")" class="logo-link">
+                        <img class="logo-img" src="@Url.Content("~/Content/images/logos/FoodeeLogoBlack.png")" alt="Foodee" />
+                    </a>
+                </div>
+                <ul class="top-nav row nowrap align-items-center col-6 justify-content-around">
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "AboutUs")" class="top-nav-link">About us</a></li>
+                    <li class="top-nav-item col-auto dropdown">
+                        <a href="@Url.Action("Index", "Brands")" class="top-nav-link">Brands</a>
+                        <div class="dropdown-content-wrapper">
+                            <ul class="dropdown-content">
+                                <li class="dropdown-item sub-arrow">
+                                    <a href="javascript:void(0)" class="dropdown-link">Our brands</a>
+                                    <span class="dropdown-arrow">&#155;</span>
+                                    <div class="dropdown-sub-wrapper">
+                                        <ul class="dropdown-sub">
+                                            @foreach (Brand brand in brands)
+                                            {
+                                                if (brand.Section == Core.Enums.BrandSection.OurBrands)
+                                                {
+                                                    <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new {name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="dropdown-item sub-arrow">
+                                    <a href="javascript:void(0)" class="dropdown-link">Our Finds</a>
+                                    <span class="dropdown-arrow">&#155;</span>
+                                    <div class="dropdown-sub-wrapper">
+                                        <ul class="dropdown-sub">
+                                            @foreach (Brand brand in brands)
+                                            {
+                                                if (brand.Section == Core.Enums.BrandSection.UnderOurCare)
+                                                {
+                                                    <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="dropdown-item sub-arrow">
+                                    <a href="javascript:void(0)" class="dropdown-link">Our Co Creations</a>
+                                    <span class="dropdown-arrow">&#155;</span>
+                                    <div class="dropdown-sub-wrapper">
+                                        <ul class="dropdown-sub">
+                                            @foreach (Brand brand in brands)
+                                            {
+                                                if (brand.Section == Core.Enums.BrandSection.JointVenture)
+                                                {
+                                                    <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new { name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="dropdown-item sub-arrow">
+                                    <a href="javascript:void(0)" class="dropdown-link">Our Up and Coming</a>
+                                    <span class="dropdown-arrow">&#155;</span>
+                                    <div class="dropdown-sub-wrapper">
+                                        <ul class="dropdown-sub">
+                                            @foreach (Brand brand in brands)
+                                            {
+                                                if (brand.Section == Core.Enums.BrandSection.UpcomingConcepts)
+                                                {
+                                                    <li class="dropdown-item"><a onclick="ShowDetail(@brand.Id, 0)" onblur="ShowDetail(@brand.Id, 0)" href="@Html.Raw(@Url.Action("Details", "Brands", new {name = brand.Title.Replace(" ", "-")}))" class="dropdown-link">@brand.Title</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "News")" class="top-nav-link">News</a></li>
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Awards")" class="top-nav-link">Awards</a></li>
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Gallery")" class="top-nav-link">Gallery</a></li>
+                    <li class="top-nav-item col-auto"><a href="@Url.Action("Index", "Inquire")" class="top-nav-link">Inquire</a></li>
+                </ul>
+                <a href="#" class="top-nav-link col-1" onclick="openSearch('90vh')"><img class="top-nav-icon" src="@Url.Content("~/Content/images/icons/Search_Gray.png")" alt="search"></a>
+            </div>
+            <div class="row-padding margin-large justify-content-between hidden-md-up col-12 align-items-center">
+                <a href="javascript:void(0)" class="mob-nav-ilink col-auto" onclick="openSearch()"><img src="@Url.Content("~/Content/images/icons/leftArrow.png")" alt="back"></a>
+                <div class="logo col-5">
+                    <a href="@Url.Action("Index", "Home")" class="logo-link">
+                        <img class="logo-img" src="@Url.Content("~/Content/images/logos/FoodeeLogoBlack.png")" alt="Foodee" />
+                    </a>
+                </div>
+                <a href="javascript:void(0)" class="mob-nav-ilink col-auto" onclick="openMenu()"><img src="@Url.Content("~/Content/images/icons/Menu_Black.png")" alt="menu"></a>
+            </div>
+            <div class="search-wrapper row margin-xxlarge">
+                <form action="@Url.Action("Index", "Search")" class="search-form">
+                    <div class="row">
+                        <label for="search-field" class="offset-2 col-8">What are you looking for?</label>
+                        <div class="row col-12 margin-normal align-items-center">
+                            <button type="submit" class="offset-1 col-1 search-button"><img src="@Url.Content("~/Content/images/icons/Search.png")" alt="" class="search-image"></button>
+                            <input name="query" id="search-field" type="text" placeholder="Type here to search" class="col-8 search-field">
+                        </div>
+                        <p class="offset-2 col-8 search-prompt">Type and press enter to search</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    @RenderBody()
+
+    <footer>
+        <a href="javascript:void(0)" class="to-top"><img class="to-top-img" src="@Url.Content("~/Content/images/icons/TopButton.png")" alt="Go Top"></a>
+        <div class="row align-items-center" style="position: relative; overflow: hidden;">
+            <div class="col-6 col-md-12">
+                <div class="contact">
+                    <h3 class="contact-heading">Main office address</h3>
+                    <p class="contact-text">@footer.Paragraph1</p>
+                </div>
+                <div class="contact">
+                    <h3 class="contact-heading">Connect with us</h3>
+                    <a href="mailto:@footer.Email1" class="contact-link">@footer.Email1</a>
+                    <p class="contact-text">(02) 633 0733 / (02) 631 0070</p>
+                </div>
+                <div class="row margin-normal align-items-center">
+                    <div class="row nowrap justify-content-around social-light col-auto">
+                        <a href="@footer.FacebookLink" class="social-light-link col-auto"><i class="social-light-icon social-light-icon-facebook"></i></a>
+                        <a href="@footer.TwitterLink" class="social-light-link col-auto"><i class="social-light-icon social-light-icon-twitter"></i></a>
+                        <a href="@footer.InstagramLink" class="social-light-link col-auto"><i class="social-light-icon social-light-icon-instagram"></i></a>
+                    </div>
+                   <!-- <a href="@footer.WebsiteLink" class="to-internal col-auto">Visit our international website</a> -->
+                </div>
+            </div>
+            <hr class="divider divider-vertical footer-divider hidden-sm-down" />
+            <hr class="divider divider-half hidden-md-up margin-large" />
+            <div class="logo footer-logo col-6 offset-md-2 col-md-8">
+                <a href="@Url.Action("Index", "Home")" class="logo-link">
+                    <img class="logo-img" src="@Url.Content("~/Content/images/logos/FoodeeLogoGray.png")" alt="Foodee" />
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-legal">
+            <div class="privacy"><a id="privacy-button">Privacy Policy</a></div>
+            <div class="copyright">&copy; 2017 All Rights Reserved.</div>
+        </div>
+    </footer>
+
+    <div id="openModal" class="modalDialog" style="opacity:0; pointer-events: none; display:none;">
+        <div>
+            <a title="Close" class="close">X</a>
+            <h2 style="text-align:center;">Privacy Policy</h2>
+            <b>Foodee Global Concepts</b> shares your concerns regarding the privacy of personal information collected on the Internet. Please read this information to learn more about <b>Foodee Global Concepts</b>' Privacy Policy. This Policy discloses the information gathering and dissemination practices of Foodee Global Concepts in connection with its website (www.foodeeglobal.ph). <b>Foodee Global Concepts</b> continuously strives to gain your trust by selling only the highest quality foods and products, and we want to keep your trust. To build on this relationship with you, <b>Foodee Global Concepts</b>  wants you to understand how our website interacts with visitors and how we may use information gathered when you visit our website.
+            By accessing this website, you consent to the terms of this Privacy Policy. If you do not agree to the terms of the Privacy Policy, you are not authorized to use this website. If you feel that <b>Foodee Global Concepts</b> is not abiding by its posted Privacy Policy, you should contact Foodee Global Conceptsusing our contact form.
+            
+            <h4>Information Collection and Use and Types of Information Gathered</h4>
+            <b>Foodee Global Concepts</b> may gather the following types of information: information given voluntarily while using a feature of this  website, for example, while joining our fan club; information gathered as a result of voluntary communication with our webmaster or customer service associates, or when completing an online application; and information gathered automatically when visitors visit our website.
+            <b>Foodee Global Concepts</b> is the owner of the information collected on this website. We will not sell, share, or rent this information to others in ways different from what is disclosed in this Policy. <b>Foodee Global Concepts</b> collects information from our users at several different points on our website. We may use your information to facilitate the services we provide you in the sale and distribution of products and services that you request. We may use information in a file we maintain about you, and other information we obtain from your current and past activities on the Website, to troubleshoot problems and enforce our Terms &amp; Conditions. At times, we may look across multiple users to identify problems. You agree that we may use personally identifiable information about you to improve our marketing and promotional efforts, to analyze Website usage, improve our content and product offerings, solve technical problems and customize our Website's content, layout, and services. These uses improve our Website and better tailor the Website to meet your needs.
+
+            <h4>Registration and User ID and Password</h4>
+            <b>Foodee Global Concepts</b> may launch electronic advertisements and similar products in the future. If you choose to receive such a publication, you will be asked for certain information so we can customize the advertisement to suit your needs and interests. Upon registering for the ad, you will be asked for your name, email address, zip code, and other information specified in the enrollment process. The more of this information you choose to share with us, the better we can compile an ad specifically for you. If you choose not to share information with us, the ad may simply be more generic. Providing us with this type of information is voluntary, and you may change supplied information or unsubscribe at any time from any portion or all of <b>Foodee Global Concepts</b> line services.
+            <b>Foodee Global Concepts</b> may launch other applications and services for which you may need a Username and Password. You are responsible for all actions taken with your Username and Password, including fees or expenses related to its misuse. Therefore, we do not recommend that you disclose your <b>Foodee Global Concepts</b> Username or Password. If you choose to share your Username and Password or other information with someone, you are responsible for all actions taken with your Username and Password. If you lose control of your Password, you may lose substantial control over your personally identifiable information and may be subject to legally binding actions taken on your behalf. Therefore, if your Password has been compromised, you should immediately change your Password and notify us using our contact form.
+
+            <h4>Cookies</h4>
+            A “cookie” is a piece of data stored on the user's hard drive containing information about the user. Usage of a cookie is in no way linked to any personally identifiable information while on our website. Once the user closes their browser, the cookie simply terminates. For instance, by setting a cookie on our website, the user would not have to log in with a password more than once, thereby saving time while on our website as well as having the ability to take advantage of all of the features of our website. You are always free to decline our cookies if your browser permits, although in that case you may not be able to use certain features on our website.<b> Mesa Philippines</b> will only use this type of data in an aggregate form which does not identify you personally.
+
+            <h4>Log Files</h4>
+            We also collect non-personally identifiable information though our Internet log files, which record data such as IP addresses, browser types, domain names, and other anonymous statistical data involving the use of the website. This information may be used to analyze trends, to administer the website, to monitor the page website's use, and to gather general demographic information. We may link this information to personally identifiable information for these and other purposes such as personalizing your experience on the Website and evaluating our Internet systems.
+            <h4>Links</h4>
+            This Website may contain links to other sites. Please be aware that <b>Foodee Global Concepts</b> is not responsible for the privacy practices of such other sites. We encourage our users to be aware when they leave our page website and to read the privacy policies of each and every site that collects personally identifiable information. This Privacy Policy applies solely to information collected by this website.
+
+            <h4>Security</h4>
+            <b>Foodee Global Concepts</b> has attempted to take every precaution to protect our users’ information. When one of our forms asks users to enter sensitive information, that information is encrypted. While we use encryption to protect most sensitive information online, we also seek to protect user information offline. All of our users’ information, not just the sensitive information mentioned above, is restricted in our offices. Except as otherwise stated in this Policy, only employees who need the information to perform a specific job (for example, a Human Resources Team Member or a Customer Service Associate) are granted access to personally identifiable information. If you have any questions about the security at our website, send us a comment using our contact form.
+
+            <h4>Correction/Updating Personal Information</h4>
+            If a user’s personally identifiable information changes (such as your address), or if a user no longer desires our service, <b>Foodee Global Concepts</b> will endeavor to provide a way to correct, update, or remove that user’s personal data provided to us. This can usually be done through our contact form.
+            Our users are given the facility to “opt-out” of having their information used for purposes not directly related to our Website at the point where we ask for the information. For example, our order form has an ’opt-out’ option so users who buy a product from us, but don’t want any marketing material, can keep their email address off of our lists.
+            <h4>Notification of Changes</h4>
+            If we decide to modify our Privacy Policy, we will post those modifications on our Website so our users are always aware of what information we collect and how we use it. Your use of this Website following any such modification constitutes your agreement to the modified Policy. For this reason, we encourage you to review this Privacy Policy whenever you use this Website. 
+            <h4>Comments and Questions</h4>
+            <b>Foodee Global Concepts</b> is always interested in what our customers have to say. If you have any questions or concerns, please contact us.
+        </div>
+    </div>
+
+
+    <script src="@Url.Content("~/Content/js/slick-1.6.0/slick.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/Isotope/isotope.pkgd.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/imagesloaded.pkgd.min.js")"></script>
+
+    <script type="text/javascript">
+      @*  window.addEventListener('DOMContentLoaded', function () {
+            QueryLoader2(document.querySelector("body"), {
+                barColor: "#ffffff",
+                backgroundColor: "#000000",
+                percentage: true,
+                barHeight: 1,
+                minimumTime: 200,
+                fadeOutTime: 1000,
+                maxTime: 20000
+            });
+        });*@
+    </script>
+
+    <script src="@Url.Content("~/Content/js/main.js")"></script>
+    <script>
+    /*AOS.init({
+        disable: 'mobile'
+    });*/
+
+        @*jQuery.scrollSpeed(100, 800);*@
+
+        $(document).ready(function () {
+	var wow = new WOW(
+  {
+    boxClass:     'wow',      // animated element css class (default is wow)
+    animateClass: 'animated', // animation css class (default is animated)
+    offset:       0,          // distance to the element when triggering the animation (default is 0)
+    mobile:       true,       // trigger animations on mobile devices (default is true)
+    live:         true,       // act on asynchronously loaded content (default is true)
+    callback:     function(box) {
+      // the callback is fired every time an animation is started
+      // the argument that is passed in is the DOM node being animated
+    },
+    scrollContainer: null // optional scroll container selector, otherwise use window
+  }
+);
+	wow.init();
+
+	pageLoad();
+        });
+
+
+    </script>
+    <script type="text/javascript">
+        function pageLoad() {
+            debugger
+            var count = 1;
+        var loc = window.location.href.split('/');
+        var page = loc[loc.length - 1];
+        $('ul.top-nav a').each(function (i) {
+            var href = $(this).attr('href');
+            if (href.indexOf(page) !== -1) {
+                $('ul.nav li.active').removeClass('active');
+                if (count = 1) {
+                    $(this).addClass('active');
+                }
+
+                $('.dropdown-link').removeClass('active');
+                count = 2;
+            }
+        });
+        debugger
+
+        }
+
+        function ShowDetail(obj,obj1)
+        {
+            var firstname = obj;
+            var username = obj1;
+            document.cookie = "brandId=" + obj;
+        }
+    </script>
+</body>
+</html>
